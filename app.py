@@ -1,19 +1,36 @@
-from flask import Flask, request, render_template, send_from_directory, abort, jsonify, url_for
+from flask import Flask, request, render_template, send_from_directory, abort, jsonify, url_for, redirect
 from flask_cors import CORS
 import os
 import csv
 from datetime import datetime
 import json
+import signal
+import atexit
 
-app = Flask(__name__, static_url_path='/static', static_folder='static')
+app = Flask(__name__, static_url_path='')
 CORS(app)
 
 # Ensure data directory exists
 os.makedirs('data', exist_ok=True)
 
-# Ensure static directory exists
+# Ensure static directories exist
 os.makedirs('static', exist_ok=True)
 os.makedirs('static/admin', exist_ok=True)
+
+def cleanup_handler():
+    """Handle cleanup when the app shuts down"""
+    import multiprocessing.resource_tracker as rt
+    # Clear any remaining semaphores
+    if hasattr(rt, '_CLEANUP_FUNCS'):
+        for func in rt._CLEANUP_FUNCS.values():
+            try:
+                func()
+            except Exception:
+                pass
+
+# Register cleanup handlers
+atexit.register(cleanup_handler)
+signal.signal(signal.SIGINT, lambda s, f: cleanup_handler())
 
 @app.route('/')
 def index():
@@ -27,37 +44,25 @@ def serve_static(path):
 def thank_you():
     return send_from_directory('static', 'thank-you.html')
 
+@app.route('/admin')
+def admin():
+    return send_from_directory('static/admin', 'dashboard.html')
+
 @app.route('/admin/login')
 def admin_login():
     return send_from_directory('static/admin', 'login.html')
 
-@app.route('/admin/dashboard')
-def admin_dashboard():
-    return send_from_directory('static/admin', 'dashboard.html')
-
 @app.route('/submit', methods=['POST'])
 def submit():
-    try:
-        data = request.get_json()
-        if not data:
-            data = request.form.to_dict()
-
-        # Create filename with current date
-        filename = f"data/waitlist_{datetime.now().strftime('%Y%m%d')}.csv"
-        
-        # Check if file exists to determine if we need to write headers
-        file_exists = os.path.exists(filename)
-        
-        # Write to CSV
-        with open(filename, 'a', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames=data.keys())
-            if not file_exists:
-                writer.writeheader()
-            writer.writerow(data)
-        
-        return jsonify({"status": "success"}), 200
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
+    # Handle form submission
+    first_name = request.form.get('firstName')
+    email = request.form.get('email')
+    focus = request.form.get('focus')
+    
+    # Here you would typically save this to a database
+    print(f"New submission: {first_name} ({email}) - Focus: {focus}")
+    
+    return redirect(url_for('thank_you'))
 
 @app.route('/api/waitlist')
 def get_waitlist():
@@ -104,4 +109,8 @@ def internal_error(error):
 
 # This is for local development
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True) 
+    try:
+        app.run(host='0.0.0.0', port=8080, debug=True)
+    except KeyboardInterrupt:
+        cleanup_handler()
+        print("\nShutting down gracefully...") 

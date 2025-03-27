@@ -6,112 +6,85 @@
     <title>Ibaadah AI - Your Digital Companion for Spiritual Growth</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="planner-book">
-        <div class="book closed">
-            <div class="book-cover">
-                <h1>Ibaadah AI</h1>
-                <p>Your Digital Companion for Spiritual Growth</p>
-            </div>
-            <div class="book-content">
-                <main class="planner-grid">
-                    <section class="planner-section welcome" style="--animation-order: 1">
-                        <h2>Welcome to your Ibaadah Brain</h2>
-                        <p>Build habits, track your prayers, journal your intentions — all in one beautiful space. Let your spiritual journey flow naturally with your daily life.</p>
-                    </section>
+    <div id="book-wrapper">
+        <!-- Notebook Cover -->
+        <div id="notebook-cover">
+            <h1>Ibaadah AI</h1>
+            <p>Your Digital Companion for Spiritual Growth</p>
+        </div>
 
-                    <section class="planner-section" style="--animation-order: 2">
-                        <h2>Join the Journey</h2>
-                        <form class="waitlist-form" action="/submit" method="POST">
-                            <div class="form-group">
-                                <label for="firstName">Your Name</label>
-                                <input type="text" id="firstName" name="firstName" placeholder="Type your name here..." required>
-                            </div>
+        <!-- Inside Content -->
+        <div id="notebook-inside">
+            <div class="planner-grid">
+                <!-- Welcome Card -->
+                <div class="notebook-card welcome-card">
+                    <h2>Welcome to your Ibaadah Brain</h2>
+                    <p>Build habits, track your prayers, journal your intentions — all in one beautiful space. Let your spiritual journey flow naturally with your daily life.</p>
+                </div>
 
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input type="email" id="email" name="email" placeholder="Where can we reach you?" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="focus">What's your biggest Ibaadah challenge?</label>
-                                <textarea id="focus" name="focus" rows="3" placeholder="Share your thoughts here..." required></textarea>
-                            </div>
-
-                            <button type="submit" class="submit-btn">Join the Waitlist</button>
-                            <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">Your digital consistency = real-life charity, in your name, in sha Allah.</p>
-                        </form>
-                    </section>
-
-                    <section class="planner-section benefits" style="--animation-order: 3">
-                        <h2>What You'll Love...</h2>
-                        <ul class="benefits-list">
-                            <li>
-                                <i class="fas fa-clock"></i>
-                                <span>Auto-scheduling for Salah & Qur'an</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-brain"></i>
-                                <span>A second brain for your Islamic habits</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-feather"></i>
-                                <span>Journaling, tracking, memorising</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-heart"></i>
-                                <span>Real charity for real consistency</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-moon"></i>
-                                <span>Period-friendly Ibaadah modes</span>
-                            </li>
-                            <li>
-                                <i class="fas fa-chart-line"></i>
-                                <span>Visual analytics for Salah & Fasts</span>
-                            </li>
-                        </ul>
-                    </section>
-
-                    <section class="planner-section weekly-layout" style="--animation-order: 4">
-                        <h2>Your Week at a Glance</h2>
-                        <div class="week-grid">
-                            <div class="day-box">
-                                <div class="day-label">Mon</div>
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <div class="day-box">
-                                <div class="day-label">Tue</div>
-                                <i class="fas fa-pray"></i>
-                            </div>
-                            <div class="day-box">
-                                <div class="day-label">Wed</div>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="day-box">
-                                <div class="day-label">Thu</div>
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <div class="day-box">
-                                <div class="day-label">Fri</div>
-                                <i class="fas fa-mosque"></i>
-                            </div>
-                            <div class="day-box">
-                                <div class="day-label">Sat</div>
-                                <i class="fas fa-moon"></i>
-                            </div>
-                            <div class="day-box">
-                                <div class="day-label">Sun</div>
-                                <i class="fas fa-sun"></i>
-                            </div>
+                <!-- Form Card -->
+                <div class="notebook-card form-card">
+                    <h2>Join the Journey</h2>
+                    <form action="/submit" method="POST">
+                        <div class="form-group">
+                            <label for="firstName">Your Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Type your name here..." required>
                         </div>
-                    </section>
 
-                    <section class="planner-section footer" style="--animation-order: 5">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Where can we reach you?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="focus">What's your biggest Ibaadah challenge?</label>
+                            <textarea id="focus" name="focus" rows="3" placeholder="Share your thoughts here..." required></textarea>
+                        </div>
+
+                        <button type="submit">Join the Waitlist</button>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">Your digital consistency = real-life charity, in your name, in sha Allah.</p>
+                    </form>
+                </div>
+
+                <!-- Benefits Card -->
+                <div class="notebook-card benefits-card">
+                    <h2>What You'll Love...</h2>
+                    <ul>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Auto-scheduling for Salah & Qur'an</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-brain"></i>
+                            <span>A second brain for your Islamic habits</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-feather"></i>
+                            <span>Journaling, tracking, memorising</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-heart"></i>
+                            <span>Real charity for real consistency</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-moon"></i>
+                            <span>Period-friendly Ibaadah modes</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-chart-line"></i>
+                            <span>Visual analytics for Salah & Fasts</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Footer Card -->
+                <div class="notebook-card">
+                    <div class="footer">
                         <h2>You're Already Part of Something Beautiful</h2>
                         <div class="social-links">
                             <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
@@ -121,35 +94,44 @@
                                 <i class="fab fa-tiktok"></i> @ukht.dev
                             </a>
                         </div>
-                    </section>
-                </main>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const book = document.querySelector('.book');
+            const cover = document.getElementById('notebook-cover');
+            const inside = document.getElementById('notebook-inside');
             
             // Auto-open after delay
             setTimeout(() => {
-                book.classList.remove('closed');
+                cover.classList.add('open');
+                
+                // Show inside content after cover opens
+                setTimeout(() => {
+                    inside.classList.add('visible');
+                }, 600);
             }, 1000);
 
-            // Click to open
-            book.addEventListener('click', function() {
-                if (this.classList.contains('closed')) {
-                    this.classList.remove('closed');
+            // Click to open if closed
+            cover.addEventListener('click', function() {
+                if (!this.classList.contains('open')) {
+                    this.classList.add('open');
+                    setTimeout(() => {
+                        inside.classList.add('visible');
+                    }, 600);
                 }
             });
-        });
 
-        // Form submission handling
-        const form = document.querySelector('.waitlist-form');
-        form.addEventListener('submit', function(e) {
-            const submitBtn = form.querySelector('.submit-btn');
-            submitBtn.textContent = 'Submitting...';
-            submitBtn.disabled = true;
+            // Form submission handling
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                const submitBtn = form.querySelector('button');
+                submitBtn.textContent = 'Submitting...';
+                submitBtn.disabled = true;
+            });
         });
     </script>
 </body>
