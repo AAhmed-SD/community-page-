@@ -419,6 +419,20 @@
     </div>
     
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
         // Admin password - change this to your secure password
         const ADMIN_PASSWORD = "ibaadah_admin_2024";
         
@@ -477,9 +491,9 @@
             loadingElement.style.display = 'block';
             emptyMessage.style.display = 'none';
             
-            // Collection is called 'earlyAccess' as specified in the requirements
+            // Collection is called 'submissions' as specified in the requirements
             const db = firebase.firestore();
-            db.collection('earlyAccess')
+            db.collection('submissions')
                 .orderBy('timestamp', 'desc')
                 .get()
                 .then((querySnapshot) => {
