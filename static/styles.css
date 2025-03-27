@@ -6,14 +6,25 @@
 }
 
 :root {
+    /* Dark Mode Colors */
     --bg-color: #1a1a1a;
     --grid-color: #222;
     --text-color: #fff;
-    --accent-1: #4A90E2;
-    --accent-2: #9B6DFF;
+    --accent-1: #BAB6F8;
+    --accent-2: #7F7BDA;
     --card-bg: rgba(255, 255, 255, 0.05);
     --border: rgba(255, 255, 255, 0.1);
     --shadow: rgba(0, 0, 0, 0.2);
+}
+
+/* Light Mode Colors */
+.light-mode {
+    --bg-color: #ffffff;
+    --grid-color: #f0f0f0;
+    --text-color: #333;
+    --card-bg: rgba(0, 0, 0, 0.02);
+    --border: rgba(0, 0, 0, 0.1);
+    --shadow: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -25,6 +36,52 @@ body {
     font-family: 'IBM Plex Mono', monospace;
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--card-bg);
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text-color);
+    fill: none;
+    stroke-width: 2;
+    transition: opacity 0.3s ease;
+}
+
+.theme-toggle .moon-icon {
+    position: absolute;
+    opacity: 0;
+}
+
+.light-mode .theme-toggle .sun-icon {
+    opacity: 0;
+}
+
+.light-mode .theme-toggle .moon-icon {
+    opacity: 1;
 }
 
 /* Section Styles */
@@ -46,77 +103,75 @@ section.visible {
     transform: translateY(0);
 }
 
-/* Hero Section */
-.hero {
+/* Content Styles */
+.content {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
     text-align: center;
 }
 
-.hero h1 {
-    font-size: 3.5rem;
+/* Typography */
+h1, h2 {
     font-weight: 600;
-    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+h1 {
+    font-size: 4rem;
     background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
 }
 
-.hero p {
-    font-size: 1.25rem;
-    opacity: 0.8;
-    max-width: 600px;
-    margin: 0 auto 2rem;
-    font-weight: 400;
-}
-
-/* Scroll Indicator */
-.scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: bounce 2s infinite;
-}
-
-.scroll-indicator svg {
-    width: 24px;
-    height: 24px;
-    fill: var(--text-color);
-    opacity: 0.6;
-}
-
-/* Card Styles */
-.card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 2rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px var(--shadow);
-    max-width: 600px;
-    width: 100%;
-    margin: 1rem auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px var(--shadow);
-}
-
-.card h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
+h2 {
+    font-size: 2.5rem;
     color: var(--accent-1);
-    letter-spacing: -0.5px;
 }
 
-.card p {
-    font-size: 1.1rem;
-    opacity: 0.9;
+p {
+    font-size: 1.2rem;
+    opacity: 0.8;
     margin-bottom: 2rem;
     font-weight: 400;
+}
+
+/* Scribble Animation */
+.scribble {
+    position: relative;
+    display: inline-block;
+}
+
+.scribble::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-2);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.6s ease-out;
+}
+
+.visible .scribble::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Fade In Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.visible .fade-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* SVG Animation Containers */
@@ -140,9 +195,24 @@ section.visible {
     height: 100%;
 }
 
+/* Hero Icons */
+.hero-icons {
+    margin: 2rem 0;
+}
+
+.hero-icons .icon {
+    width: 48px;
+    height: 48px;
+    stroke: var(--accent-1);
+    fill: none;
+    stroke-width: 2;
+    animation: float 3s ease-in-out infinite;
+}
+
 /* Form Styles */
 .form-group {
     margin-bottom: 1.5rem;
+    text-align: left;
 }
 
 label {
@@ -156,7 +226,7 @@ label {
 input, textarea, select {
     width: 100%;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text-color);
@@ -168,20 +238,21 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: var(--accent-1);
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    box-shadow: 0 0 0 2px rgba(186, 182, 248, 0.2);
 }
 
 select {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234A90E2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23BAB6F8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1em;
 }
 
-button {
-    background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
-    color: white;
+/* Sticky Note Button */
+.sticky-note {
+    background: var(--accent-1);
+    color: var(--bg-color);
     border: none;
     padding: 1rem 2rem;
     border-radius: 8px;
@@ -191,11 +262,29 @@ button {
     cursor: pointer;
     transition: all 0.2s ease;
     width: 100%;
+    transform: rotate(-1deg);
+    box-shadow: 2px 2px 0 var(--accent-2);
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+.sticky-note:hover {
+    transform: rotate(0deg) translateY(-2px);
+    box-shadow: 4px 4px 0 var(--accent-2);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-color);
+    opacity: 0.6;
 }
 
 /* Animations */
@@ -211,25 +300,39 @@ button:hover {
     }
 }
 
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     section {
         padding: 1.5rem;
     }
 
-    .hero h1 {
+    h1 {
         font-size: 2.5rem;
     }
 
-    .card {
-        padding: 1.5rem;
+    h2 {
+        font-size: 2rem;
     }
 
-    .card h2 {
-        font-size: 1.75rem;
+    p {
+        font-size: 1.1rem;
     }
 
     .svg-container {
         height: 150px;
+    }
+
+    .theme-toggle {
+        top: 1rem;
+        right: 1rem;
     }
 }
