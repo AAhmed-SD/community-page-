@@ -85,7 +85,6 @@
             padding: 0.5rem 1rem;
             border-radius: 8px;
             cursor: pointer;
-            z-index: 100;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -98,7 +97,7 @@
     </style>
 </head>
 <body>
-    <button class="toggle-theme" id="theme-toggle">Toggle Theme</button>
+    <button class="toggle-theme" onclick="toggleTheme()">Theme</button>
 
     <section id="hero">
         <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" stroke-width="4" fill="none" /></svg>
@@ -150,13 +149,9 @@
     </section>
 
     <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('light-mode');
-        });
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
 
         // Intersection Observer for scroll animations
         const observer = new IntersectionObserver((entries) => {
