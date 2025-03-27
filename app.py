@@ -1,11 +1,11 @@
-from flask import Flask, request, render_template, send_from_directory, abort, jsonify
+from flask import Flask, request, render_template, send_from_directory, abort, jsonify, url_for
 from flask_cors import CORS
 import os
 import csv
 from datetime import datetime
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 CORS(app)
 
 # Ensure data directory exists
@@ -18,6 +18,10 @@ os.makedirs('static/admin', exist_ok=True)
 @app.route('/')
 def index():
     return send_from_directory('static', 'index.html')
+
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
 
 @app.route('/thank-you')
 def thank_you():
