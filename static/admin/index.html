@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibaadah AI - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --grid-color: #222;
+            --text-color: #fff;
+            --accent-1: #BAB6F8;
+            --accent-2: #7F7BDA;
+            --border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --shadow: rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background-image: linear-gradient(to right, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px var(--shadow);
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 1px solid rgba(155, 109, 255, 0.1);
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 4rem auto;
+            text-align: center;
+        }
+        
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        input {
+            font-family: 'IBM Plex Mono', monospace;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        input:focus {
+            outline: none;
+            border-image: linear-gradient(to right, #2A70C2, #4A90E2) 1;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        
+        button {
+            padding: 0.75rem 1rem;
+            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
+            color: white;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
+            box-shadow: 0 0 10px rgba(155, 109, 255, 0.5);
+        }
+        
+        .data-container {
+            display: none; /* Hide initially until authenticated */
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.7;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            max-width: 300px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .table-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-top: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        
+        .logout-btn {
+            margin-top: 1.5rem;
+            background-image: linear-gradient(to bottom, #2A70C2, #4A90E2);
+        }
+        
+        .empty-result {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .error-message {
+            color: #FF6B6B;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .data-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background-image: linear-gradient(to right, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        
+        /* Loading state */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid rgba(155, 109, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #9B6DFF;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-left: 0.5rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            td, th {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .table-container {
+                max-height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-container">
+        <div class="card">
+            <h1>Ibaadah AI Admin</h1>
+            <form id="password-form" class="password-form">
+                <input type="password" id="password-input" placeholder="Enter admin password" required>
+                <button type="submit">Access Dashboard</button>
+                <div class="error-message" id="error-message">Incorrect password. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <div class="data-container" id="data-container">
+        <div class="card">
+            <h1>Ibaadah AI Admin Dashboard</h1>
+            
+            <div class="data-overview" id="data-overview">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-entries">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="testers-count">0</div>
+                    <div class="stat-label">Willing to Test</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="today-count">0</div>
+                    <div class="stat-label">Today's Entries</div>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">Loading data...</div>
+            
+            <div class="table-container">
+                <table id="submissions-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Favorite Ibaadah</th>
+                            <th>Current Apps</th>
+                            <th>Feature Request</th>
+                            <th>Most Helpful</th>
+                            <th>Will Test</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissions-body">
+                        <!-- Data will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="empty-result" id="empty-result">No submissions found.</div>
+            </div>
+            
+            <button class="logout-btn" id="logout-btn">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration - replace with your own config
+        const firebaseConfig = {
+            // This will be replaced with actual Firebase config
+            apiKey: "REPLACE_WITH_API_KEY",
+            authDomain: "REPLACE_WITH_AUTH_DOMAIN",
+            projectId: "REPLACE_WITH_PROJECT_ID",
+            storageBucket: "REPLACE_WITH_STORAGE_BUCKET",
+            messagingSenderId: "REPLACE_WITH_MESSAGING_SENDER_ID",
+            appId: "REPLACE_WITH_APP_ID"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // Admin password - this should be replaced with proper authentication
+        const ADMIN_PASSWORD = "ibaadah_admin_2024"; // This is just a placeholder, replace with actual password
+        
+        // Elements
+        const loginContainer = document.getElementById('login-container');
+        const dataContainer = document.getElementById('data-container');
+        const passwordForm = document.getElementById('password-form');
+        const passwordInput = document.getElementById('password-input');
+        const errorMessage = document.getElementById('error-message');
+        const submissionsBody = document.getElementById('submissions-body');
+        const emptyResult = document.getElementById('empty-result');
+        const loadingElement = document.getElementById('loading');
+        const logoutBtn = document.getElementById('logout-btn');
+        const totalEntries = document.getElementById('total-entries');
+        const testersCount = document.getElementById('testers-count');
+        const todayCount = document.getElementById('today-count');
+        
+        // Check if user is already authenticated
+        function checkAuth() {
+            const isAuthenticated = sessionStorage.getItem('ibaadah_admin_auth');
+            if (isAuthenticated === 'true') {
+                showDashboard();
+            }
+        }
+        
+        // Show dashboard and load data
+        function showDashboard() {
+            loginContainer.style.display = 'none';
+            dataContainer.style.display = 'block';
+            loadSubmissions();
+        }
+        
+        // Handle password form submission
+        passwordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = passwordInput.value;
+            
+            if (password === ADMIN_PASSWORD) {
+                // Store in session storage for this browser session only
+                sessionStorage.setItem('ibaadah_admin_auth', 'true');
+                errorMessage.style.display = 'none';
+                showDashboard();
+            } else {
+                errorMessage.style.display = 'block';
+                passwordInput.value = '';
+            }
+        });
+        
+        // Load submissions from Firestore
+        function loadSubmissions() {
+            loadingElement.style.display = 'block';
+            emptyResult.style.display = 'none';
+            
+            db.collection('submissions')
+                .orderBy('timestamp', 'desc')
+                .get()
+                .then((querySnapshot) => {
+                    loadingElement.style.display = 'none';
+                    
+                    if (querySnapshot.empty) {
+                        emptyResult.style.display = 'block';
+                        return;
+                    }
+                    
+                    let testersCountValue = 0;
+                    let todayCountValue = 0;
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    // Clear existing data
+                    submissionsBody.innerHTML = '';
+                    
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        
+                        // Update stats
+                        if (data.tester === 'yes') testersCountValue++;
+                        
+                        // Check if submission is from today
+                        const submissionDate = data.timestamp?.toDate() || new Date();
+                        if (submissionDate >= today) todayCountValue++;
+                        
+                        // Create table row
+                        const row = document.createElement('tr');
+                        
+                        // Format date
+                        const timestamp = data.timestamp?.toDate();
+                        const formattedDate = timestamp ? 
+                            `${timestamp.toLocaleDateString()} ${timestamp.toLocaleTimeString()}` : 
+                            'No date';
+                        
+                        // Add cells
+                        row.innerHTML = `
+                            <td>${escapeHtml(data.name || '-')}</td>
+                            <td>${escapeHtml(data.email || '-')}</td>
+                            <td>${escapeHtml(data.spiritual_routines || '-')}</td>
+                            <td>${escapeHtml(data.current_apps || '-')}</td>
+                            <td>${escapeHtml(data.feature || '-')}</td>
+                            <td>${getFeatureText(data.helpful_feature)}</td>
+                            <td>${data.tester === 'yes' ? '✅ Yes' : '❌ No'}</td>
+                            <td>${formattedDate}</td>
+                        `;
+                        
+                        submissionsBody.appendChild(row);
+                    });
+                    
+                    // Update stats
+                    totalEntries.textContent = querySnapshot.size;
+                    testersCount.textContent = testersCountValue;
+                    todayCount.textContent = todayCountValue;
+                })
+                .catch((error) => {
+                    console.error("Error loading submissions: ", error);
+                    loadingElement.style.display = 'none';
+                    emptyResult.textContent = 'Error loading data. Please try again.';
+                    emptyResult.style.display = 'block';
+                });
+        }
+        
+        // Get feature text based on value
+        function getFeatureText(value) {
+            switch(value) {
+                case 'scheduling': return 'A) Personalized scheduling';
+                case 'tracker': return 'B) Real-time dhikr/journal tracker';
+                case 'accountability': return 'C) Accountability & motivation';
+                case 'all': return 'D) All of the above';
+                default: return '-';
+            }
+        }
+        
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            if (!text) return '-';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+        
+        // Handle logout
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.removeItem('ibaadah_admin_auth');
+            dataContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            passwordInput.value = '';
+        });
+        
+        // Check authentication on page load
+        checkAuth();
+    </script>
+</body>
+</html> 
