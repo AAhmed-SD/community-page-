@@ -141,6 +141,91 @@
         .light-mode button {
             color: white;
         }
+        
+        /* Radio and Checkbox Styles */
+        .form-group-radio, .form-group-checkbox {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 0.75rem;
+        }
+        
+        .form-group-radio > label, .form-group-checkbox > label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .radio-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .radio-label, .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.25rem 0;
+        }
+        
+        input[type="radio"], input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 1px solid #555;
+            border-radius: 3px;
+            outline: none;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        input[type="radio"] {
+            border-radius: 50%;
+        }
+        
+        input[type="radio"]:checked, input[type="checkbox"]:checked {
+            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
+            border-color: #9B6DFF;
+        }
+        
+        input[type="radio"]:checked::after, input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            display: block;
+        }
+        
+        input[type="radio"]:checked::after {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        input[type="checkbox"]:checked::after {
+            width: 0.3rem;
+            height: 0.6rem;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            top: 0.15rem;
+            left: 0.4rem;
+        }
+        
+        /* Hover and Focus States */
+        input[type="radio"]:hover, input[type="checkbox"]:hover,
+        input[type="radio"]:focus, input[type="checkbox"]:focus {
+            border-color: #9B6DFF;
+            box-shadow: 0 0 0 2px rgba(155, 109, 255, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -194,13 +279,39 @@
         <form id="waitlist-form">
             <input type="text" name="name" placeholder="Your Name" required />
             <input type="email" name="email" placeholder="Email Address" required />
-            <textarea name="excitement" placeholder="Why are you excited for Ibaadah AI?" rows="4" required></textarea>
-            <textarea name="feature" placeholder="Suggest a feature you'd love to see" rows="3"></textarea>
-            <select name="tester" required>
-                <option value="">Would you like to be a tester?</option>
-                <option value="yes">Yes – I want early access</option>
-                <option value="no">No thanks</option>
-            </select>
+            <textarea name="spiritual_routines" placeholder="What would make your spiritual routines feel easier or more joyful?" rows="3" required></textarea>
+            <textarea name="current_apps" placeholder="What apps (if any) do you currently use for planning or deen?" rows="2"></textarea>
+            <textarea name="feature" placeholder="What ONE feature would you love to see in this app?" rows="2" required></textarea>
+            
+            <div class="form-group-radio">
+                <label>Which of these would be most helpful to you?</label>
+                <div class="radio-options">
+                    <label class="radio-label">
+                        <input type="radio" name="helpful_feature" value="scheduling" required />
+                        A) Personalized scheduling
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="helpful_feature" value="tracker" />
+                        B) Real-time dhikr/journal tracker
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="helpful_feature" value="accountability" />
+                        C) Accountability & motivation
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="helpful_feature" value="all" />
+                        D) All of the above
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group-checkbox">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="tester" value="yes" />
+                    Would you be willing to test early features and give feedback?
+                </label>
+            </div>
+            
             <button type="submit">Register Interest</button>
         </form>
     </section>
