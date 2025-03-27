@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah AI - Your Second Brain for Deen & Dunya</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <title>Ibaadah AI - Your Digital Spiritual Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Hero Section -->
     <section class="hero">
         <h1>Ibaadah AI</h1>
-        <p>Your second brain for Deen & Dunya.</p>
+        <p>Your digital companion for spiritual growth</p>
         <div class="scroll-indicator">
             <svg viewBox="0 0 24 24">
                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
@@ -26,7 +26,7 @@
             <p>Smart scheduling that adapts to your routine, ensuring your spiritual practices become second nature.</p>
             <div class="svg-container">
                 <svg viewBox="0 0 100 100">
-                    <path d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                    <path class="calendar-path" d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="var(--accent-1)" stroke-width="2">
                         <animate attributeName="d" 
                             dur="2s" 
                             repeatCount="indefinite"
@@ -34,6 +34,15 @@
                                     M20,20 L80,20 L80,80 L20,80 Z;
                                     M20,20 L80,20 L80,80 L20,80 Z;
                                     M20,20 L80,20 L80,80 L20,80 Z"/>
+                    </path>
+                    <path class="arrow-path" d="M30,50 L70,50" stroke="var(--accent-2)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="1.5s" 
+                            repeatCount="indefinite"
+                            values="M30,50 L70,50;
+                                    M70,50 L50,30;
+                                    M70,50 L50,70;
+                                    M30,50 L70,50"/>
                     </path>
                 </svg>
             </div>
@@ -47,13 +56,21 @@
             <p>Track your spiritual journey with guided journaling and progress analytics.</p>
             <div class="svg-container">
                 <svg viewBox="0 0 100 100">
-                    <path d="M20,50 Q50,20 80,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
+                    <path class="heartbeat-path" d="M20,50 Q30,30 40,50 T60,50 T80,50" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="1.5s" 
+                            repeatCount="indefinite"
+                            values="M20,50 Q30,30 40,50 T60,50 T80,50;
+                                    M20,50 Q30,70 40,50 T60,50 T80,50;
+                                    M20,50 Q30,30 40,50 T60,50 T80,50"/>
+                    </path>
+                    <path class="chart-path" d="M20,80 L20,20 L80,20" fill="none" stroke="var(--accent-2)" stroke-width="2">
                         <animate attributeName="d" 
                             dur="2s" 
                             repeatCount="indefinite"
-                            values="M20,50 Q50,20 80,50;
-                                    M20,50 Q50,80 80,50;
-                                    M20,50 Q50,20 80,50"/>
+                            values="M20,80 L20,20 L80,20;
+                                    M20,80 L20,20 L80,20 L80,80;
+                                    M20,80 L20,20 L80,20"/>
                     </path>
                 </svg>
             </div>
@@ -67,12 +84,22 @@
             <p>Your consistency contributes to real-world charity, making every habit count.</p>
             <div class="svg-container">
                 <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="30" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                        <animate attributeName="r" 
+                    <path class="coin-path" d="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                        <animate attributeName="d" 
                             dur="2s" 
                             repeatCount="indefinite"
-                            values="30;35;30"/>
-                    </circle>
+                            values="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
+                                    M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
+                                    M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20"/>
+                    </path>
+                    <path class="drop-path" d="M50,20 L50,80" stroke="var(--accent-2)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="1.5s" 
+                            repeatCount="indefinite"
+                            values="M50,20 L50,80;
+                                    M50,20 L50,80;
+                                    M50,20 L50,80"/>
+                    </path>
                 </svg>
             </div>
         </div>
@@ -85,13 +112,21 @@
             <p>Be part of a community that's redefining spiritual growth in the digital age.</p>
             <div class="svg-container">
                 <svg viewBox="0 0 100 100">
-                    <path d="M30,50 Q50,30 70,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
+                    <path class="wave-path" d="M20,50 Q30,30 40,50 T60,50 T80,50" fill="none" stroke="var(--accent-1)" stroke-width="2">
                         <animate attributeName="d" 
                             dur="2s" 
                             repeatCount="indefinite"
-                            values="M30,50 Q50,30 70,50;
-                                    M30,50 Q50,70 70,50;
-                                    M30,50 Q50,30 70,50"/>
+                            values="M20,50 Q30,30 40,50 T60,50 T80,50;
+                                    M20,50 Q30,70 40,50 T60,50 T80,50;
+                                    M20,50 Q30,30 40,50 T60,50 T80,50"/>
+                    </path>
+                    <path class="handshake-path" d="M30,50 Q40,40 50,50 T60,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="1.5s" 
+                            repeatCount="indefinite"
+                            values="M30,50 Q40,40 50,50 T60,50;
+                                    M30,50 Q40,60 50,50 T60,50;
+                                    M30,50 Q40,40 50,50 T60,50"/>
                     </path>
                 </svg>
             </div>
@@ -105,15 +140,28 @@
             <form id="waitlist-form">
                 <div class="form-group">
                     <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
                 </div>
                 <div class="form-group">
                     <label for="email">Your Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
                 </div>
                 <div class="form-group">
                     <label for="excitement">Why are you excited about Ibaadah AI?</label>
-                    <textarea id="excitement" name="excitement" rows="3" required></textarea>
+                    <textarea id="excitement" name="excitement" rows="3" required placeholder="Share your thoughts..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="feature">Feature Suggestion</label>
+                    <textarea id="feature" name="feature" rows="2" placeholder="What feature would you love to see?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tester">Would you like to be a beta tester?</label>
+                    <select id="tester" name="tester">
+                        <option value="">Select an option</option>
+                        <option value="yes">Yes, I'd love to help!</option>
+                        <option value="maybe">Maybe, tell me more</option>
+                        <option value="no">No, thanks</option>
+                    </select>
                 </div>
                 <button type="submit">Join Waitlist</button>
             </form>
@@ -126,6 +174,11 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    // Animate SVG paths when section becomes visible
+                    const svgContainer = entry.target.querySelector('.svg-container');
+                    if (svgContainer) {
+                        svgContainer.classList.add('visible');
+                    }
                 }
             });
         }, {
