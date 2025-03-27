@@ -27,12 +27,13 @@
             max-width: 800px;
             margin: 0 auto;
             border-radius: 12px;
-            background: rgba(255,255,255,0.05);
+            background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
             position: relative;
             animation: fadeInUp 0.8s ease both;
             animation-play-state: paused;
+            border: 1px solid rgba(155, 109, 255, 0.1);
         }
         section.visible {
             animation-play-state: running;
@@ -40,16 +41,26 @@
         section h1, section h2 {
             font-size: 2rem;
             margin-bottom: 0.75rem;
-            border-bottom: 2px dashed #9B6DFF;
+            border-bottom: 2px dashed transparent;
+            background-image: linear-gradient(to right, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             display: inline-block;
         }
         .highlight {
-            color: #4A90E2;
+            background-image: linear-gradient(to right, #2A70C2, #4A90E2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
         .scroll-cue {
             margin-top: 2rem;
             animation: bounce 1s infinite;
-            color: #7F7BDA;
+            background-image: linear-gradient(to bottom, #5F5BB0, #7F7BDA);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
         form {
             display: flex;
@@ -67,7 +78,7 @@
             color: inherit;
         }
         button {
-            background-color: #9B6DFF;
+            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
             color: #000;
             font-weight: bold;
             cursor: pointer;
@@ -76,13 +87,13 @@
         svg {
             height: 40px;
             margin-bottom: 1rem;
-            stroke: #7F7BDA;
+            stroke: url(#svgGradient);
         }
         .toggle-theme {
             position: fixed;
             top: 1rem;
             right: 1rem;
-            background: #4A90E2;
+            background-image: linear-gradient(to bottom, #2A70C2, #4A90E2);
             border: none;
             color: white;
             padding: 0.5rem 1rem;
@@ -110,19 +121,40 @@
         
         /* Button interaction states */
         button:hover {
+            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
             box-shadow: 0 0 10px rgba(155, 109, 255, 0.5);
         }
         
-        /* Form focus states with blue accent instead of pink */
+        /* Form focus states with gradient accent */
         input:focus, textarea:focus, select:focus {
-            border-color: #4A90E2;
+            border-image: linear-gradient(to right, #2A70C2, #4A90E2) 1;
             outline: none;
             box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        
+        /* Light mode adjustments for gradients */
+        .light-mode section {
+            background: linear-gradient(135deg, rgba(240,240,255,0.7), rgba(255,255,255,0.9));
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+        
+        .light-mode button {
+            color: white;
         }
     </style>
 </head>
 <body>
     <button id="themeToggle" class="toggle-theme">Theme</button>
+
+    <!-- SVG Gradient Definitions -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <linearGradient id="svgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#5F5BB0" />
+                <stop offset="100%" stop-color="#7F7BDA" />
+            </linearGradient>
+        </defs>
+    </svg>
 
     <section id="hero">
         <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" stroke-width="4" fill="none" /></svg>
