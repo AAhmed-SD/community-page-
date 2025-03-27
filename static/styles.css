@@ -21,9 +21,6 @@
 body {
     min-height: 100vh;
     background-color: var(--bg-color);
-    background-image: 
-        repeating-linear-gradient(var(--grid-color) 0px, var(--grid-color) 1px, transparent 1px, transparent 32px),
-        repeating-linear-gradient(90deg, var(--grid-color) 0px, var(--grid-color) 1px, transparent 1px, transparent 32px);
     color: var(--text-color);
     font-family: 'IBM Plex Mono', monospace;
     line-height: 1.6;
@@ -43,12 +40,14 @@ body {
     justify-content: center;
     align-items: center;
     background-color: var(--bg-color);
+    margin-top: 2rem;
 }
 
 .notebook {
     position: relative;
-    width: 300px;
-    height: 400px;
+    width: 90%;
+    max-width: 1000px;
+    height: 600px;
     transform-style: preserve-3d;
     transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
@@ -58,13 +57,30 @@ body {
     transform: rotateY(-160deg);
 }
 
+/* Spiral Binding */
+.spiral {
+    position: absolute;
+    left: -15px;
+    top: 0;
+    height: 100%;
+    width: 15px;
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--spiral-color) 0px,
+        var(--spiral-color) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    z-index: 5;
+}
+
 /* Covers */
 .cover {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.7);
-    border: 2px solid var(--border);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--border);
     border-radius: 10px;
     backdrop-filter: blur(2px);
     box-shadow: 0px 8px 20px var(--shadow);
@@ -87,23 +103,6 @@ body {
     z-index: 1;
 }
 
-/* Spiral Binding */
-.spiral {
-    position: absolute;
-    left: -15px;
-    top: 0;
-    height: 100%;
-    width: 10px;
-    background: repeating-linear-gradient(
-        to bottom,
-        var(--spiral-color) 0px,
-        var(--spiral-color) 10px,
-        transparent 10px,
-        transparent 20px
-    );
-    z-index: 5;
-}
-
 /* Notebook Page */
 .notebook-page {
     position: absolute;
@@ -115,7 +114,7 @@ body {
         repeating-linear-gradient(90deg, var(--grid-color) 0px, var(--grid-color) 1px, transparent 1px, transparent 32px);
     border-radius: 10px;
     z-index: 2;
-    padding: 1.5rem;
+    padding: 2rem;
     transform: rotateY(180deg);
     backface-visibility: hidden;
 }
@@ -126,7 +125,7 @@ body {
     height: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 2rem;
     margin: 0 auto;
 }
 
@@ -134,9 +133,9 @@ body {
 .card {
     background-color: var(--yellow);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 6px 12px var(--shadow);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     max-width: 500px;
@@ -145,7 +144,7 @@ body {
 
 .card:hover {
     transform: translateY(-2px) rotate(-1deg);
-    box-shadow: 0 8px 16px var(--shadow);
+    box-shadow: 4px 8px 16px rgba(0,0,0,0.1);
 }
 
 /* Card Variations */
@@ -173,14 +172,14 @@ body {
 
 /* Typography */
 h1 {
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
+    font-size: 2rem;
+    margin-bottom: 1rem;
     letter-spacing: -1px;
 }
 
 h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
     letter-spacing: -0.5px;
 }
 
@@ -190,13 +189,13 @@ ul {
 }
 
 li {
-    margin-bottom: 1rem;
-    padding: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding: 1rem;
     border-bottom: 1px dashed var(--border);
     display: flex;
     align-items: center;
     gap: 1rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 li:last-child {
@@ -209,22 +208,22 @@ li i {
 
 /* Form Styles */
 .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
 }
 
 label {
     display: block;
     margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 input, textarea {
     width: 100%;
-    padding: 0.75rem;
+    padding: 1rem;
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 8px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 1rem;
     background: white;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -237,12 +236,12 @@ input:focus, textarea:focus {
 
 button {
     width: 100%;
-    padding: 0.75rem;
+    padding: 1rem;
     background-color: var(--yellow);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 8px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -256,50 +255,50 @@ button:hover {
 .week-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
-    margin-top: 1rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
 }
 
 .day {
     background: white;
     border: 1px dashed var(--border);
-    border-radius: 6px;
-    padding: 0.5rem;
+    border-radius: 8px;
+    padding: 0.75rem;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .day span {
     display: block;
     opacity: 0.7;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .notebook {
         width: 100%;
-        max-width: 300px;
-        height: 500px;
+        max-width: 500px;
+        height: 700px;
     }
 
     .grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
     .card {
         transform: none !important;
-        padding: 1rem;
-        margin: 0.5rem;
+        padding: 1.5rem;
+        margin: 0.75rem;
     }
 
     h1 {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
     }
 
     .week-grid {
         grid-template-columns: repeat(4, 1fr);
-        gap: 0.25rem;
+        gap: 0.5rem;
     }
 }
