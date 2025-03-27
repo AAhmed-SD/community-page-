@@ -430,21 +430,6 @@
             observer.observe(section);
         });
 
-        // Form submission handler
-        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Track form submission with analytics
-            if (typeof window.va !== 'undefined') {
-                window.va('event', {
-                    name: 'form_submit',
-                    data: { form: 'waitlist' }
-                });
-            }
-            
-            alert('Thank you for joining! We\'ll be in touch soon.');
-        });
-        
         // Helper function to track custom events
         function trackEvent(eventName, eventData = {}) {
             if (typeof window.va !== 'undefined') {
@@ -499,8 +484,20 @@
                 };
                 
                 try {
+                    console.log("Attempting to submit to Firestore:", formData);
+                    
                     // Submit to Firestore
                     const docRef = await db.collection('submissions').add(formData);
+                    
+                    // Track form submission with analytics
+                    if (typeof window.va !== 'undefined') {
+                        window.va('event', {
+                            name: 'form_submit',
+                            data: { form: 'waitlist' }
+                        });
+                    }
+                    
+                    console.log("Document successfully written with ID:", docRef.id);
                     
                     // Show success message
                     form.innerHTML = `
@@ -509,13 +506,11 @@
                             <p>We've received your submission and will keep you updated.</p>
                         </div>
                     `;
-                    
-                    console.log("Document written with ID: ", docRef.id);
                 } catch (error) {
-                    console.error('Submission error:', error);
+                    console.error('Error submitting form:', error);
                     submitButton.disabled = false;
                     submitButton.innerHTML = 'Submit';
-                    alert('There was an error submitting your form. Please try again.');
+                    alert('There was an error submitting your form. Please try again: ' + error.message);
                 }
             });
         });
@@ -564,4 +559,4 @@
       </div>
     </footer>
 </body>
-</html> 
+</html>
