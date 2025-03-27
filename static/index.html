@@ -393,5 +393,73 @@
             }
         }
     </script>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { submitToFirestore } from './firebase-config.js';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Disable button and show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Submitting...';
+                
+                // Get form data
+                const formData = {
+                    name: form.elements.name.value,
+                    email: form.elements.email.value,
+                    spiritual_routines: form.elements.spiritual_routines.value,
+                    current_apps: form.elements.current_apps.value,
+                    feature: form.elements.feature.value,
+                    helpful_feature: form.querySelector('input[name="helpful_feature"]:checked')?.value || '',
+                    tester: form.querySelector('input[name="tester"]:checked')?.value || 'no'
+                };
+                
+                try {
+                    // Submit to Firestore
+                    const result = await submitToFirestore(formData);
+                    
+                    if (result.success) {
+                        // Show success message
+                        form.innerHTML = `
+                            <div style="text-align: center; padding: 2rem;">
+                                <h3 style="margin-bottom: 1rem;">Thank you for your interest!</h3>
+                                <p>We've received your submission and will keep you updated.</p>
+                            </div>
+                        `;
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error);
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Submit';
+                    alert('There was an error submitting your form. Please try again.');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Book opening animation logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const book = document.querySelector('.book');
+            
+            // Auto-open after 1 second for better UX
+            setTimeout(() => {
+                book.classList.add('open');
+            }, 1000);
+            
+            // Allow clicking to open/close
+            book.addEventListener('click', function() {
+                this.classList.toggle('open');
+            });
+        });
+    </script>
 </body>
 </html> 
