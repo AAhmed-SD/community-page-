@@ -3,156 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah AI - Your Second Brain for Deen & Dunya</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Lottie Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <title>Ibaadah AI – Walkthrough</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            margin: 0;
+            background-color: #1a1a1a;
+            color: white;
+            background-image: linear-gradient(#222 1px, transparent 1px), linear-gradient(90deg, #222 1px, transparent 1px);
+            background-size: 20px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .light-mode {
+            background-color: #fff;
+            color: #111;
+            background-image: linear-gradient(#eee 1px, transparent 1px), linear-gradient(90deg, #eee 1px, transparent 1px);
+        }
+        section {
+            padding: 6rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: relative;
+            animation: fadeInUp 0.8s ease both;
+            animation-play-state: paused;
+        }
+        section.visible {
+            animation-play-state: running;
+        }
+        section h1, section h2 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 2px dashed #BAB6F8;
+            display: inline-block;
+        }
+        .highlight {
+            color: #FF0080;
+        }
+        .scroll-cue {
+            margin-top: 2rem;
+            animation: bounce 1s infinite;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        input, textarea, select, button {
+            font-family: inherit;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #555;
+            border-radius: 6px;
+            background-color: rgba(255,255,255,0.05);
+            color: inherit;
+        }
+        button {
+            background-color: #BAB6F8;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        svg {
+            height: 40px;
+            margin-bottom: 1rem;
+            stroke: #BAB6F8;
+        }
+        .toggle-theme {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: #FF0080;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 100;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Theme Toggle -->
-    <button id="theme-toggle" class="theme-toggle">
-        <svg class="sun-icon" viewBox="0 0 24 24">
-            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
-        <svg class="moon-icon" viewBox="0 0 24 24">
-            <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </svg>
-    </button>
+    <button class="toggle-theme" id="theme-toggle">Toggle Theme</button>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1 class="scribble">Ibaadah AI</h1>
-        <p class="fade-in">Your second brain for Deen & Dunya.</p>
-        <div class="hero-icons">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-        </div>
-        <div class="scroll-indicator">
-            <svg viewBox="0 0 24 24">
-                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-            </svg>
-        </div>
+    <section id="hero">
+        <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" stroke-width="4" fill="none" /></svg>
+        <h1>Ibaadah AI</h1>
+        <p>A <span class="highlight">second brain</span> for Muslims to grow in Deen and Dunya — your spiritual, personal, and productive life intelligently aligned through one app. Track, plan, and reconnect through a deeply personalized experience.</p>
+        <div class="scroll-cue">↓ Scroll to explore ↓</div>
     </section>
 
-    <!-- Automation Section -->
-    <section class="automation">
-        <h2 class="scribble">Automate Your Day</h2>
-        <p class="fade-in">Personalized scheduling for Qur'an, Salah, Fasting, and Dhikr. Reduce overwhelm and enhance consistency in your spiritual journey.</p>
-        <div id="automation-lottie" class="lottie-container"></div>
+    <section id="automation">
+        <svg viewBox="0 0 64 64"><rect x="8" y="16" width="48" height="32" rx="4" ry="4" stroke-width="4" fill="none"/></svg>
+        <h2>Automate Your Day</h2>
+        <p>Don't just schedule — spiritually align. Let the app intelligently distribute your Qur'an, Salah, adhkar, fasting, and goals across your week. Designed for those who want barakah through structure, not burnout.</p>
     </section>
 
-    <!-- Reflection Section -->
-    <section class="reflection">
-        <h2 class="scribble">Reflect & Grow</h2>
-        <p class="fade-in">Track your spiritual journey with guided journaling and progress analytics. Space for deep self-reflection and non-judgmental growth.</p>
-        <div class="gradient-animation">
-            <svg viewBox="0 0 100 100">
-                <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(45)">
-                        <stop offset="0%" stop-color="var(--accent-1)" stop-opacity="1">
-                            <animate attributeName="offset" values="0;0.5;0" dur="5s" repeatCount="indefinite" />
-                        </stop>
-                        <stop offset="100%" stop-color="var(--accent-2)" stop-opacity="1">
-                            <animate attributeName="offset" values="0.5;1;0.5" dur="5s" repeatCount="indefinite" />
-                        </stop>
-                    </linearGradient>
-                </defs>
-                <path class="journal-path" d="M30,20 L70,20 L70,80 L30,80 Z" fill="none" stroke="url(#gradient)" stroke-width="2">
-                    <animate attributeName="d" 
-                        dur="4s" 
-                        repeatCount="indefinite"
-                        values="M30,20 L70,20 L70,80 L30,80 Z;
-                                M25,30 L75,30 L75,70 L25,70 Z;
-                                M30,20 L70,20 L70,80 L30,80 Z"/>
-                </path>
-            </svg>
-        </div>
+    <section id="reflection">
+        <svg viewBox="0 0 64 64"><polyline points="8,40 24,24 40,40 56,24" stroke-width="4" fill="none"/></svg>
+        <h2>Reflect and Grow</h2>
+        <p>Whether you're journaling your du'as or tracking recurring distractions, the system gives you space for mindful insight while subtly offering progress markers along the way. A space to think, feel, and realign — without judgment.</p>
     </section>
 
-    <!-- Rewards Section -->
-    <section class="rewards">
-        <h2 class="scribble">Rewards That Matter</h2>
-        <p class="fade-in">Your consistency contributes to real-world charity. Every habit counts towards meaningful sadaqah in your name.</p>
-        <div class="svg-container">
-            <svg viewBox="0 0 100 100">
-                <path class="coin-path" d="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                    <animate attributeName="d" 
-                        dur="2s" 
-                        repeatCount="indefinite"
-                        values="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
-                                M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
-                                M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20"/>
-                </path>
-                <path class="charity-path" d="M30,50 L70,50" stroke="var(--accent-2)" stroke-width="2">
-                    <animate attributeName="d" 
-                        dur="1.5s" 
-                        repeatCount="indefinite"
-                        values="M30,50 L70,50;
-                                M30,50 L70,50;
-                                M30,50 L70,50"/>
-                </path>
-            </svg>
-        </div>
+    <section id="rewards">
+        <svg viewBox="0 0 64 64"><path d="M32 12 v40 M24 44 l8 8 8-8" stroke-width="4" fill="none"/></svg>
+        <h2>Rewards That Matter</h2>
+        <p>Your consistency fuels something greater. Every streak, goal, or habit contributes toward real-world charity — yes, actual sadaqah in your name. Reward systems, reimagined through purpose.</p>
     </section>
 
-    <!-- Community Section -->
-    <section class="community">
-        <h2 class="scribble">Coming Soon</h2>
-        <p class="fade-in">Follow our journey @ukht.h.aa and @ukht.h.a.a</p>
-        <div class="svg-container">
-            <svg viewBox="0 0 100 100">
-                <path class="wave-path" d="M20,50 Q30,30 40,50 T60,50 T80,50" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                    <animate attributeName="d" 
-                        dur="2s" 
-                        repeatCount="indefinite"
-                        values="M20,50 Q30,30 40,50 T60,50 T80,50;
-                                M20,50 Q30,70 40,50 T60,50 T80,50;
-                                M20,50 Q30,30 40,50 T60,50 T80,50"/>
-                </path>
-                <path class="handshake-path" d="M30,50 Q40,40 50,50 T60,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
-                    <animate attributeName="d" 
-                        dur="1.5s" 
-                        repeatCount="indefinite"
-                        values="M30,50 Q40,40 50,50 T60,50;
-                                M30,50 Q40,60 50,50 T60,50;
-                                M30,50 Q40,40 50,50 T60,50"/>
-                </path>
-            </svg>
-        </div>
+    <section id="community">
+        <svg viewBox="0 0 64 64"><path d="M16 32 a16 16 0 1 1 32 0 a16 16 0 1 1 -32 0" stroke-width="4" fill="none"/></svg>
+        <h2>Join the Early Believers</h2>
+        <p>This is more than an app. It's a movement of Muslims realigning their routine with their ultimate purpose. We're building from the heart — brick by brick. Follow us @ukht.h.aa (Instagram) and @ukht.h.a.a (TikTok) and watch the journey unfold.</p>
     </section>
 
-    <!-- Form Section -->
-    <section class="form-section">
-        <h2 class="scribble">Get Early Access</h2>
-        <form id="waitlist-form" class="fade-in">
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" required placeholder="Enter your name">
-            </div>
-            <div class="form-group">
-                <label for="email">Your Email</label>
-                <input type="email" id="email" name="email" required placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="excitement">Why are you excited about Ibaadah AI?</label>
-                <textarea id="excitement" name="excitement" rows="3" required placeholder="Share your thoughts..."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="feature">Feature Suggestion</label>
-                <textarea id="feature" name="feature" rows="2" placeholder="What feature would you love to see?"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="tester">Would you like to be a tester?</label>
-                <select id="tester" name="tester">
-                    <option value="">Select an option</option>
-                    <option value="yes">Yes, I'd love to help!</option>
-                    <option value="maybe">Maybe, tell me more</option>
-                    <option value="no">No, thanks</option>
-                </select>
-            </div>
-            <button type="submit" class="sticky-note">Join Waitlist</button>
+    <section id="form">
+        <svg viewBox="0 0 64 64"><path d="M12 16 h40 v32 h-40 z M12 24 h40" stroke-width="4" fill="none"/></svg>
+        <h2>Get Early Access</h2>
+        <p>Want to shape the future of spiritually aligned productivity? Drop your details below and be among the first to test features and contribute ideas that matter to you.</p>
+        <form id="waitlist-form">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Email Address" required />
+            <textarea name="excitement" placeholder="Why are you excited for Ibaadah AI?" rows="4" required></textarea>
+            <textarea name="feature" placeholder="Suggest a feature you'd love to see" rows="3"></textarea>
+            <select name="tester" required>
+                <option value="">Would you like to be a tester?</option>
+                <option value="yes">Yes – I want early access</option>
+                <option value="no">No thanks</option>
+            </select>
+            <button type="submit">Register Interest</button>
         </form>
     </section>
 
@@ -163,16 +156,6 @@
         
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('light-mode');
-            themeToggle.classList.toggle('active');
-        });
-
-        // Load Lottie Animation
-        const automationAnimation = lottie.loadAnimation({
-            container: document.getElementById('automation-lottie'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: 'https://assets3.lottiefiles.com/animation/2efee517-9029-4eaf-b244-f8efc91d2300/data.json'
         });
 
         // Intersection Observer for scroll animations
@@ -180,17 +163,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
-                    // Restart Lottie animation when visible
-                    if (entry.target.classList.contains('automation') && automationAnimation) {
-                        automationAnimation.goToAndPlay(0);
-                    }
-                    
-                    // Find and animate SVG containers
-                    const svgContainer = entry.target.querySelector('.svg-container, .gradient-animation');
-                    if (svgContainer) {
-                        svgContainer.classList.add('visible');
-                    }
                 }
             });
         }, {
