@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ibaadah AI – Walkthrough</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+    <!-- Vercel Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
     <style>
         body {
             font-family: 'IBM Plex Mono', monospace;
@@ -179,7 +181,16 @@
                 if (eventType === 'touchend') {
                     e.preventDefault();
                 }
+                const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
                 document.body.classList.toggle('light-mode');
+                
+                // Track theme change with analytics
+                if (typeof window.va !== 'undefined') {
+                    window.va('event', {
+                        name: 'theme_change',
+                        data: { theme: newTheme }
+                    });
+                }
             });
         });
 
@@ -188,6 +199,14 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    
+                    // Track section view with analytics
+                    if (typeof window.va !== 'undefined' && entry.target.id) {
+                        window.va('event', {
+                            name: 'section_view',
+                            data: { section: entry.target.id }
+                        });
+                    }
                 }
             });
         }, {
@@ -202,8 +221,27 @@
         // Form submission handler
         document.getElementById('waitlist-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Track form submission with analytics
+            if (typeof window.va !== 'undefined') {
+                window.va('event', {
+                    name: 'form_submit',
+                    data: { form: 'waitlist' }
+                });
+            }
+            
             alert('Thank you for joining! We\'ll be in touch soon.');
         });
+        
+        // Helper function to track custom events
+        function trackEvent(eventName, eventData = {}) {
+            if (typeof window.va !== 'undefined') {
+                window.va('event', {
+                    name: eventName,
+                    data: eventData
+                });
+            }
+        }
     </script>
 </body>
 </html> 
