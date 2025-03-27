@@ -1,0 +1,304 @@
+:root {
+    --color-background: #FAFAFA;
+    --color-text: #3A3A3A;
+    --color-primary: #F4DADA;
+    --color-secondary: #D8CFF1;
+    --color-accent-1: #E6DBF7;
+    --color-accent-2: #F4DADA;
+    --color-accent-3: #D8CFF1;
+    --color-shadow: rgba(0, 0, 0, 0.05);
+    --grid-color: rgba(58, 58, 58, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh;
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    position: relative;
+}
+
+/* Notebook Cover Style */
+.notebook-cover {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    border: 1px solid rgba(244, 218, 218, 0.3);
+}
+
+.cover-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 4rem;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+    position: relative;
+    letter-spacing: -0.02em;
+}
+
+.beta-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: var(--color-primary);
+    color: var(--color-text);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+/* Form Section */
+.waitlist-section {
+    margin-bottom: 4rem;
+}
+
+.waitlist-form {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    margin-bottom: 3rem;
+    position: relative;
+    border: 1px solid rgba(244, 218, 218, 0.3);
+}
+
+.form-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text);
+    font-size: 1rem;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(216, 207, 241, 0.2);
+}
+
+.radio-group {
+    margin-bottom: 2rem;
+}
+
+.radio-options {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: white;
+    border: 2px solid var(--color-primary);
+}
+
+.radio-label:hover {
+    background: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+input[type="radio"] {
+    accent-color: var(--color-secondary);
+}
+
+.submit-btn {
+    background: var(--color-secondary);
+    color: var(--color-text);
+    border: none;
+    padding: 1.2rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.submit-btn:hover {
+    background: var(--color-accent-1);
+    transform: translateY(-2px);
+}
+
+/* Benefits Grid */
+.benefits-grid {
+    margin-top: 4rem;
+}
+
+.benefits-grid h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.benefits-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.benefit-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    border: 1px solid rgba(244, 218, 218, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px var(--color-shadow);
+}
+
+.benefit-card i {
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+}
+
+.benefit-card h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.social-links {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.social-links a {
+    color: var(--color-text);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--color-secondary);
+    transform: translateY(-3px);
+}
+
+.footer-text {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: var(--color-text);
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem 1.5rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .notebook-cover {
+        padding: 2rem 1.5rem;
+    }
+
+    .waitlist-form {
+        padding: 2rem;
+    }
+
+    .radio-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .radio-label {
+        width: 100%;
+    }
+
+    .benefits-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.notebook-cover,
+.waitlist-form,
+.benefits-grid {
+    animation: fadeIn 0.8s ease-out forwards;
+} 

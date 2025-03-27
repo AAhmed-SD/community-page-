@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibaadah - Spiritual Habit Building App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="notebook-cover">
+            <div class="cover-content">
+                <h1>Bismillah <span class="heart-icon">🤍</span></h1>
+                <p class="header-text">
+                    I'm building a spiritual habit app for Muslims trying to grow in their Salah, fasting, mindset, and everyday life.
+                </p>
+                <p class="subheading">
+                    If you're trying to build better habits and use tech to serve your Deen… I'd love for you to join the journey.
+                </p>
+                <div class="beta-badge">Coming Soon</div>
+            </div>
+        </header>
+
+        <main>
+            <section class="benefits-grid">
+                <h2>Why This Benefits You</h2>
+                <div class="benefits-container">
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Build Habits that Stick</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Grow with Purpose, Not Pressure</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Plan Your Day Around Ibaadah</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Increase Dhikr & Mindfulness</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Track Salah Meaningfully</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Complete Missed Fasts with Ease</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Earn Real-Life Rewards</h3>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Feel Supported on Your Journey</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="waitlist-section">
+                <form class="waitlist-form" action="/submit" method="POST">
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="focus">What area of your Ibaadah or self-discipline are you working on?</label>
+                        <textarea id="focus" name="focus" rows="4" placeholder="Share your current spiritual goals and challenges..." required></textarea>
+                    </div>
+
+                    <div class="form-options">
+                        <div class="form-group radio-group">
+                            <label>Would you like early access?</label>
+                            <div class="radio-options">
+                                <label class="radio-label">
+                                    <input type="radio" name="earlyAccess" value="yes" required>
+                                    <span class="radio-text">Yes, please!</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="earlyAccess" value="no" required>
+                                    <span class="radio-text">Not right now</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group radio-group">
+                            <label>Would you help test the app?</label>
+                            <div class="radio-options">
+                                <label class="radio-label">
+                                    <input type="radio" name="feedback" value="yes" required>
+                                    <span class="radio-text">Yes, I'd love to help!</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="feedback" value="no" required>
+                                    <span class="radio-text">Maybe later</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-text">Join the Waitlist</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="feature-preview">
+                    <div class="feature-icon">✨</div>
+                    <p>One of the future features includes in-app rewards that lead to real-life charity being given in your name — for staying consistent with your Ibaadah. A small habit can become sadaqah jariyah, in sha Allah.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="social-links">
+                <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://tiktok.com/@ukht.dev" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+            <p class="footer-text">Jazakum Allahu Khayran for being here. You're already part of something beautiful.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add form validation and submission feedback
+        const form = document.querySelector('.waitlist-form');
+        form.addEventListener('submit', function(e) {
+            const submitBtn = form.querySelector('.submit-btn');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.disabled = true;
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('.radio-label').forEach(label => {
+            label.addEventListener('mouseover', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            label.addEventListener('mouseout', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html> 
