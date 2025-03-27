@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah - Spiritual Habit Building App</title>
+    <title>Ibaadah - A Second Brain for the Muslim Mind</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,70 +12,54 @@
 </head>
 <body>
     <div class="container">
-        <header class="notebook-cover">
-            <div class="cover-content">
-                <h1>Bismillah <span class="heart-icon">🤍</span></h1>
-                <p class="header-text">
-                    I'm building a spiritual habit app for Muslims trying to grow in their Salah, fasting, mindset, and everyday life.
-                </p>
-                <p class="subheading">
-                    If you're trying to build better habits and use tech to serve your Deen… I'd love for you to join the journey.
-                </p>
-                <div class="beta-badge">Coming Soon</div>
-            </div>
+        <header class="header">
+            <h1>Ibaadah & Consistency — A Second Brain for the Muslim Mind</h1>
+            <p>Build spiritual consistency through journaling, automation, and gentle habit stacking. Let your planner do the heavy lifting.</p>
         </header>
 
-        <main>
-            <section class="benefits-grid">
-                <h2>Why This Benefits You</h2>
-                <div class="benefits-container">
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Build Habits that Stick</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Grow with Purpose, Not Pressure</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Plan Your Day Around Ibaadah</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Increase Dhikr & Mindfulness</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Track Salah Meaningfully</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Complete Missed Fasts with Ease</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Earn Real-Life Rewards</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Feel Supported on Your Journey</h3>
-                    </div>
-                </div>
-            </section>
+        <main class="planner-grid">
+            <div class="planner-box welcome-box">
+                <h2>Welcome</h2>
+                <p>Imagine automating your Ibaadah, building habits that actually stick, and letting your day revolve around Salah instead of the other way around.</p>
+            </div>
 
-            <section class="waitlist-section">
+            <div class="planner-box benefits-box">
+                <h2>Why Muslims are excited about this app</h2>
+                <ul class="benefits-list">
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Automate Salah, Qur'an, and habit timing</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Use your phone as a tool for Dhikr & journaling</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Visual analytics for prayers & fasts</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Second brain for memorisation, Ibaadah, tasks</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Real charity in your name via in-app rewards</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="planner-box form-box">
+                <h2>Join the Waitlist</h2>
                 <form class="waitlist-form" action="/submit" method="POST">
-                    <div class="form-section">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
                     </div>
 
                     <div class="form-group">
@@ -83,89 +67,60 @@
                         <textarea id="focus" name="focus" rows="4" placeholder="Share your current spiritual goals and challenges..." required></textarea>
                     </div>
 
-                    <div class="form-options">
-                        <div class="form-group radio-group">
-                            <label>Would you like early access?</label>
-                            <div class="radio-options">
-                                <label class="radio-label">
-                                    <input type="radio" name="earlyAccess" value="yes" required>
-                                    <span class="radio-text">Yes, please!</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="earlyAccess" value="no" required>
-                                    <span class="radio-text">Not right now</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group radio-group">
-                            <label>Would you help test the app?</label>
-                            <div class="radio-options">
-                                <label class="radio-label">
-                                    <input type="radio" name="feedback" value="yes" required>
-                                    <span class="radio-text">Yes, I'd love to help!</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="feedback" value="no" required>
-                                    <span class="radio-text">Maybe later</span>
-                                </label>
-                            </div>
+                    <div class="radio-group">
+                        <label>Would you like early access?</label>
+                        <div class="radio-options">
+                            <label class="radio-label">
+                                <input type="radio" name="earlyAccess" value="yes" required>
+                                <span>Yes, please!</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="earlyAccess" value="no" required>
+                                <span>Not right now</span>
+                            </label>
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn">
-                        <span class="btn-text">Join the Waitlist</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
+                    <div class="radio-group">
+                        <label>Would you help test the app?</label>
+                        <div class="radio-options">
+                            <label class="radio-label">
+                                <input type="radio" name="feedback" value="yes" required>
+                                <span>Yes, I'd love to help!</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="feedback" value="no" required>
+                                <span>Maybe later</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Join the Waitlist</button>
                 </form>
-
-                <div class="feature-preview">
-                    <div class="feature-icon">✨</div>
-                    <p>One of the future features includes in-app rewards that lead to real-life charity being given in your name — for staying consistent with your Ibaadah. A small habit can become sadaqah jariyah, in sha Allah.</p>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <div class="social-links">
-                <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://tiktok.com/@ukht.dev" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-tiktok"></i>
-                </a>
             </div>
-            <p class="footer-text">Jazakum Allahu Khayran for being here. You're already part of something beautiful.</p>
-        </footer>
+
+            <div class="planner-box closing-box">
+                <h2>Join the Journey</h2>
+                <p>This isn't just an app. It's your digital companion for barakah, automation, and intention — in your time, in your way.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
+                        Instagram: @ukht.h.aa
+                    </a>
+                    <a href="https://tiktok.com/@ukht.dev" target="_blank" rel="noopener noreferrer">
+                        TikTok: @ukht.dev
+                    </a>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        // Add smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Add form validation and submission feedback
+        // Form submission handling
         const form = document.querySelector('.waitlist-form');
         form.addEventListener('submit', function(e) {
             const submitBtn = form.querySelector('.submit-btn');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            submitBtn.textContent = 'Submitting...';
             submitBtn.disabled = true;
-        });
-
-        // Add hover effects for interactive elements
-        document.querySelectorAll('.radio-label').forEach(label => {
-            label.addEventListener('mouseover', function() {
-                this.style.transform = 'translateY(-2px)';
-            });
-            label.addEventListener('mouseout', function() {
-                this.style.transform = 'translateY(0)';
-            });
         });
     </script>
 </body>

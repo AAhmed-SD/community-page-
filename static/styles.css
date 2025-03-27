@@ -1,11 +1,13 @@
 /* Base styles and CSS Reset */
 :root {
-    --pink: #F4DADA;
-    --lilac: #D8CFF1;
-    --lavender: #E6DBF7;
+    --pink: #F8EDEE;
+    --lilac: #E9E4F0;
+    --sage: #E9EFE9;
+    --yellow: #FDF6E4;
     --text: #3A3A3A;
-    --bg: #FAFAFA;
-    --shadow: rgba(0, 0, 0, 0.1);
+    --bg: #FDFCFB;
+    --border: rgba(58, 58, 58, 0.1);
+    --grid: rgba(58, 58, 58, 0.05);
 }
 
 * {
@@ -18,9 +20,8 @@ body {
     font-family: 'Inter', sans-serif;
     color: var(--text);
     background-color: var(--bg);
-    background-image: radial-gradient(circle at 1px 1px, #ddd 1px, transparent 0);
-    background-size: 20px 20px;
     line-height: 1.6;
+    padding: 2rem;
 }
 
 h1, h2, h3 {
@@ -29,124 +30,144 @@ h1, h2, h3 {
 }
 
 .container {
-    width: 100%;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 2rem;
-}
-
-.container::-webkit-scrollbar {
-    display: none;
-}
-
-/* Card Layout */
-main {
-    display: flex;
-    gap: 2rem;
-    padding: 1rem;
-    min-width: max-content;
-}
-
-section {
-    flex: 0 0 auto;
-    width: 400px;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px var(--shadow);
-    scroll-snap-align: start;
-    transition: transform 0.3s ease;
-    position: relative;
-}
-
-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 20px;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 0 0 30px 30px;
-}
-
-/* Intro Card */
-.notebook-cover {
-    background: var(--pink);
-}
-
-.cover-content {
-    text-align: center;
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-.cover-content h1 {
-    font-size: 2.5rem;
+/* Header Section */
+.header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+    font-size: 3rem;
     margin-bottom: 1.5rem;
+    line-height: 1.2;
 }
 
-.header-text {
+.header p {
     font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.subheading {
-    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--text);
     opacity: 0.9;
 }
 
-/* Waitlist Form */
-.waitlist-section {
+/* Planner Grid Layout */
+.planner-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.planner-box {
+    padding: 2.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s ease;
+}
+
+.planner-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.planner-box h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--border);
+}
+
+/* Welcome Box */
+.welcome-box {
+    background: var(--pink);
+}
+
+.welcome-box p {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    font-style: italic;
+}
+
+/* Benefits Box */
+.benefits-box {
     background: var(--lilac);
 }
 
-.waitlist-form {
+.benefits-list {
+    list-style: none;
+}
+
+.benefits-list li {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border);
+}
+
+.benefits-list li:last-child {
+    border-bottom: none;
+}
+
+.benefits-list i {
+    color: var(--text);
+    opacity: 0.7;
+}
+
+/* Form Box */
+.form-box {
+    background: white;
+}
+
+.waitlist-form {
+    display: grid;
     gap: 1.5rem;
 }
 
-.form-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
 .form-group {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 0.5rem;
 }
 
 label {
     font-weight: 500;
+    font-size: 0.9rem;
 }
 
 input, textarea {
     padding: 0.8rem;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
     font-family: 'Inter', sans-serif;
-    background: rgba(255, 255, 255, 0.9);
-    transition: border-color 0.3s ease;
+    background: white;
+    transition: border-color 0.2s ease;
 }
 
 input:focus, textarea:focus {
     outline: none;
-    border-color: var(--pink);
+    border-color: var(--text);
 }
 
 .radio-group {
-    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
 }
 
 .radio-options {
     display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    gap: 2rem;
 }
 
 .radio-label {
@@ -154,135 +175,88 @@ input:focus, textarea:focus {
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
-    transition: transform 0.2s ease;
 }
 
 .submit-btn {
     background: var(--pink);
     color: var(--text);
-    border: none;
+    border: 1px solid var(--border);
     padding: 1rem 2rem;
-    border-radius: 25px;
-    font-weight: 600;
+    border-radius: 4px;
+    font-weight: 500;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
 }
 
 .submit-btn:hover {
-    transform: translateY(-2px);
-    background: #f0c4c4;
+    background: var(--text);
+    color: white;
 }
 
-/* Benefits Grid */
-.benefits-grid {
-    background: var(--lavender);
-}
-
-.benefits-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.benefit-card {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 1rem;
-    border-radius: 8px;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    transition: transform 0.2s ease;
-}
-
-.benefit-card:hover {
-    transform: translateY(-2px);
-}
-
-.benefit-card i {
-    color: var(--pink);
-    font-size: 1.2rem;
-}
-
-.benefit-card h3 {
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-/* Footer */
-footer {
+/* Closing Box */
+.closing-box {
+    background: var(--yellow);
     text-align: center;
-    padding: 2rem;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px var(--shadow);
-    margin-top: 2rem;
+}
+
+.closing-box p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
 }
 
 .social-links {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
 }
 
 .social-links a {
     color: var(--text);
-    font-size: 1.5rem;
-    transition: transform 0.2s ease;
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
 }
 
 .social-links a:hover {
-    transform: translateY(-2px);
-}
-
-.footer-text {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-/* Feature Preview */
-.feature-preview {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 8px;
-    text-align: center;
-}
-
-.feature-icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    opacity: 1;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
-        overflow-x: visible;
+    body {
         padding: 1rem;
     }
 
-    main {
-        flex-direction: column;
-        min-width: auto;
+    .header {
+        padding: 2rem 1rem;
+        margin-bottom: 2rem;
     }
 
-    section {
-        width: 100%;
+    .header h1 {
+        font-size: 2rem;
     }
 
-    .benefits-container {
+    .planner-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
-    .form-section {
+    .planner-box {
+        padding: 1.5rem;
+    }
+
+    .welcome-box p {
+        font-size: 1.1rem;
+    }
+
+    .radio-options {
         flex-direction: column;
+        gap: 1rem;
     }
 }
 
@@ -290,7 +264,7 @@ footer {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -298,6 +272,6 @@ footer {
     }
 }
 
-section {
+.planner-box {
     animation: fadeIn 0.6s ease-out forwards;
 } 
