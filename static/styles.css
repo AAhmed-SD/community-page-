@@ -4,10 +4,11 @@
     --lilac: #E9E4F0;
     --sage: #E9EFE9;
     --yellow: #FDF6E4;
+    --blue: #EDF2FA;
     --text: #3A3A3A;
-    --bg: #FDFCFB;
+    --bg: #FFFCF9;
     --border: rgba(58, 58, 58, 0.1);
-    --grid: rgba(58, 58, 58, 0.05);
+    --grid: #EAEAEA;
 }
 
 * {
@@ -21,7 +22,15 @@ body {
     color: var(--text);
     background-color: var(--bg);
     line-height: 1.6;
-    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: 
+        radial-gradient(circle at center, var(--grid) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center;
+    overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -29,16 +38,70 @@ h1, h2, h3 {
     color: var(--text);
 }
 
-.container {
+/* Book Animation */
+.book-container {
+    perspective: 1000px;
+    width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.book {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    height: 85vh;
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+}
+
+.book.closed {
+    transform: rotateY(-180deg);
+}
+
+.book-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transform: rotateY(180deg);
+    padding: 2rem;
+    text-align: center;
+}
+
+.book-cover h1 {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+.book-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    backface-visibility: hidden;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    overflow-y: auto;
 }
 
 /* Header Section */
 .header {
     text-align: center;
     margin-bottom: 4rem;
-    padding: 3rem 2rem;
+    padding: 2rem;
     border-bottom: 1px solid var(--border);
 }
 
@@ -66,9 +129,27 @@ h1, h2, h3 {
 
 .planner-box {
     padding: 2.5rem;
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid var(--border);
-    transition: transform 0.2s ease;
+    background: var(--bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    position: relative;
+}
+
+.planner-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    pointer-events: none;
+    border-radius: 8px;
 }
 
 .planner-box h2 {
@@ -96,7 +177,8 @@ h1, h2, h3 {
 .welcome-box p {
     font-size: 1.3rem;
     line-height: 1.8;
-    font-style: italic;
+    position: relative;
+    z-index: 1;
 }
 
 /* Benefits Box */
@@ -113,8 +195,10 @@ h1, h2, h3 {
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1rem;
-    padding: 0.5rem 0;
+    padding: 0.8rem 0;
     border-bottom: 1px dashed var(--border);
+    position: relative;
+    z-index: 1;
 }
 
 .benefits-list li:last-child {
@@ -124,6 +208,7 @@ h1, h2, h3 {
 .benefits-list i {
     color: var(--text);
     opacity: 0.7;
+    font-size: 1.2rem;
 }
 
 /* Form Box */
@@ -134,6 +219,8 @@ h1, h2, h3 {
 .waitlist-form {
     display: grid;
     gap: 1.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 .form-group {
@@ -147,17 +234,18 @@ label {
 }
 
 input, textarea {
-    padding: 0.8rem;
+    padding: 1rem;
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: 'Inter', sans-serif;
     background: white;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 input:focus, textarea:focus {
     outline: none;
     border-color: var(--text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .radio-group {
@@ -182,7 +270,7 @@ input:focus, textarea:focus {
     color: var(--text);
     border: 1px solid var(--border);
     padding: 1rem 2rem;
-    border-radius: 4px;
+    border-radius: 25px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -192,6 +280,7 @@ input:focus, textarea:focus {
 .submit-btn:hover {
     background: var(--text);
     color: white;
+    transform: translateY(-2px);
 }
 
 /* Closing Box */
@@ -203,6 +292,8 @@ input:focus, textarea:focus {
 .closing-box p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .social-links {
@@ -212,6 +303,8 @@ input:focus, textarea:focus {
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
 }
 
 .social-links a {
@@ -219,11 +312,12 @@ input:focus, textarea:focus {
     text-decoration: none;
     font-size: 0.9rem;
     opacity: 0.8;
-    transition: opacity 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .social-links a:hover {
     opacity: 1;
+    transform: translateY(-2px);
 }
 
 /* Responsive Design */
@@ -232,8 +326,21 @@ input:focus, textarea:focus {
         padding: 1rem;
     }
 
+    .book-container {
+        height: auto;
+    }
+
+    .book {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .book-cover h1 {
+        font-size: 2.5rem;
+    }
+
     .header {
-        padding: 2rem 1rem;
+        padding: 1rem;
         margin-bottom: 2rem;
     }
 

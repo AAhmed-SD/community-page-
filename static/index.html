@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah - A Second Brain for the Muslim Mind</title>
+    <title>Ibaadah AI - A Second Brain for the Muslim Mind</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -11,110 +11,141 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>Ibaadah & Consistency — A Second Brain for the Muslim Mind</h1>
-            <p>Build spiritual consistency through journaling, automation, and gentle habit stacking. Let your planner do the heavy lifting.</p>
-        </header>
-
-        <main class="planner-grid">
-            <div class="planner-box welcome-box">
-                <h2>Welcome</h2>
-                <p>Imagine automating your Ibaadah, building habits that actually stick, and letting your day revolve around Salah instead of the other way around.</p>
+    <div class="book-container">
+        <div class="book closed">
+            <div class="book-cover">
+                <h1>Ibaadah AI</h1>
+                <p>Your Digital Companion for Spiritual Growth</p>
             </div>
+            <div class="book-content">
+                <header class="header">
+                    <h1>Ibaadah & Consistency — A Second Brain for the Muslim Mind</h1>
+                    <p>Automate Ibaadah. Reflect deeply. Track growth. Build habits. Memorise. And stay spiritually consistent — without burnout.</p>
+                </header>
 
-            <div class="planner-box benefits-box">
-                <h2>Why Muslims are excited about this app</h2>
-                <ul class="benefits-list">
-                    <li>
-                        <i class="fas fa-check"></i>
-                        <span>Automate Salah, Qur'an, and habit timing</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check"></i>
-                        <span>Use your phone as a tool for Dhikr & journaling</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check"></i>
-                        <span>Visual analytics for prayers & fasts</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check"></i>
-                        <span>Second brain for memorisation, Ibaadah, tasks</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check"></i>
-                        <span>Real charity in your name via in-app rewards</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="planner-box form-box">
-                <h2>Join the Waitlist</h2>
-                <form class="waitlist-form" action="/submit" method="POST">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                <main class="planner-grid">
+                    <div class="planner-box welcome-box">
+                        <h2>Welcome to Ibaadah AI</h2>
+                        <p>This app is for Muslims who want to let their Ibaadah flow with their life — not against it. From Salah tracking to fasts, Qur'an revision to journaling, let your planner handle the burden while you focus on your heart.</p>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <div class="planner-box benefits-box">
+                        <h2>Why Muslims Are Excited About Ibaadah AI</h2>
+                        <ul class="benefits-list">
+                            <li>
+                                <i class="fas fa-clock"></i>
+                                <span>Auto-schedule Salah, Qur'an, & Dhikr into your day</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-feather"></i>
+                                <span>Reflect & journal with soft AI reminders</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-chart-line"></i>
+                                <span>Visual progress for your prayer & fasts</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-brain"></i>
+                                <span>Acts as a second brain for your Ibaadah & memory</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-bullseye"></i>
+                                <span>Helps break and build habits the sunnah way</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-heart"></i>
+                                <span>Rewards consistency with real-world charity in your name</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="form-group">
-                        <label for="focus">What area of your Ibaadah or self-discipline are you working on?</label>
-                        <textarea id="focus" name="focus" rows="4" placeholder="Share your current spiritual goals and challenges..." required></textarea>
+                    <div class="planner-box form-box">
+                        <h2>Join the Journey</h2>
+                        <form class="waitlist-form" action="/submit" method="POST">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="focus">What part of your Ibaadah do you want to work on?</label>
+                                <textarea id="focus" name="focus" rows="4" placeholder="Share your spiritual goals and challenges..." required></textarea>
+                            </div>
+
+                            <div class="radio-group">
+                                <label>Would you like early access?</label>
+                                <div class="radio-options">
+                                    <label class="radio-label">
+                                        <input type="radio" name="earlyAccess" value="yes" required>
+                                        <span>Yes, please!</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="earlyAccess" value="no" required>
+                                        <span>Not right now</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="radio-group">
+                                <label>Would you be a beta tester?</label>
+                                <div class="radio-options">
+                                    <label class="radio-label">
+                                        <input type="radio" name="feedback" value="yes" required>
+                                        <span>Yes, I'd love to help!</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="feedback" value="no" required>
+                                        <span>Maybe later</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="submit-btn">Join the Waitlist</button>
+                            <p class="form-note">Your future consistency could lead to sadaqah in your name, in sha Allah.</p>
+                        </form>
                     </div>
 
-                    <div class="radio-group">
-                        <label>Would you like early access?</label>
-                        <div class="radio-options">
-                            <label class="radio-label">
-                                <input type="radio" name="earlyAccess" value="yes" required>
-                                <span>Yes, please!</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="earlyAccess" value="no" required>
-                                <span>Not right now</span>
-                            </label>
+                    <div class="planner-box closing-box">
+                        <h2>Join the Journey</h2>
+                        <p>This isn't just an app. It's your digital companion for barakah, automation, and intention — in your time, in your way.</p>
+                        <div class="social-links">
+                            <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
+                                Instagram: @ukht.h.aa
+                            </a>
+                            <a href="https://tiktok.com/@ukht.dev" target="_blank" rel="noopener noreferrer">
+                                TikTok: @ukht.dev
+                            </a>
                         </div>
+                        <p class="footer-text">Jazakum Allahu Khayran for being here. This is your quiet space for intentional growth.</p>
                     </div>
-
-                    <div class="radio-group">
-                        <label>Would you help test the app?</label>
-                        <div class="radio-options">
-                            <label class="radio-label">
-                                <input type="radio" name="feedback" value="yes" required>
-                                <span>Yes, I'd love to help!</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="feedback" value="no" required>
-                                <span>Maybe later</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn">Join the Waitlist</button>
-                </form>
+                </main>
             </div>
-
-            <div class="planner-box closing-box">
-                <h2>Join the Journey</h2>
-                <p>This isn't just an app. It's your digital companion for barakah, automation, and intention — in your time, in your way.</p>
-                <div class="social-links">
-                    <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
-                        Instagram: @ukht.h.aa
-                    </a>
-                    <a href="https://tiktok.com/@ukht.dev" target="_blank" rel="noopener noreferrer">
-                        TikTok: @ukht.dev
-                    </a>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
 
     <script>
+        // Book opening animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const book = document.querySelector('.book');
+            
+            // Auto-open after delay
+            setTimeout(() => {
+                book.classList.remove('closed');
+            }, 1000);
+
+            // Click to open
+            book.addEventListener('click', function() {
+                if (this.classList.contains('closed')) {
+                    this.classList.remove('closed');
+                }
+            });
+        });
+
         // Form submission handling
         const form = document.querySelector('.waitlist-form');
         form.addEventListener('submit', function(e) {
