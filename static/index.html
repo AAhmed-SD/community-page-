@@ -3,31 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah AI - A Second Brain for the Muslim Mind</title>
+    <title>Ibaadah AI – Notebook Flip</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="notebook-container">
-        <div class="notebook">
-            <div class="spiral"></div>
-            <div class="cover front-cover">
+    <div class="scene">
+        <div class="book" id="book">
+            <div class="cover">
                 <h1>Ibaadah AI</h1>
                 <p>A Second Brain for the Muslim Mind</p>
-                <div class="cover-details">
-                    <p>Your Digital Spiritual Companion</p>
-                    <p>Click to open</p>
-                </div>
             </div>
-            <div class="notebook-page">
+            <div class="page">
+                <h2>Welcome 🤍</h2>
+                <p>Your second brain for Ibaadah, habits, reflections, and growth. All in one place.</p>
+                
                 <div class="grid">
-                    <div class="card title-card">
-                        <h1>Ibaadah AI</h1>
-                        <p>A Second Brain for the Muslim Mind</p>
-                    </div>
-                    
-                    <div class="card benefits-card">
+                    <div class="card">
                         <h2>Why This Benefits You</h2>
                         <ul>
                             <li><i class="fas fa-calendar-check"></i> Auto-scheduling of spiritual activities</li>
@@ -38,7 +30,7 @@
                         </ul>
                     </div>
                     
-                    <div class="card form-card">
+                    <div class="card">
                         <h2>Join the Waitlist</h2>
                         <form id="waitlist-form">
                             <div class="form-group">
@@ -53,77 +45,20 @@
                                 <label>What are your spiritual goals?</label>
                                 <textarea name="goals" rows="3" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>Would you like early access?</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="early_access" value="yes" required> Yes</label>
-                                    <label><input type="radio" name="early_access" value="no" required> No</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Would you like to provide feedback?</label>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="feedback" value="yes" required> Yes</label>
-                                    <label><input type="radio" name="feedback" value="no" required> No</label>
-                                </div>
-                            </div>
                             <button type="submit">Join Waitlist</button>
                         </form>
                     </div>
-                    
-                    <div class="card preview-card">
-                        <h2>Your Week at a Glance</h2>
-                        <div class="week-grid">
-                            <div class="day">
-                                <span>Mon</span>
-                                <i class="fas fa-sun"></i>
-                            </div>
-                            <div class="day">
-                                <span>Tue</span>
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <div class="day">
-                                <span>Wed</span>
-                                <i class="fas fa-pray"></i>
-                            </div>
-                            <div class="day">
-                                <span>Thu</span>
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <div class="day">
-                                <span>Fri</span>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="day">
-                                <span>Sat</span>
-                                <i class="fas fa-moon"></i>
-                            </div>
-                            <div class="day">
-                                <span>Sun</span>
-                                <i class="fas fa-sun"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cover back-cover">
-                <div class="cover-details">
-                    <p>Made with ❤️ for the Ummah</p>
-                    <p>Follow us: @ukht.h.aa</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        document.querySelector('.notebook').addEventListener('click', function() {
-            this.classList.add('open');
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                document.getElementById("book").classList.add("open");
+            }, 1000);
         });
-
-        // Auto-open after 1 second
-        setTimeout(() => {
-            document.querySelector('.notebook').classList.add('open');
-        }, 1000);
     </script>
 </body>
 </html> 
