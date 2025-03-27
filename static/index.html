@@ -3,61 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah AI – Notebook Flip</title>
+    <title>Ibaadah AI - Your Second Brain for Deen & Dunya</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="scene">
-        <div class="book" id="book">
-            <div class="cover">
-                <h1>Ibaadah AI</h1>
-                <p>A Second Brain for the Muslim Mind</p>
-            </div>
-            <div class="page">
-                <h2>Welcome 🤍</h2>
-                <p>Your second brain for Ibaadah, habits, reflections, and growth. All in one place.</p>
-                
-                <div class="grid">
-                    <div class="card">
-                        <h2>Why This Benefits You</h2>
-                        <ul>
-                            <li><i class="fas fa-calendar-check"></i> Auto-scheduling of spiritual activities</li>
-                            <li><i class="fas fa-book"></i> Digital planner for your spiritual journey</li>
-                            <li><i class="fas fa-pen"></i> Journaling space for reflections</li>
-                            <li><i class="fas fa-chart-line"></i> Habit tracking for consistency</li>
-                            <li><i class="fas fa-heart"></i> Consistency-based charity system</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="card">
-                        <h2>Join the Waitlist</h2>
-                        <form id="waitlist-form">
-                            <div class="form-group">
-                                <label for="name">Your Name</label>
-                                <input type="text" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Your Email</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>What are your spiritual goals?</label>
-                                <textarea name="goals" rows="3" required></textarea>
-                            </div>
-                            <button type="submit">Join Waitlist</button>
-                        </form>
-                    </div>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Ibaadah AI</h1>
+        <p>Your second brain for Deen & Dunya.</p>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Automation Section -->
+    <section>
+        <div class="card">
+            <h2>Automate Your Day</h2>
+            <p>Smart scheduling that adapts to your routine, ensuring your spiritual practices become second nature.</p>
+            <div class="svg-container">
+                <svg viewBox="0 0 100 100">
+                    <path d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="2s" 
+                            repeatCount="indefinite"
+                            values="M20,20 L80,20 L80,80 L20,80 Z;
+                                    M20,20 L80,20 L80,80 L20,80 Z;
+                                    M20,20 L80,20 L80,80 L20,80 Z;
+                                    M20,20 L80,20 L80,80 L20,80 Z"/>
+                    </path>
+                </svg>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Reflection Section -->
+    <section>
+        <div class="card">
+            <h2>Reflect & Grow</h2>
+            <p>Track your spiritual journey with guided journaling and progress analytics.</p>
+            <div class="svg-container">
+                <svg viewBox="0 0 100 100">
+                    <path d="M20,50 Q50,20 80,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="2s" 
+                            repeatCount="indefinite"
+                            values="M20,50 Q50,20 80,50;
+                                    M20,50 Q50,80 80,50;
+                                    M20,50 Q50,20 80,50"/>
+                    </path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section>
+        <div class="card">
+            <h2>Rewards That Matter</h2>
+            <p>Your consistency contributes to real-world charity, making every habit count.</p>
+            <div class="svg-container">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                        <animate attributeName="r" 
+                            dur="2s" 
+                            repeatCount="indefinite"
+                            values="30;35;30"/>
+                    </circle>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section>
+        <div class="card">
+            <h2>Join the Early Believers</h2>
+            <p>Be part of a community that's redefining spiritual growth in the digital age.</p>
+            <div class="svg-container">
+                <svg viewBox="0 0 100 100">
+                    <path d="M30,50 Q50,30 70,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
+                        <animate attributeName="d" 
+                            dur="2s" 
+                            repeatCount="indefinite"
+                            values="M30,50 Q50,30 70,50;
+                                    M30,50 Q50,70 70,50;
+                                    M30,50 Q50,30 70,50"/>
+                    </path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section>
+        <div class="card">
+            <h2>Get Early Access</h2>
+            <form id="waitlist-form">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="excitement">Why are you excited about Ibaadah AI?</label>
+                    <textarea id="excitement" name="excitement" rows="3" required></textarea>
+                </div>
+                <button type="submit">Join Waitlist</button>
+            </form>
+        </div>
+    </section>
 
     <script>
-        window.addEventListener("load", () => {
-            setTimeout(() => {
-                document.getElementById("book").classList.add("open");
-            }, 1000);
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission handler
+        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your form submission logic here
+            alert('Thank you for joining! We\'ll be in touch soon.');
         });
     </script>
 </body>
