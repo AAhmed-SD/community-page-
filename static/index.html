@@ -3,136 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ibaadah AI - Your Digital Companion for Spiritual Growth</title>
+    <title>Ibaadah AI - A Second Brain for the Muslim Mind</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div id="book-wrapper">
-        <!-- Notebook Cover -->
-        <div id="notebook-cover">
-            <h1>Ibaadah AI</h1>
-            <p>Your Digital Companion for Spiritual Growth</p>
-        </div>
+    <div class="container">
+        <div class="grid">
+            <!-- Title Card -->
+            <div class="card title-card">
+                <h1>Ibaadah AI</h1>
+                <p>A second brain for the Muslim mind — tracking habits, journaling, dhikr, and growth.</p>
+            </div>
 
-        <!-- Inside Content -->
-        <div id="notebook-inside">
-            <div class="planner-grid">
-                <!-- Welcome Card -->
-                <div class="notebook-card welcome-card">
-                    <h2>Welcome to your Ibaadah Brain</h2>
-                    <p>Build habits, track your prayers, journal your intentions — all in one beautiful space. Let your spiritual journey flow naturally with your daily life.</p>
-                </div>
+            <!-- Benefits Card -->
+            <div class="card benefits-card">
+                <h2>Features</h2>
+                <ul>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>Auto-scheduling for Qur'an, Salah, fasting</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-book"></i>
+                        <span>Digital planner to track goals</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-pen"></i>
+                        <span>Journaling + reflection space</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line"></i>
+                        <span>Habit tracking + progress analytics</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-heart"></i>
+                        <span>Consistency-based charity in real life</span>
+                    </li>
+                </ul>
+            </div>
 
-                <!-- Benefits Card -->
-                <div class="notebook-card benefits-card">
-                    <h2>What You'll Love...</h2>
-                    <ul>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>Auto-scheduling for Salah & Qur'an</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-brain"></i>
-                            <span>A second brain for your Islamic habits</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-feather"></i>
-                            <span>Journaling, tracking, memorising</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-heart"></i>
-                            <span>Real charity for real consistency</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-moon"></i>
-                            <span>Period-friendly Ibaadah modes</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-chart-line"></i>
-                            <span>Visual analytics for Salah & Fasts</span>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Form Card -->
+            <div class="card form-card">
+                <h2>Join the Waitlist</h2>
+                <form action="/submit" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="goals">Your Goals</label>
+                        <textarea id="goals" name="goals" rows="3" placeholder="What are your spiritual goals?" required></textarea>
+                    </div>
+                    <button type="submit">Join Waitlist</button>
+                    <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7; text-align: center;">
+                        Your consistency = charity in your name, inshaAllah.
+                    </p>
+                </form>
+            </div>
 
-                <!-- Form Card -->
-                <div class="notebook-card form-card">
-                    <h2>Join the Journey</h2>
-                    <form action="/submit" method="POST">
-                        <div class="form-group">
-                            <label for="firstName">Your Name</label>
-                            <input type="text" id="firstName" name="firstName" placeholder="Type your name here..." required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="Where can we reach you?" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="focus">What's your biggest Ibaadah challenge?</label>
-                            <textarea id="focus" name="focus" rows="3" placeholder="Share your thoughts here..." required></textarea>
-                        </div>
-
-                        <button type="submit">Join the Waitlist</button>
-                        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8; text-align: center;">Your digital consistency = real-life charity, in your name, in sha Allah.</p>
-                    </form>
-                </div>
-
-                <!-- Footer Card -->
-                <div class="notebook-card footer-card">
-                    <div class="footer">
-                        <h2>You're Already Part of Something Beautiful</h2>
-                        <div class="social-links">
-                            <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-instagram"></i> @ukht.h.aa
-                            </a>
-                            <a href="https://tiktok.com/@ukht.dev" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-tiktok"></i> @ukht.dev
-                            </a>
-                        </div>
+            <!-- Preview Card -->
+            <div class="card preview-card">
+                <h2>Weekly Preview</h2>
+                <div class="week-grid">
+                    <div class="day">
+                        <span>Mon</span>
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="day">
+                        <span>Tue</span>
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="day">
+                        <span>Wed</span>
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="day">
+                        <span>Thu</span>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="day">
+                        <span>Fri</span>
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div class="day">
+                        <span>Sat</span>
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="day">
+                        <span>Sun</span>
+                        <i class="fas fa-pen"></i>
                     </div>
                 </div>
             </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                Follow along: <a href="https://instagram.com/ukht.h.aa" target="_blank">@ukht.h.aa</a> on Instagram | <a href="https://tiktok.com/@ukht.dev" target="_blank">@ukht.dev</a> on TikTok
+            </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const cover = document.getElementById('notebook-cover');
-            const inside = document.getElementById('notebook-inside');
-            
-            // Auto-open after delay
-            setTimeout(() => {
-                cover.classList.add('open');
-                
-                // Show inside content after cover opens
-                setTimeout(() => {
-                    inside.classList.add('visible');
-                }, 800); // Increased delay for smoother transition
-            }, 1000);
-
-            // Click to open if closed
-            cover.addEventListener('click', function() {
-                if (!this.classList.contains('open')) {
-                    this.classList.add('open');
-                    setTimeout(() => {
-                        inside.classList.add('visible');
-                    }, 800);
-                }
-            });
-
-            // Form submission handling
-            const form = document.querySelector('form');
-            form.addEventListener('submit', function(e) {
-                const submitBtn = form.querySelector('button');
-                submitBtn.textContent = 'Submitting...';
-                submitBtn.disabled = true;
-            });
-        });
-    </script>
 </body>
 </html> 
