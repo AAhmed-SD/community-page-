@@ -457,9 +457,24 @@
     </script>
 
     <!-- Firebase Scripts -->
-    <script type="module">
-        import { submitToFirestore } from './firebase-config.js';
-
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
             const submitButton = form.querySelector('button[type="submit"]');
@@ -479,24 +494,23 @@
                     current_apps: form.elements.current_apps.value,
                     feature: form.elements.feature.value,
                     helpful_feature: form.querySelector('input[name="helpful_feature"]:checked')?.value || '',
-                    tester: form.querySelector('input[name="tester"]:checked')?.value || 'no'
+                    tester: form.querySelector('input[name="tester"]:checked')?.value || 'no',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 };
                 
                 try {
                     // Submit to Firestore
-                    const result = await submitToFirestore(formData);
+                    const docRef = await db.collection('submissions').add(formData);
                     
-                    if (result.success) {
-                        // Show success message
-                        form.innerHTML = `
-                            <div style="text-align: center; padding: 2rem;">
-                                <h3 style="margin-bottom: 1rem;">Thank you for your interest!</h3>
-                                <p>We've received your submission and will keep you updated.</p>
-                            </div>
-                        `;
-                    } else {
-                        throw new Error(result.error);
-                    }
+                    // Show success message
+                    form.innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">Thank you for your interest!</h3>
+                            <p>We've received your submission and will keep you updated.</p>
+                        </div>
+                    `;
+                    
+                    console.log("Document written with ID: ", docRef.id);
                 } catch (error) {
                     console.error('Submission error:', error);
                     submitButton.disabled = false;
