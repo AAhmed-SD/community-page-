@@ -85,6 +85,16 @@
             padding: 0.5rem 1rem;
             border-radius: 8px;
             cursor: pointer;
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+            font-size: 1rem;
+            min-width: 70px;
+            min-height: 40px;
+        }
+        @media (max-width: 768px) {
+            .toggle-theme {
+                padding: 0.7rem 1.2rem;
+            }
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -97,7 +107,7 @@
     </style>
 </head>
 <body>
-    <button class="toggle-theme" onclick="toggleTheme()">Theme</button>
+    <button id="themeToggle" class="toggle-theme">Theme</button>
 
     <section id="hero">
         <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" stroke-width="4" fill="none" /></svg>
@@ -149,9 +159,16 @@
     </section>
 
     <script>
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-        }
+        const themeToggle = document.getElementById('themeToggle');
+        
+        ['click', 'touchend'].forEach(eventType => {
+            themeToggle.addEventListener(eventType, function(e) {
+                if (eventType === 'touchend') {
+                    e.preventDefault();
+                }
+                document.body.classList.toggle('light-mode');
+            });
+        });
 
         // Intersection Observer for scroll animations
         const observer = new IntersectionObserver((entries) => {
