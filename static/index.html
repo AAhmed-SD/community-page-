@@ -226,6 +226,49 @@
             border-color: #9B6DFF;
             box-shadow: 0 0 0 2px rgba(155, 109, 255, 0.2);
         }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            background: linear-gradient(135deg, rgba(186, 182, 248, 0.2), rgba(155, 109, 255, 0.1));
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(155, 109, 255, 0.3);
+            background: linear-gradient(135deg, rgba(186, 182, 248, 0.3), rgba(155, 109, 255, 0.2));
+        }
+        
+        .social-icon {
+            stroke: #BAB6F8;
+        }
+        
+        .footer-text {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -461,5 +504,31 @@
             });
         });
     </script>
+
+    <!-- Footer with social links -->
+    <footer class="footer">
+      <div class="social-links">
+        <a href="https://www.instagram.com/ukht.h.aa" target="_blank" class="social-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="social-icon">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>ukht.h.aa</span>
+        </a>
+        <a href="https://www.tiktok.com/@ukht.dev" target="_blank" class="social-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="social-icon">
+            <path d="M9 12a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path>
+            <path d="M15 8c0 5 2 8 2 8"></path>
+            <path d="M9 2c0 4 3 10 3 10"></path>
+            <line x1="12" y1="2" x2="12" y2="16"></line>
+          </svg>
+          <span>ukht.dev</span>
+        </a>
+      </div>
+      <div class="footer-text">
+        Made with ❤️ for the Ummah
+      </div>
+    </footer>
 </body>
 </html> 
