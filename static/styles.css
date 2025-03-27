@@ -27,23 +27,65 @@ body {
     overflow-x: hidden;
 }
 
-/* Main Container */
-.container {
+/* Book Container */
+.book-container {
+    perspective: 2000px;
     width: 100%;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+.book {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: 100vh;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.book.open {
+    transform: rotateY(-180deg);
+}
+
+.book-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--yellow);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    backface-visibility: hidden;
+    box-shadow: 0 4px 8px var(--shadow);
+}
+
+.book-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-image: 
         repeating-linear-gradient(var(--grid-color) 0px, var(--grid-color) 1px, transparent 1px, transparent 32px),
         repeating-linear-gradient(90deg, var(--grid-color) 0px, var(--grid-color) 1px, transparent 1px, transparent 32px);
     padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow);
 }
 
 /* Grid Layout */
 .grid {
     width: 100%;
-    max-width: 1400px;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
@@ -207,7 +249,7 @@ button:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
+    .book-content {
         padding: 1rem;
     }
 

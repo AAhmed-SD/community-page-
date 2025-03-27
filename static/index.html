@@ -4,111 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ibaadah AI - A Second Brain for the Muslim Mind</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="grid">
-            <!-- Title Card -->
-            <div class="card title-card">
+    <div class="book-container">
+        <div class="book">
+            <div class="book-cover">
                 <h1>Ibaadah AI</h1>
-                <p>A second brain for the Muslim mind — tracking habits, journaling, dhikr, and growth.</p>
+                <p>Click to open</p>
             </div>
-
-            <!-- Benefits Card -->
-            <div class="card benefits-card">
-                <h2>Features</h2>
-                <ul>
-                    <li>
-                        <i class="fas fa-clock"></i>
-                        <span>Auto-scheduling for Qur'an, Salah, fasting</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-book"></i>
-                        <span>Digital planner to track goals</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-pen"></i>
-                        <span>Journaling + reflection space</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-chart-line"></i>
-                        <span>Habit tracking + progress analytics</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-heart"></i>
-                        <span>Consistency-based charity in real life</span>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Form Card -->
-            <div class="card form-card">
-                <h2>Join the Waitlist</h2>
-                <form action="/submit" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your name" required>
+            <div class="book-content">
+                <div class="grid">
+                    <div class="card title-card">
+                        <h1>Ibaadah AI</h1>
+                        <p>A Second Brain for the Muslim Mind</p>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    
+                    <div class="card benefits-card">
+                        <h2>Why This Benefits You</h2>
+                        <ul>
+                            <li><i class="fas fa-calendar-check"></i> Auto-scheduling of spiritual activities</li>
+                            <li><i class="fas fa-book"></i> Digital planner for your spiritual journey</li>
+                            <li><i class="fas fa-pen"></i> Journaling space for reflections</li>
+                            <li><i class="fas fa-chart-line"></i> Habit tracking for consistency</li>
+                            <li><i class="fas fa-heart"></i> Consistency-based charity system</li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <label for="goals">Your Goals</label>
-                        <textarea id="goals" name="goals" rows="3" placeholder="What are your spiritual goals?" required></textarea>
+                    
+                    <div class="card form-card">
+                        <h2>Join the Waitlist</h2>
+                        <form id="waitlist-form">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Your Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>What are your spiritual goals?</label>
+                                <textarea name="goals" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Would you like early access?</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="early_access" value="yes" required> Yes</label>
+                                    <label><input type="radio" name="early_access" value="no" required> No</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Would you like to provide feedback?</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="feedback" value="yes" required> Yes</label>
+                                    <label><input type="radio" name="feedback" value="no" required> No</label>
+                                </div>
+                            </div>
+                            <button type="submit">Join Waitlist</button>
+                        </form>
                     </div>
-                    <button type="submit">Join Waitlist</button>
-                    <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7; text-align: center;">
-                        Your consistency = charity in your name, inshaAllah.
-                    </p>
-                </form>
-            </div>
-
-            <!-- Preview Card -->
-            <div class="card preview-card">
-                <h2>Weekly Preview</h2>
-                <div class="week-grid">
-                    <div class="day">
-                        <span>Mon</span>
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="day">
-                        <span>Tue</span>
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="day">
-                        <span>Wed</span>
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="day">
-                        <span>Thu</span>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="day">
-                        <span>Fri</span>
-                        <i class="fas fa-mosque"></i>
-                    </div>
-                    <div class="day">
-                        <span>Sat</span>
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="day">
-                        <span>Sun</span>
-                        <i class="fas fa-pen"></i>
+                    
+                    <div class="card preview-card">
+                        <h2>Your Week at a Glance</h2>
+                        <div class="week-grid">
+                            <div class="day">
+                                <span>Mon</span>
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="day">
+                                <span>Tue</span>
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="day">
+                                <span>Wed</span>
+                                <i class="fas fa-pray"></i>
+                            </div>
+                            <div class="day">
+                                <span>Thu</span>
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="day">
+                                <span>Fri</span>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="day">
+                                <span>Sat</span>
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <div class="day">
+                                <span>Sun</span>
+                                <i class="fas fa-sun"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Footer -->
-            <div class="footer">
-                Follow along: <a href="https://instagram.com/ukht.h.aa" target="_blank">@ukht.h.aa</a> on Instagram | <a href="https://tiktok.com/@ukht.dev" target="_blank">@ukht.dev</a> on TikTok
-            </div>
         </div>
     </div>
+
+    <script>
+        document.querySelector('.book').addEventListener('click', function() {
+            this.classList.add('open');
+        });
+
+        // Auto-open after 2 seconds
+        setTimeout(() => {
+            document.querySelector('.book').classList.add('open');
+        }, 2000);
+    </script>
 </body>
 </html> 
