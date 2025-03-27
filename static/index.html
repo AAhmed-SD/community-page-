@@ -9,13 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="book-container">
-        <div class="book">
-            <div class="book-cover">
+    <div class="notebook-container">
+        <div class="notebook">
+            <div class="spiral"></div>
+            <div class="cover front-cover">
                 <h1>Ibaadah AI</h1>
                 <p>Click to open</p>
             </div>
-            <div class="book-content">
+            <div class="notebook-page">
                 <div class="grid">
                     <div class="card title-card">
                         <h1>Ibaadah AI</h1>
@@ -101,18 +102,19 @@
                     </div>
                 </div>
             </div>
+            <div class="cover back-cover"></div>
         </div>
     </div>
 
     <script>
-        document.querySelector('.book').addEventListener('click', function() {
+        document.querySelector('.notebook').addEventListener('click', function() {
             this.classList.add('open');
         });
 
-        // Auto-open after 2 seconds
+        // Auto-open after 1 second
         setTimeout(() => {
-            document.querySelector('.book').classList.add('open');
-        }, 2000);
+            document.querySelector('.notebook').classList.add('open');
+        }, 1000);
     </script>
 </body>
 </html> 
