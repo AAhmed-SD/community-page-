@@ -156,7 +156,7 @@
             font-weight: 500;
         }
         
-        .radio-options {
+        .radio-options, .checkbox-options {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
@@ -306,10 +306,17 @@
             </div>
             
             <div class="form-group-checkbox">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="tester" value="yes" />
-                    Would you be willing to test early features and give feedback?
-                </label>
+                <label>Would you be willing to test early features and give feedback?</label>
+                <div class="checkbox-options">
+                    <label class="checkbox-label">
+                        <input type="radio" name="tester" value="yes" required />
+                        Yes
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="radio" name="tester" value="no" />
+                        No
+                    </label>
+                </div>
             </div>
             
             <button type="submit">Register Interest</button>
