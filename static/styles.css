@@ -9,8 +9,8 @@
     --bg-color: #1a1a1a;
     --grid-color: #222;
     --text-color: #fff;
-    --accent-1: #FF0080;
-    --accent-2: #BAB6F8;
+    --accent-1: #4A90E2;
+    --accent-2: #9B6DFF;
     --card-bg: rgba(255, 255, 255, 0.05);
     --border: rgba(255, 255, 255, 0.1);
     --shadow: rgba(0, 0, 0, 0.2);
@@ -29,8 +29,8 @@ body {
 
 /* Section Styles */
 section {
-    min-height: 100vh;
-    padding: 4rem 2rem;
+    min-height: 80vh;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -92,7 +92,7 @@ section.visible {
     box-shadow: 0 8px 32px var(--shadow);
     max-width: 600px;
     width: 100%;
-    margin: 2rem auto;
+    margin: 1rem auto;
 }
 
 .card h2 {
@@ -157,7 +157,7 @@ input:focus, textarea:focus {
 }
 
 button {
-    background: var(--accent-1);
+    background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -170,7 +170,7 @@ button {
 
 button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 0, 128, 0.3);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
 /* Animations */
