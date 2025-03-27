@@ -6,6 +6,8 @@
     <title>Ibaadah AI - Your Second Brain for Deen & Dunya</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Lottie Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
 </head>
 <body>
     <!-- Theme Toggle -->
@@ -20,14 +22,12 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="content">
-            <h1 class="scribble">Ibaadah AI</h1>
-            <p class="fade-in">Your second brain for Deen & Dunya.</p>
-            <div class="hero-icons">
-                <svg class="icon" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-            </div>
+        <h1 class="scribble">Ibaadah AI</h1>
+        <p class="fade-in">Your second brain for Deen & Dunya.</p>
+        <div class="hero-icons">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
         </div>
         <div class="scroll-indicator">
             <svg viewBox="0 0 24 24">
@@ -37,152 +37,123 @@
     </section>
 
     <!-- Automation Section -->
-    <section>
-        <div class="content">
-            <h2 class="scribble">Automate Your Day</h2>
-            <p class="fade-in">Personalized scheduling for Qur'an, Salah, Fasting, and Dhikr. Reduce overwhelm and enhance consistency in your spiritual journey.</p>
-            <div class="svg-container">
-                <svg viewBox="0 0 100 100">
-                    <path class="calendar-path" d="M20,20 L80,20 L80,80 L20,80 Z" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="2s" 
-                            repeatCount="indefinite"
-                            values="M20,20 L80,20 L80,80 L20,80 Z;
-                                    M20,20 L80,20 L80,80 L20,80 Z;
-                                    M20,20 L80,20 L80,80 L20,80 Z;
-                                    M20,20 L80,20 L80,80 L20,80 Z"/>
-                    </path>
-                    <path class="prayer-path" d="M50,20 L50,80" stroke="var(--accent-2)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="1.5s" 
-                            repeatCount="indefinite"
-                            values="M50,20 L50,80;
-                                    M50,20 L50,80;
-                                    M50,20 L50,80"/>
-                    </path>
-                </svg>
-            </div>
-        </div>
+    <section class="automation">
+        <h2 class="scribble">Automate Your Day</h2>
+        <p class="fade-in">Personalized scheduling for Qur'an, Salah, Fasting, and Dhikr. Reduce overwhelm and enhance consistency in your spiritual journey.</p>
+        <div id="automation-lottie" class="lottie-container"></div>
     </section>
 
     <!-- Reflection Section -->
-    <section>
-        <div class="content">
-            <h2 class="scribble">Reflect & Grow</h2>
-            <p class="fade-in">Track your spiritual journey with guided journaling and progress analytics. Space for deep self-reflection and non-judgmental growth.</p>
-            <div class="svg-container">
-                <svg viewBox="0 0 100 100">
-                    <path class="heartbeat-path" d="M20,50 Q30,30 40,50 T60,50 T80,50" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="1.5s" 
-                            repeatCount="indefinite"
-                            values="M20,50 Q30,30 40,50 T60,50 T80,50;
-                                    M20,50 Q30,70 40,50 T60,50 T80,50;
-                                    M20,50 Q30,30 40,50 T60,50 T80,50"/>
-                    </path>
-                    <path class="journal-path" d="M30,20 L70,20 L70,80 L30,80 Z" fill="none" stroke="var(--accent-2)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="2s" 
-                            repeatCount="indefinite"
-                            values="M30,20 L70,20 L70,80 L30,80 Z;
-                                    M30,20 L70,20 L70,80 L30,80 Z;
-                                    M30,20 L70,20 L70,80 L30,80 Z;
-                                    M30,20 L70,20 L70,80 L30,80 Z"/>
-                    </path>
-                </svg>
-            </div>
+    <section class="reflection">
+        <h2 class="scribble">Reflect & Grow</h2>
+        <p class="fade-in">Track your spiritual journey with guided journaling and progress analytics. Space for deep self-reflection and non-judgmental growth.</p>
+        <div class="gradient-animation">
+            <svg viewBox="0 0 100 100">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(45)">
+                        <stop offset="0%" stop-color="var(--accent-1)" stop-opacity="1">
+                            <animate attributeName="offset" values="0;0.5;0" dur="5s" repeatCount="indefinite" />
+                        </stop>
+                        <stop offset="100%" stop-color="var(--accent-2)" stop-opacity="1">
+                            <animate attributeName="offset" values="0.5;1;0.5" dur="5s" repeatCount="indefinite" />
+                        </stop>
+                    </linearGradient>
+                </defs>
+                <path class="journal-path" d="M30,20 L70,20 L70,80 L30,80 Z" fill="none" stroke="url(#gradient)" stroke-width="2">
+                    <animate attributeName="d" 
+                        dur="4s" 
+                        repeatCount="indefinite"
+                        values="M30,20 L70,20 L70,80 L30,80 Z;
+                                M25,30 L75,30 L75,70 L25,70 Z;
+                                M30,20 L70,20 L70,80 L30,80 Z"/>
+                </path>
+            </svg>
         </div>
     </section>
 
     <!-- Rewards Section -->
-    <section>
-        <div class="content">
-            <h2 class="scribble">Rewards That Matter</h2>
-            <p class="fade-in">Your consistency contributes to real-world charity. Every habit counts towards meaningful sadaqah in your name.</p>
-            <div class="svg-container">
-                <svg viewBox="0 0 100 100">
-                    <path class="coin-path" d="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="2s" 
-                            repeatCount="indefinite"
-                            values="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
-                                    M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
-                                    M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20"/>
-                    </path>
-                    <path class="charity-path" d="M30,50 L70,50" stroke="var(--accent-2)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="1.5s" 
-                            repeatCount="indefinite"
-                            values="M30,50 L70,50;
-                                    M30,50 L70,50;
-                                    M30,50 L70,50"/>
-                    </path>
-                </svg>
-            </div>
+    <section class="rewards">
+        <h2 class="scribble">Rewards That Matter</h2>
+        <p class="fade-in">Your consistency contributes to real-world charity. Every habit counts towards meaningful sadaqah in your name.</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 100 100">
+                <path class="coin-path" d="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                    <animate attributeName="d" 
+                        dur="2s" 
+                        repeatCount="indefinite"
+                        values="M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
+                                M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20;
+                                M50,20 A30,30 0 1,1 50,80 A30,30 0 1,1 50,20"/>
+                </path>
+                <path class="charity-path" d="M30,50 L70,50" stroke="var(--accent-2)" stroke-width="2">
+                    <animate attributeName="d" 
+                        dur="1.5s" 
+                        repeatCount="indefinite"
+                        values="M30,50 L70,50;
+                                M30,50 L70,50;
+                                M30,50 L70,50"/>
+                </path>
+            </svg>
         </div>
     </section>
 
     <!-- Community Section -->
-    <section>
-        <div class="content">
-            <h2 class="scribble">Coming Soon</h2>
-            <p class="fade-in">Follow our journey @ukht.h.aa and @ukht.h.a.a</p>
-            <div class="svg-container">
-                <svg viewBox="0 0 100 100">
-                    <path class="wave-path" d="M20,50 Q30,30 40,50 T60,50 T80,50" fill="none" stroke="var(--accent-1)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="2s" 
-                            repeatCount="indefinite"
-                            values="M20,50 Q30,30 40,50 T60,50 T80,50;
-                                    M20,50 Q30,70 40,50 T60,50 T80,50;
-                                    M20,50 Q30,30 40,50 T60,50 T80,50"/>
-                    </path>
-                    <path class="handshake-path" d="M30,50 Q40,40 50,50 T60,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
-                        <animate attributeName="d" 
-                            dur="1.5s" 
-                            repeatCount="indefinite"
-                            values="M30,50 Q40,40 50,50 T60,50;
-                                    M30,50 Q40,60 50,50 T60,50;
-                                    M30,50 Q40,40 50,50 T60,50"/>
-                    </path>
-                </svg>
-            </div>
+    <section class="community">
+        <h2 class="scribble">Coming Soon</h2>
+        <p class="fade-in">Follow our journey @ukht.h.aa and @ukht.h.a.a</p>
+        <div class="svg-container">
+            <svg viewBox="0 0 100 100">
+                <path class="wave-path" d="M20,50 Q30,30 40,50 T60,50 T80,50" fill="none" stroke="var(--accent-1)" stroke-width="2">
+                    <animate attributeName="d" 
+                        dur="2s" 
+                        repeatCount="indefinite"
+                        values="M20,50 Q30,30 40,50 T60,50 T80,50;
+                                M20,50 Q30,70 40,50 T60,50 T80,50;
+                                M20,50 Q30,30 40,50 T60,50 T80,50"/>
+                </path>
+                <path class="handshake-path" d="M30,50 Q40,40 50,50 T60,50" fill="none" stroke="var(--accent-2)" stroke-width="2">
+                    <animate attributeName="d" 
+                        dur="1.5s" 
+                        repeatCount="indefinite"
+                        values="M30,50 Q40,40 50,50 T60,50;
+                                M30,50 Q40,60 50,50 T60,50;
+                                M30,50 Q40,40 50,50 T60,50"/>
+                </path>
+            </svg>
         </div>
     </section>
 
     <!-- Form Section -->
-    <section>
-        <div class="content">
-            <h2 class="scribble">Get Early Access</h2>
-            <form id="waitlist-form" class="fade-in">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Your Email</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label for="excitement">Why are you excited about Ibaadah AI?</label>
-                    <textarea id="excitement" name="excitement" rows="3" required placeholder="Share your thoughts..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="feature">Feature Suggestion</label>
-                    <textarea id="feature" name="feature" rows="2" placeholder="What feature would you love to see?"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="tester">Would you like to be a tester?</label>
-                    <select id="tester" name="tester">
-                        <option value="">Select an option</option>
-                        <option value="yes">Yes, I'd love to help!</option>
-                        <option value="maybe">Maybe, tell me more</option>
-                        <option value="no">No, thanks</option>
-                    </select>
-                </div>
-                <button type="submit" class="sticky-note">Join Waitlist</button>
-            </form>
-        </div>
+    <section class="form-section">
+        <h2 class="scribble">Get Early Access</h2>
+        <form id="waitlist-form" class="fade-in">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="excitement">Why are you excited about Ibaadah AI?</label>
+                <textarea id="excitement" name="excitement" rows="3" required placeholder="Share your thoughts..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="feature">Feature Suggestion</label>
+                <textarea id="feature" name="feature" rows="2" placeholder="What feature would you love to see?"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="tester">Would you like to be a tester?</label>
+                <select id="tester" name="tester">
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes, I'd love to help!</option>
+                    <option value="maybe">Maybe, tell me more</option>
+                    <option value="no">No, thanks</option>
+                </select>
+            </div>
+            <button type="submit" class="sticky-note">Join Waitlist</button>
+        </form>
     </section>
 
     <script>
@@ -195,12 +166,28 @@
             themeToggle.classList.toggle('active');
         });
 
+        // Load Lottie Animation
+        const automationAnimation = lottie.loadAnimation({
+            container: document.getElementById('automation-lottie'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets3.lottiefiles.com/animation/2efee517-9029-4eaf-b244-f8efc91d2300/data.json'
+        });
+
         // Intersection Observer for scroll animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    const svgContainer = entry.target.querySelector('.svg-container');
+                    
+                    // Restart Lottie animation when visible
+                    if (entry.target.classList.contains('automation') && automationAnimation) {
+                        automationAnimation.goToAndPlay(0);
+                    }
+                    
+                    // Find and animate SVG containers
+                    const svgContainer = entry.target.querySelector('.svg-container, .gradient-animation');
                     if (svgContainer) {
                         svgContainer.classList.add('visible');
                     }
