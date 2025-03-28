@@ -69,15 +69,18 @@
             flex-direction: column;
             gap: 1rem;
             margin-top: 1rem;
+            width: 100%;
         }
         input, textarea, select, button {
-            font-family: inherit;
+            width: 100%;
             padding: 0.75rem;
+            font-family: inherit;
             font-size: 1rem;
-            border: 1px solid #555;
+            border: 1px solid rgba(155, 109, 255, 0.2);
             border-radius: 6px;
             background-color: rgba(255,255,255,0.05);
             color: inherit;
+            box-sizing: border-box;
         }
         button {
             background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
@@ -92,20 +95,38 @@
             stroke: url(#svgGradient);
         }
         .toggle-theme {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            background-image: linear-gradient(to bottom, #2A70C2, #4A90E2);
+            position: static;
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
             border: none;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            padding: 0.5rem;
+            border-radius: 6px;
             cursor: pointer;
-            z-index: 1000;
-            -webkit-tap-highlight-color: transparent;
-            font-size: 1rem;
-            min-width: 70px;
-            min-height: 40px;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(155, 109, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            margin: 0;
+        }
+
+        .toggle-theme:hover {
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-theme[data-theme="dark"]::after {
+            content: "🌙";
+        }
+
+        .toggle-theme[data-theme="light"]::after {
+            content: "☀️";
         }
         @media (max-width: 768px) {
             .toggle-theme {
@@ -129,9 +150,9 @@
         
         /* Form focus states with gradient accent */
         input:focus, textarea:focus, select:focus {
-            border-image: linear-gradient(to right, #2A70C2, #4A90E2) 1;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+            border-color: #9B6DFF;
+            box-shadow: 0 0 0 2px rgba(155, 109, 255, 0.2);
         }
         
         .light-mode section {
@@ -284,10 +305,118 @@
             font-size: 0.9rem;
             opacity: 0.7;
         }
+
+        section#form {
+            padding: 3rem 2rem;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        form {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: none;
+            border-bottom: none;
+            backdrop-filter: none;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            background: rgba(155, 109, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .logo a {
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-decoration: none;
+            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        /* Remove the logo icon styles since we're not using them anymore */
+        .logo-icon {
+            display: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            height: 40px;
+        }
+
+        .login-link {
+            padding: 0.5rem 1.5rem;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-decoration: none;
+            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
+            color: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            line-height: 40px;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px);
+        }
+
+        .login-link:hover {
+            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
+            box-shadow: 0 0 10px rgba(155, 109, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .scene {
+            padding-top: 80px;
+        }
     </style>
 </head>
 <body>
-    <button id="themeToggle" class="toggle-theme">Theme</button>
+    <nav>
+        <div class="logo">
+            <a href="/">Ibaadah AI</a>
+        </div>
+        <div class="nav-links">
+            <a href="/login.html" class="login-link">Login</a>
+            <button id="themeToggle" class="toggle-theme" data-theme="light"></button>
+        </div>
+    </nav>
 
     <!-- SVG Gradient Definitions -->
     <svg width="0" height="0" style="position: absolute;">
@@ -334,12 +463,26 @@
 
             <section id="form">
                 <svg viewBox="0 0 64 64"><path d="M12 16 h40 v32 h-40 z M12 24 h40" stroke-width="4" fill="none"/></svg>
-                <h2>Get Early Access</h2>
+                <h2>Join Our Community</h2>
                 <p>Want to shape the future of spiritually aligned productivity? Drop your details below and be among the first to test features and contribute ideas that matter to you.</p>
                 <form id="waitlist-form">
-                    <input type="text" name="name" placeholder="Your Name" required />
-                    <input type="email" name="email" placeholder="Email Address" required />
-                    <textarea name="spiritual_routines" placeholder="What is your favourite form of Ibaadah?" rows="3" required></textarea>
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" required minlength="6" 
+                            placeholder="Password (at least 6 characters)">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6"
+                            placeholder="Confirm Password">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="spiritual_routines" placeholder="What is your favourite form of Ibaadah?" rows="3" required></textarea>
+                    </div>
                     <textarea name="current_apps" placeholder="What apps (if any) do you currently use for planning or deen?" rows="2"></textarea>
                     <textarea name="feature" placeholder="What ONE feature would you love to see in this app?" rows="2" required></textarea>
                     
@@ -379,8 +522,8 @@
                     </div>
                 </div>
 
-                    <button type="submit">Register Interest</button>
-            </form>
+                    <button type="submit">Join Community</button>
+                </form>
             </section>
         </div>
     </div>
@@ -388,13 +531,18 @@
     <script>
         const themeToggle = document.getElementById('themeToggle');
         
+        // Set initial theme state
+        themeToggle.setAttribute('data-theme', document.body.classList.contains('light-mode') ? 'dark' : 'light');
+        
         ['click', 'touchend'].forEach(eventType => {
             themeToggle.addEventListener(eventType, function(e) {
                 if (eventType === 'touchend') {
                     e.preventDefault();
                 }
-                const newTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+                const isLightMode = document.body.classList.contains('light-mode');
+                const newTheme = isLightMode ? 'dark' : 'light';
                 document.body.classList.toggle('light-mode');
+                themeToggle.setAttribute('data-theme', newTheme);
                 
                 // Track theme change with analytics
                 if (typeof window.va !== 'undefined') {
@@ -475,6 +623,8 @@
                 const formData = {
                     name: form.elements.name.value,
                     email: form.elements.email.value,
+                    password: form.elements.password.value,
+                    confirmPassword: form.elements.confirmPassword.value,
                     spiritual_routines: form.elements.spiritual_routines.value,
                     current_apps: form.elements.current_apps.value,
                     feature: form.elements.feature.value,

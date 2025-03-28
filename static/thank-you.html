@@ -3,115 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Ibaadah App</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="firebase-config.js"></script>
+    <title>Welcome to Ibaadah Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            margin: 0;
+            background-color: #1a1a1a;
+            color: white;
+            background-image: linear-gradient(#222 1px, transparent 1px), linear-gradient(90deg, #222 1px, transparent 1px);
+            background-size: 20px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            visibility: hidden;
+        }
+
+        .light-mode {
+            background-color: #fff;
+            color: #111;
+            background-image: linear-gradient(#eee 1px, transparent 1px), linear-gradient(90deg, #eee 1px, transparent 1px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            padding-top: 6rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: none;
+            border-bottom: none;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            background: rgba(155, 109, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .logo a {
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-decoration: none;
+            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            height: 40px;
+        }
+
+        .login-link {
+            padding: 0.5rem 1.5rem;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-decoration: none;
+            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
+            color: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            line-height: 40px;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px);
+            white-space: nowrap;
+        }
+
+        .login-link:hover {
+            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
+            box-shadow: 0 0 10px rgba(155, 109, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .toggle-theme {
+            position: static;
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(155, 109, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .toggle-theme:hover {
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-theme[data-theme="dark"]::after {
+            content: "🌙";
+        }
+
+        .toggle-theme[data-theme="light"]::after {
+            content: "☀️";
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .welcome-box {
+            background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
+            border: 1px solid rgba(155, 109, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .welcome-message {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .benefits-list li::before {
+            content: "•";
+            color: #9B6DFF;
+            position: absolute;
+            left: 0;
+        }
+
+        .dua-section {
+            background: linear-gradient(135deg, rgba(155, 109, 255, 0.1), rgba(74, 144, 226, 0.1));
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .arabic-text {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #9B6DFF;
+            line-height: 2;
+        }
+
+        .translation {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .light-mode .welcome-box {
+            background: linear-gradient(135deg, rgba(240,240,255,0.7), rgba(255,255,255,0.9));
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .welcome-message {
+            color: rgba(0, 0, 0, 0.9);
+        }
+
+        .light-mode .translation {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+    </style>
 </head>
 <body>
+    <nav>
+        <div class="logo">
+            <a href="/">Ibaadah AI</a>
+        </div>
+        <div class="nav-links">
+            <a href="/login.html" class="login-link">Login</a>
+            <button id="themeToggle" class="toggle-theme" data-theme="light"></button>
+        </div>
+    </nav>
+
     <div class="container">
-        <header>
-            <h1>Jazakum Allahu Khayran 🤍</h1>
-            <p class="header-text">Thank you for joining our waitlist! We're excited to have you on this journey of spiritual growth.</p>
-            <p class="subheading">We'll be in touch soon, in sha Allah.</p>
-        </header>
+        <h1>Welcome to the Community! 🤍</h1>
+        
+        <div class="welcome-box">
+            <p class="welcome-message">
+                Alhamdulillah! Thank you for joining the Ibaadah community. We're excited to have you on this journey of spiritual and personal growth.
+            </p>
 
-        <main>
-            <div class="thank-you-message">
-                <p>Your interest in Ibaadah has been registered. We'll keep you updated on our progress and notify you when the app is ready for testing.</p>
-                
-                <div class="setup-account-section">
-                    <h2>Set Up Your Community Account</h2>
-                    <p>Create your password to access the Ibaadah community:</p>
-                    
-                    <form id="setupForm" class="setup-form">
-                        <div class="form-group">
-                            <label for="password">Choose a Password</label>
-                            <input type="password" id="password" required minlength="6">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <input type="password" id="confirmPassword" required minlength="6">
-                        </div>
-                        <div id="error-message" class="error-message" style="display: none;"></div>
-                        <button type="submit" class="submit-btn">Create Account</button>
-                    </form>
-                </div>
+            <p>As a valued member of our community, you now have access to:</p>
+            
+            <ul class="benefits-list">
+                <li>Weekly development updates to stay informed about new features and progress</li>
+                <li>Early access to test new features before they're publicly released</li>
+                <li>Direct input into feature development through suggestions and voting</li>
+                <li>Priority support and answers to your questions</li>
+                <li>Exclusive Islamic content and productivity resources</li>
+                <li>Community discussions with like-minded Muslims</li>
+                <li>Priority consideration for your feature requests</li>
+            </ul>
 
-                <p class="social-text">In the meantime, you can follow us on social media to stay connected:</p>
+            <div class="dua-section">
+                <p class="arabic-text">
+                    اللَّهُمَّ اجْعَلْ عَمَلَنَا خَالِصًا لِوَجْهِكَ الْكَرِيمِ وَثَبِّتْنَا عَلَى الصِّرَاطِ الْمُسْتَقِيمِ
+                </p>
+                <p class="translation">
+                    "O Allah, make our deeds sincere for Your Noble Face and keep us steadfast on the Straight Path."
+                </p>
+                <p>
+                    May Allah grant you consistency in your journey and sincerity in all your actions. We look forward to growing together in both deen and dunya.
+                </p>
             </div>
-        </main>
-
-        <footer>
-            <div class="social-links">
-                <a href="https://github.com/UnknownUkhtdev" target="_blank" class="social-link">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://linkedin.com/in/hadiqa-ibrahim" target="_blank" class="social-link">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://twitter.com/UnknownUkhtdev" target="_blank" class="social-link">
-                    <i class="fab fa-x-twitter"></i>
-                </a>
-            </div>
-            <p>Let's grow together.</p>
-        </footer>
+        </div>
     </div>
 
     <script>
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Check saved theme preference and apply it immediately
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.setAttribute('data-theme', 'dark');
+        } else {
+            document.body.classList.remove('light-mode');
+            themeToggle.setAttribute('data-theme', 'light');
+        }
 
-        // Get email from URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const email = urlParams.get('email');
-
-        document.getElementById('setupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const errorMessage = document.getElementById('error-message');
-
-            if (password !== confirmPassword) {
-                errorMessage.textContent = 'Passwords do not match';
-                errorMessage.style.display = 'block';
-                return;
-            }
-
-            if (!email) {
-                errorMessage.textContent = 'Email not found. Please try registering again.';
-                errorMessage.style.display = 'block';
-                return;
-            }
-
-            try {
-                // Create user account
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                
-                // Update user profile in Firestore
-                await db.collection('users').doc(userCredential.user.uid).set({
-                    email: email,
-                    createdAt: new Date(),
-                    isWaitlistMember: true
-                });
-
-                // Redirect to community page
-                window.location.href = '/community';
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.textContent = error.message;
-                errorMessage.style.display = 'block';
-            }
+        // Theme toggle functionality
+        ['click', 'touchend'].forEach(eventType => {
+            themeToggle.addEventListener(eventType, function(e) {
+                if (eventType === 'touchend') {
+                    e.preventDefault();
+                }
+                const isLightMode = document.body.classList.contains('light-mode');
+                const newTheme = isLightMode ? 'dark' : 'light';
+                document.body.classList.toggle('light-mode');
+                themeToggle.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
         });
+
+        // Add this to prevent flash of wrong theme
+        document.body.style.visibility = 'visible';
     </script>
 </body>
 </html> 
