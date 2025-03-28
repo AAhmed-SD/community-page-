@@ -465,6 +465,7 @@
                 <svg viewBox="0 0 64 64"><path d="M12 16 h40 v32 h-40 z M12 24 h40" stroke-width="4" fill="none"/></svg>
                 <h2>Join Our Community</h2>
                 <p>Would you like to be able to test features and shape the future of spiritually aligned productivity? Apply below to join our community of testers.</p>
+                <div id="error-message" class="error-message" style="display: none; color: red; margin: 10px 0;"></div>
                 <form id="waitlist-form">
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required />
@@ -621,6 +622,14 @@
             const errorMessage = document.getElementById('error-message');
             
             try {
+                // Validate passwords match
+                const password = form.password.value;
+                const confirmPassword = form.confirmPassword.value;
+                
+                if (password !== confirmPassword) {
+                    throw new Error('Passwords do not match');
+                }
+
                 submitButton.disabled = true;
                 submitButton.textContent = 'Submitting...';
                 
@@ -629,11 +638,12 @@
                     name: form.name.value,
                     email: form.email.value,
                     spiritual_routines: form.spiritual_routines.value,
-                    current_apps: form.current_apps.value,
+                    current_apps: form.current_apps.value || 'None specified',
                     feature: form.feature.value,
-                    feature_priority: form.feature_priority.value,
+                    helpful_feature: form.querySelector('input[name="helpful_feature"]:checked')?.value || '',
+                    willing_to_test: form.querySelector('input[name="tester"]:checked')?.value === 'yes',
                     status: 'pending',
-                    timestamp: new Date().toISOString()
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 };
 
                 // Create user account with Firebase Auth
@@ -645,19 +655,23 @@
                 // Store additional user data in Firestore
                 await db.collection('users').doc(userCredential.user.uid).set({
                     ...formData,
-                    isAdmin: false,
+                    isAdmin: email === 'hadiqaahmed8210@gmail.com',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Track successful registration
+                trackEvent('registration_complete', {
+                    willing_to_test: formData.willing_to_test
                 });
 
                 // Redirect to thank you page
                 window.location.href = '/thank-you.html';
             } catch (error) {
                 console.error('Error:', error);
-                errorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                errorMessage.textContent = error.message;
                 errorMessage.style.display = 'block';
-            } finally {
                 submitButton.disabled = false;
-                submitButton.textContent = 'Join Waitlist';
+                submitButton.textContent = 'Join Community';
             }
         });
     </script>

@@ -314,25 +314,50 @@
             try {
                 submitButton.disabled = true;
                 submitButton.textContent = 'Logging in...';
+                errorMessage.style.display = 'none';
 
                 // Sign in with Firebase
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 const user = userCredential.user;
 
-                // Check if user is admin
+                // Check if user exists in Firestore
                 const userDoc = await db.collection('users').doc(user.uid).get();
+                
+                if (!userDoc.exists) {
+                    throw new Error('User data not found. Please register first.');
+                }
+
                 const userData = userDoc.data();
 
-                if (userData && userData.isAdmin) {
-                    // Admin login
+                // Check if user is admin
+                if (userData.isAdmin) {
                     window.location.href = '/admin-dashboard.html';
                 } else {
-                    // Regular user login
                     window.location.href = '/community';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                errorMessage.textContent = error.message || 'Invalid email or password';
+                let errorMsg = 'An error occurred. Please try again.';
+                
+                // Handle specific Firebase Auth errors
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMsg = 'No account found with this email. Please register first.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMsg = 'Incorrect password. Please try again.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMsg = 'Invalid email address.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMsg = 'Too many failed attempts. Please try again later.';
+                        break;
+                    default:
+                        errorMsg = error.message;
+                }
+                
+                errorMessage.textContent = errorMsg;
                 errorMessage.style.display = 'block';
             } finally {
                 submitButton.disabled = false;
@@ -341,16 +366,23 @@
         });
 
         // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
-                // User is signed in
-                db.collection('users').doc(user.uid).get().then((doc) => {
-                    if (doc.exists && doc.data().isAdmin) {
-                        window.location.href = '/admin-dashboard.html';
-                    } else {
-                        window.location.href = '/community';
+                try {
+                    // Check user data in Firestore
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        if (userData.isAdmin) {
+                            window.location.href = '/admin-dashboard.html';
+                        } else {
+                            window.location.href = '/community';
+                        }
                     }
-                });
+                } catch (error) {
+                    console.error('Error checking user data:', error);
+                }
             }
         });
     </script>
