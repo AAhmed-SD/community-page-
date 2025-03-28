@@ -8,8 +8,49 @@
     <!-- Vercel Speed Insights -->
     <script defer src="/_vercel/speed-insights/script.js"></script>
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Check if user is admin
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                showLoginContainer();
+                return;
+            }
+
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists || !userDoc.data().isAdmin) {
+                    auth.signOut();
+                    showLoginContainer();
+                    return;
+                }
+
+                showDashboard();
+                loadData();
+            } catch (error) {
+                console.error('Error checking admin status:', error);
+                showLoginContainer();
+            }
+        });
+    </script>
     <style>
         :root {
             --bg-color: #1a1a1a;
@@ -504,330 +545,174 @@
     </footer>
     
     <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
-            authDomain: "ibaadahvercelapp.firebaseapp.com",
-            projectId: "ibaadahvercelapp",
-            storageBucket: "ibaadahvercelapp.firebasestorage.app",
-            messagingSenderId: "695618210097",
-            appId: "1:695618210097:web:a94717ed95d604cacdc810",
-            measurementId: "G-R0BCQDK76H"
-        };
-        
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        
-        // Admin password - change this to your secure password
-        const ADMIN_PASSWORD = "ibaadah_admin_2024";
-        
-        // DOM Elements
-        const loginContainer = document.getElementById('login-container');
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const passwordForm = document.getElementById('password-form');
-        const passwordInput = document.getElementById('password-input');
-        const errorMessage = document.getElementById('error-message');
-        const entriesTable = document.getElementById('entries-table');
-        const loadingElement = document.getElementById('loading');
-        const emptyMessage = document.getElementById('empty-message');
-        const totalEntries = document.getElementById('total-entries');
-        const testerCount = document.getElementById('tester-count');
-        const todayCount = document.getElementById('today-count');
-        const searchInput = document.getElementById('search-input');
-        const exportBtn = document.getElementById('export-btn');
-        const logoutBtn = document.getElementById('logout-btn');
-        const themeToggle = document.getElementById('theme-toggle');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        
-        // Check if user is already authenticated
-        function checkAuth() {
-            const isAuthenticated = sessionStorage.getItem('ibaadah_admin_auth');
-            if (isAuthenticated === 'true') {
-                showDashboard();
-            }
+        // Show login container
+        function showLoginContainer() {
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('dashboard-container').style.display = 'none';
         }
-        
-        // Handle password submission
-        passwordForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const password = passwordInput.value;
-            
-            if (password === ADMIN_PASSWORD) {
-                // Store in session storage for this browser session only
-                sessionStorage.setItem('ibaadah_admin_auth', 'true');
-                errorMessage.style.display = 'none';
-                showDashboard();
-            } else {
-                errorMessage.style.display = 'block';
-                passwordInput.value = '';
-            }
-        });
-        
-        // Show dashboard and load data
+
+        // Show dashboard
         function showDashboard() {
-            loginContainer.style.display = 'none';
-            dashboardContainer.style.display = 'block';
-            loadEntries();
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('dashboard-container').style.display = 'block';
         }
-        
-        // Fetch entries from Firestore
-        function loadEntries() {
-            loadingElement.style.display = 'block';
-            emptyMessage.style.display = 'none';
-            
-            // Collection is called 'submissions' as specified in the requirements
-            const db = firebase.firestore();
-            db.collection('submissions')
-                .orderBy('timestamp', 'desc')
-                .get()
-                .then((querySnapshot) => {
-                    loadingElement.style.display = 'none';
-                    
-                    if (querySnapshot.empty) {
-                        emptyMessage.style.display = 'block';
-                        updateStats([], new Date());
-                        return;
-                    }
-                    
-                    const entries = [];
-                    querySnapshot.forEach((doc) => {
-                        entries.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
-                    });
-                    
-                    // Update stats and display entries
-                    updateStats(entries, new Date());
-                    displayEntries(entries);
-                    
-                    // Initial search filter is empty, so all entries are shown
-                    window.allEntries = entries;
-                })
-                .catch((error) => {
-                    console.error("Error loading entries:", error);
-                    loadingElement.style.display = 'none';
-                    emptyMessage.textContent = 'Error loading data. Please try again.';
+
+        // Handle login form submission
+        document.getElementById('password-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password-input').value;
+            const errorMessage = document.getElementById('error-message');
+            const submitButton = e.target.querySelector('button[type="submit"]');
+
+            try {
+                submitButton.disabled = true;
+                errorMessage.style.display = 'none';
+
+                // Sign in with admin credentials
+                await auth.signInWithEmailAndPassword('hadiqaahmed8210@gmail.com', password);
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Incorrect password. Please try again.';
+                errorMessage.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+
+        // Load data from Firestore
+        async function loadData() {
+            const entriesTable = document.getElementById('entries-table');
+            const loadingElement = document.getElementById('loading');
+            const emptyMessage = document.getElementById('empty-message');
+            const totalEntries = document.getElementById('total-entries');
+            const testerCount = document.getElementById('tester-count');
+            const todayCount = document.getElementById('today-count');
+
+            try {
+                loadingElement.style.display = 'block';
+                emptyMessage.style.display = 'none';
+
+                // Get all users
+                const snapshot = await db.collection('users').get();
+                const users = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                // Update statistics
+                totalEntries.textContent = users.length;
+                testerCount.textContent = users.filter(user => user.willing_to_test).length;
+                
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                todayCount.textContent = users.filter(user => {
+                    const timestamp = user.timestamp?.toDate();
+                    return timestamp && timestamp >= today;
+                }).length;
+
+                // Update table
+                if (users.length === 0) {
                     emptyMessage.style.display = 'block';
-                });
-        }
-        
-        // Display entries in the table
-        function displayEntries(entries) {
-            entriesTable.innerHTML = '';
-            
-            if (entries.length === 0) {
+                    loadingElement.style.display = 'none';
+                    return;
+                }
+
+                entriesTable.innerHTML = users.map(user => `
+                    <tr>
+                        <td>${escapeHtml(user.name)}</td>
+                        <td>${escapeHtml(user.email)}</td>
+                        <td>${escapeHtml(user.spiritual_routines)}</td>
+                        <td>${escapeHtml(user.current_apps)}</td>
+                        <td>${escapeHtml(user.feature)}</td>
+                        <td>${escapeHtml(user.helpful_feature)}</td>
+                        <td>${user.willing_to_test ? 'Yes' : 'No'}</td>
+                        <td>${user.timestamp ? user.timestamp.toDate().toLocaleString() : '-'}</td>
+                    </tr>
+                `).join('');
+
+                loadingElement.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading data:', error);
+                loadingElement.style.display = 'none';
+                emptyMessage.textContent = 'Error loading data. Please try again.';
                 emptyMessage.style.display = 'block';
-                return;
-            }
-            
-            emptyMessage.style.display = 'none';
-            
-            entries.forEach((entry) => {
-                const row = document.createElement('tr');
-                
-                // Format timestamp
-                const timestamp = entry.timestamp?.toDate ? entry.timestamp.toDate() : new Date(entry.timestamp);
-                const formattedDate = isNaN(timestamp.getTime()) ? 
-                    'Invalid date' : 
-                    `${timestamp.toLocaleDateString()} ${timestamp.toLocaleTimeString()}`;
-                
-                // Get feature text
-                const helpfulFeature = getFeatureText(entry.helpful_feature);
-                
-                row.innerHTML = `
-                    <td>${escapeHtml(entry.name || '-')}</td>
-                    <td>${escapeHtml(entry.email || '-')}</td>
-                    <td>${escapeHtml(entry.spiritual_routines || '-')}</td>
-                    <td>${escapeHtml(entry.current_apps || '-')}</td>
-                    <td>${escapeHtml(entry.feature || '-')}</td>
-                    <td>${helpfulFeature}</td>
-                    <td>${entry.tester === 'yes' ? '✅ Yes' : '❌ No'}</td>
-                    <td>${formattedDate}</td>
-                `;
-                
-                entriesTable.appendChild(row);
-            });
-        }
-        
-        // Get feature text based on value
-        function getFeatureText(value) {
-            switch(value) {
-                case 'scheduling': return 'A) Personalized scheduling';
-                case 'tracker': return 'B) Real-time dhikr/journal tracker';
-                case 'accountability': return 'C) Accountability & motivation';
-                case 'all': return 'D) All of the above';
-                default: return '-';
             }
         }
-        
-        // Update dashboard stats
-        function updateStats(entries, today) {
-            today.setHours(0, 0, 0, 0);
+
+        // Handle search
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#entries-table tr');
             
-            const testers = entries.filter(entry => entry.tester === 'yes');
-            const todayEntries = entries.filter(entry => {
-                const entryDate = entry.timestamp?.toDate ? 
-                    entry.timestamp.toDate() : 
-                    new Date(entry.timestamp);
-                
-                return entryDate >= today;
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
             });
-            
-            totalEntries.textContent = entries.length;
-            testerCount.textContent = testers.length;
-            todayCount.textContent = todayEntries.length;
-        }
-        
-        // Handle search/filter
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-            filterEntries(searchTerm, activeFilter);
         });
-        
+
         // Handle filter buttons
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const filter = e.target.dataset.filter;
                 
-                const searchTerm = searchInput.value.toLowerCase();
-                const filterType = this.dataset.filter;
-                filterEntries(searchTerm, filterType);
-            });
-        });
-        
-        // Filter entries based on search term and filter type
-        function filterEntries(searchTerm, filterType) {
-            if (!window.allEntries) return;
-            
-            let filteredEntries = window.allEntries;
-            
-            // Apply tester filter if needed
-            if (filterType === 'testers') {
-                filteredEntries = filteredEntries.filter(entry => entry.tester === 'yes');
-            }
-            
-            // Apply search term filter if provided
-            if (searchTerm) {
-                filteredEntries = filteredEntries.filter(entry => {
-                    const name = (entry.name || '').toLowerCase();
-                    const email = (entry.email || '').toLowerCase();
-                    return name.includes(searchTerm) || email.includes(searchTerm);
+                // Update active state
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
                 });
-            }
-            
-            displayEntries(filteredEntries);
-        }
-        
+                e.target.classList.add('active');
+                
+                // Filter rows
+                const rows = document.querySelectorAll('#entries-table tr');
+                rows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                    } else {
+                        const isTester = row.children[6].textContent === 'Yes';
+                        row.style.display = isTester ? '' : 'none';
+                    }
+                });
+            });
+        });
+
         // Handle export to CSV
-        exportBtn.addEventListener('click', function() {
-            if (!window.allEntries || window.allEntries.length === 0) {
-                alert('No data to export');
-                return;
-            }
+        document.getElementById('export-btn').addEventListener('click', () => {
+            const rows = document.querySelectorAll('#entries-table tr');
+            const headers = ['Name', 'Email', 'Favorite Ibaadah', 'Current Apps', 'Feature Request', 'Most Helpful Feature', 'Tester', 'Timestamp'];
             
-            const headers = [
-                'timestamp',
-                'name',
-                'email',
-                'spiritual_routines',
-                'current_apps',
-                'feature',
-                'helpful_feature',
-                'tester'
-            ];
-            
-            const rows = [headers];
-            
-            window.allEntries.forEach(entry => {
-                const timestamp = entry.timestamp?.toDate ? 
-                    entry.timestamp.toDate().toISOString() : 
-                    entry.timestamp || '';
-                
-                const row = [
-                    timestamp,
-                    entry.name || '',
-                    entry.email || '',
-                    entry.spiritual_routines || '',
-                    entry.current_apps || '',
-                    entry.feature || '',
-                    entry.helpful_feature || '',
-                    entry.tester || ''
-                ];
-                
-                rows.push(row);
+            let csv = headers.join(',') + '\n';
+            rows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    const cells = Array.from(row.children);
+                    csv += cells.map(cell => `"${cell.textContent}"`).join(',') + '\n';
+                }
             });
             
-            // Convert to CSV
-            const csvContent = rows
-                .map(row => {
-                    return row.map(cell => {
-                        // Escape quotes and wrap in quotes if contains comma
-                        const escaped = String(cell).replace(/"/g, '""');
-                        return /,/.test(escaped) ? `"${escaped}"` : escaped;
-                    }).join(',');
-                })
-                .join('\n');
-            
-            // Create download link
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            
-            link.setAttribute('href', url);
-            link.setAttribute('download', `ibaadah_signups_${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.display = 'none';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ibaadah_users.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
         });
-        
+
         // Handle logout
-        logoutBtn.addEventListener('click', function() {
-            sessionStorage.removeItem('ibaadah_admin_auth');
-            dashboardContainer.style.display = 'none';
-            loginContainer.style.display = 'block';
-            passwordInput.value = '';
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            auth.signOut();
         });
-        
+
         // Handle theme toggle
-        themeToggle.addEventListener('click', function() {
+        document.getElementById('theme-toggle').addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
-            themeToggle.textContent = document.body.classList.contains('light-mode') ? '🌙' : '🌓';
-            
-            // Save theme preference
-            localStorage.setItem('ibaadah_admin_theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         });
-        
-        // Load saved theme preference if any
-        function loadThemePreference() {
-            const savedTheme = localStorage.getItem('ibaadah_admin_theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-                themeToggle.textContent = '🌙';
-            }
-        }
-        
-        // Escape HTML to prevent XSS
+
+        // Helper function to escape HTML
         function escapeHtml(text) {
             if (!text) return '-';
-            return text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            loadThemePreference();
-        });
     </script>
 </body>
 </html> 
