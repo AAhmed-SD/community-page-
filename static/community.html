@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Ibaadah AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --grid-color: #222;
+            --text-color: #fff;
+            --accent-1: #FF0080;
+            --accent-2: #BAB6F8;
+            --border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --shadow: rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a, .nav-links button {
+            padding: 0.5rem 1rem;
+            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links button:hover {
+            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
+            box-shadow: 0 0 10px rgba(155, 109, 255, 0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 7rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px var(--shadow);
+            border: 1px solid rgba(255, 109, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #9B6DFF;
+        }
+
+        .feature-card p {
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: rgba(155, 109, 255, 0.2);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                margin-top: 9rem;
+                padding: 0 1rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="/">Ibaadah AI</a>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <button id="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-card">
+            <h1>Welcome to the Community</h1>
+            <p class="welcome-text">
+                Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. 
+                As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Prayer Tracking <span class="coming-soon">Coming Soon</span></h3>
+                <p>Track your daily prayers, receive reminders, and maintain your spiritual consistency with our intelligent prayer tracking system.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Dhikr Journal <span class="coming-soon">Coming Soon</span></h3>
+                <p>Record and track your daily dhikr, set personal goals, and watch your spiritual progress grow over time.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Community Support <span class="coming-soon">Coming Soon</span></h3>
+                <p>Connect with other believers, share your journey, and motivate each other in maintaining regular spiritual practices.</p>
+            </div>
+            <div class="feature-card">
+                <h3>AI-Powered Insights <span class="coming-soon">Coming Soon</span></h3>
+                <p>Receive personalized insights and recommendations to help you maintain and improve your spiritual routines.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made with ❤️ for the Ummah</p>
+    </footer>
+
+    <script>
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = '/login.html';
+            }
+        });
+
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = '/';
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
+        });
+    </script>
+</body>
+</html> 
