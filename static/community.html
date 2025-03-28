@@ -25,6 +25,32 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            // Only redirect if we're on the community page and user is not authenticated
+            if (!user && window.location.pathname.includes('community.html')) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            if (user) {
+                try {
+                    // Check if user exists in submissions
+                    const submissionsRef = collection(db, 'submissions');
+                    const q = query(submissionsRef, where('email', '==', user.email));
+                    const querySnapshot = await getDocs(q);
+
+                    if (querySnapshot.empty) {
+                        // If no submission exists, sign them out and redirect
+                        await auth.signOut();
+                        window.location.href = '/login.html';
+                    }
+                } catch (error) {
+                    console.error('Error checking submission:', error);
+                }
+            }
+        });
     </script>
     <style>
         :root {
@@ -242,13 +268,6 @@
     </footer>
 
     <script>
-        // Check authentication state
-        auth.onAuthStateChanged((user) => {
-            if (!user) {
-                window.location.href = '/login.html';
-            }
-        });
-
         // Handle logout
         document.getElementById('logout-btn').addEventListener('click', () => {
             auth.signOut().then(() => {

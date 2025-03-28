@@ -8,6 +8,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
         import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
 
         // Firebase configuration
@@ -23,21 +24,47 @@
         
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
+
+        // Check authentication state
+        auth.onAuthStateChanged(async (user) => {
+            // Only redirect if we're on the login page and user is already authenticated
+            if (user && window.location.pathname.includes('login.html')) {
+                try {
+                    // Check if user exists in submissions
+                    const submissionsRef = collection(db, 'submissions');
+                    const q = query(submissionsRef, where('email', '==', user.email));
+                    const querySnapshot = await getDocs(q);
+
+                    if (!querySnapshot.empty) {
+                        window.location.href = '/community.html';
+                    } else {
+                        // If no submission exists, sign them out
+                        await auth.signOut();
+                    }
+                } catch (error) {
+                    console.error('Error checking submission:', error);
+                }
+            }
+        });
 
         // Handle login form submission
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
             const submitButton = e.target.querySelector('button[type="submit"]');
 
             try {
                 submitButton.disabled = true;
                 submitButton.textContent = 'Logging in...';
                 errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
 
-                // Check if email exists in submissions
+                // First check if email exists in submissions
                 console.log('Checking submissions for:', email);
                 const submissionsRef = collection(db, 'submissions');
                 const q = query(submissionsRef, where('email', '==', email));
@@ -47,11 +74,23 @@
                     throw new Error('No account found with this email. Please submit the form first.');
                 }
 
-                // Store email in session storage to maintain login state
-                sessionStorage.setItem('userEmail', email);
-                
-                // Redirect to community page
-                window.location.href = '/community.html';
+                // Try to sign in with Firebase Auth
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    console.log('Login successful:', userCredential.user.email);
+                    window.location.href = '/community.html';
+                } catch (authError) {
+                    if (authError.code === 'auth/user-not-found') {
+                        // User exists in submissions but not in Auth - they need to set up a password
+                        errorMessage.textContent = 'Please set up your password using the Forgot Password link below.';
+                        errorMessage.style.display = 'block';
+                    } else if (authError.code === 'auth/wrong-password') {
+                        errorMessage.textContent = 'Incorrect password. Please try again or use Forgot Password.';
+                        errorMessage.style.display = 'block';
+                    } else {
+                        throw authError;
+                    }
+                }
             } catch (error) {
                 console.error('Login error:', error);
                 errorMessage.textContent = error.message;
@@ -62,11 +101,48 @@
             }
         });
 
-        // Check if user is already logged in
-        const userEmail = sessionStorage.getItem('userEmail');
-        if (userEmail) {
-            window.location.href = '/community.html';
-        }
+        // Handle forgot password
+        window.handleForgotPassword = async () => {
+            const email = document.getElementById('email').value;
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+
+            if (!email) {
+                errorMessage.textContent = 'Please enter your email address first.';
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                return;
+            }
+
+            try {
+                // First check if email exists in submissions
+                const submissionsRef = collection(db, 'submissions');
+                const q = query(submissionsRef, where('email', '==', email));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    throw new Error('No account found with this email. Please submit the form first.');
+                }
+
+                forgotPasswordBtn.disabled = true;
+                forgotPasswordBtn.textContent = 'Sending...';
+                
+                await sendPasswordResetEmail(auth, email);
+                
+                successMessage.textContent = 'Password reset email sent! Please check your inbox.';
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            } catch (error) {
+                console.error('Error sending reset email:', error);
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+            } finally {
+                forgotPasswordBtn.disabled = false;
+                forgotPasswordBtn.textContent = 'Forgot Password?';
+            }
+        };
     </script>
     <style>
         :root {
@@ -217,16 +293,12 @@
             font-size: 0.9rem;
             padding: 0;
             margin: 0;
+            width: auto;
         }
 
         .forgot-password button:hover {
             color: #BBB0FF;
             box-shadow: none;
-        }
-
-        .forgot-password button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
         }
 
         nav {
@@ -246,7 +318,6 @@
         .logo a {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--text-color);
             text-decoration: none;
             background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
             background-clip: text;
@@ -328,8 +399,14 @@
                 <div class="form-group">
                     <input type="email" id="email" placeholder="Email" required>
                 </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
                 <button type="submit">Login</button>
             </form>
+            <div class="forgot-password">
+                <button id="forgot-password-btn" onclick="handleForgotPassword()">Forgot Password?</button>
+            </div>
         </div>
     </div>
 </body>
