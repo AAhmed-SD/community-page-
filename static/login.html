@@ -8,8 +8,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
-        import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+        import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
 
         // Firebase configuration
         const firebaseConfig = {
@@ -24,44 +23,12 @@
         
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
-
-        // Check if user is already logged in
-        onAuthStateChanged(auth, async (user) => {
-            console.log('Auth state changed:', user ? 'User logged in' : 'No user');
-            if (user) {
-                try {
-                    // Check user data in Firestore submissions collection
-                    console.log('Checking submissions for:', user.email);
-                    const submissionsRef = collection(db, 'submissions');
-                    const q = query(submissionsRef, where('email', '==', user.email));
-                    const querySnapshot = await getDocs(q);
-                    
-                    if (!querySnapshot.empty) {
-                        const submissionData = querySnapshot.docs[0].data();
-                        console.log('Submission data:', submissionData);
-                        // For now, redirect all authenticated users to community
-                        window.location.href = '/community.html';
-                    } else {
-                        console.log('No submission found for this email');
-                        // If no submission exists, they shouldn't be able to log in
-                        await auth.signOut();
-                        const errorMessage = document.getElementById('error-message');
-                        errorMessage.textContent = 'No account found. Please submit the form first.';
-                        errorMessage.style.display = 'block';
-                    }
-                } catch (error) {
-                    console.error('Error checking submission data:', error);
-                }
-            }
-        });
 
         // Handle login form submission
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('error-message');
             const submitButton = e.target.querySelector('button[type="submit"]');
 
@@ -70,50 +37,24 @@
                 submitButton.textContent = 'Logging in...';
                 errorMessage.style.display = 'none';
 
-                // First check if the email exists in submissions
+                // Check if email exists in submissions
                 console.log('Checking submissions for:', email);
                 const submissionsRef = collection(db, 'submissions');
                 const q = query(submissionsRef, where('email', '==', email));
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    throw { code: 'auth/user-not-found', message: 'No account found with this email. Please submit the form first.' };
+                    throw new Error('No account found with this email. Please submit the form first.');
                 }
 
-                console.log('Attempting login for:', email);
-                // Sign in with Firebase
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                console.log('Login successful for:', user.uid);
-
+                // Store email in session storage to maintain login state
+                sessionStorage.setItem('userEmail', email);
+                
                 // Redirect to community page
                 window.location.href = '/community.html';
             } catch (error) {
                 console.error('Login error:', error);
-                let errorMsg = 'An error occurred. Please try again.';
-                
-                // Handle specific Firebase Auth errors
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMsg = 'No account found with this email. Please submit the form first.';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMsg = 'Incorrect password. Please try again.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMsg = 'Invalid email address.';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMsg = 'Too many failed attempts. Please try again later.';
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMsg = 'Network error. Please check your connection.';
-                        break;
-                    default:
-                        errorMsg = error.message;
-                }
-                
-                errorMessage.textContent = errorMsg;
+                errorMessage.textContent = error.message;
                 errorMessage.style.display = 'block';
             } finally {
                 submitButton.disabled = false;
@@ -121,55 +62,11 @@
             }
         });
 
-        // Handle forgot password
-        window.handleForgotPassword = async () => {
-            const email = document.getElementById('email').value;
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
-            const forgotPasswordBtn = document.getElementById('forgot-password-btn');
-
-            if (!email) {
-                errorMessage.textContent = 'Please enter your email address first.';
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
-                return;
-            }
-
-            try {
-                forgotPasswordBtn.disabled = true;
-                forgotPasswordBtn.textContent = 'Sending...';
-                
-                await sendPasswordResetEmail(auth, email);
-                
-                successMessage.textContent = 'Password reset email sent! Please check your inbox.';
-                successMessage.style.display = 'block';
-                errorMessage.style.display = 'none';
-            } catch (error) {
-                console.error('Error sending reset email:', error);
-                let errorMsg = 'Failed to send reset email. Please try again.';
-                
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMsg = 'No account found with this email.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMsg = 'Invalid email address.';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMsg = 'Too many attempts. Please try again later.';
-                        break;
-                    default:
-                        errorMsg = error.message;
-                }
-                
-                errorMessage.textContent = errorMsg;
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
-            } finally {
-                forgotPasswordBtn.disabled = false;
-                forgotPasswordBtn.textContent = 'Forgot Password?';
-            }
-        };
+        // Check if user is already logged in
+        const userEmail = sessionStorage.getItem('userEmail');
+        if (userEmail) {
+            window.location.href = '/community.html';
+        }
     </script>
     <style>
         :root {
@@ -431,14 +328,8 @@
                 <div class="form-group">
                     <input type="email" id="email" placeholder="Email" required>
                 </div>
-                <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" required>
-                </div>
                 <button type="submit">Login</button>
             </form>
-            <div class="forgot-password">
-                <button id="forgot-password-btn" onclick="handleForgotPassword()">Forgot Password?</button>
-            </div>
         </div>
     </div>
 </body>
