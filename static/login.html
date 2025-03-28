@@ -74,18 +74,16 @@
                     throw new Error('No account found with this email. Please submit the form first.');
                 }
 
-                // Try to sign in with Firebase Auth
+                // User exists in submissions, try to sign in
                 try {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
                     console.log('Login successful:', userCredential.user.email);
                     window.location.href = '/community.html';
                 } catch (authError) {
-                    if (authError.code === 'auth/user-not-found') {
-                        // User exists in submissions but not in Auth - they need to set up a password
-                        errorMessage.textContent = 'Please set up your password using the Forgot Password link below.';
-                        errorMessage.style.display = 'block';
-                    } else if (authError.code === 'auth/wrong-password') {
-                        errorMessage.textContent = 'Incorrect password. Please try again or use Forgot Password.';
+                    console.log('Auth error:', authError.code);
+                    if (authError.code === 'auth/user-not-found' || authError.code === 'auth/invalid-credential') {
+                        // User exists in submissions but not in Auth
+                        errorMessage.textContent = 'Please set up your password using the "Forgot Password" link below to activate your account.';
                         errorMessage.style.display = 'block';
                     } else {
                         throw authError;
@@ -101,7 +99,7 @@
             }
         });
 
-        // Handle forgot password
+        // Handle forgot password / account activation
         window.handleForgotPassword = async () => {
             const email = document.getElementById('email').value;
             const errorMessage = document.getElementById('error-message');
@@ -128,19 +126,20 @@
                 forgotPasswordBtn.disabled = true;
                 forgotPasswordBtn.textContent = 'Sending...';
                 
+                // Send password reset/setup email
                 await sendPasswordResetEmail(auth, email);
                 
-                successMessage.textContent = 'Password reset email sent! Please check your inbox.';
+                successMessage.textContent = 'Account activation email sent! Please check your inbox to set up your password.';
                 successMessage.style.display = 'block';
                 errorMessage.style.display = 'none';
             } catch (error) {
-                console.error('Error sending reset email:', error);
+                console.error('Error sending activation email:', error);
                 errorMessage.textContent = error.message;
                 errorMessage.style.display = 'block';
                 successMessage.style.display = 'none';
             } finally {
                 forgotPasswordBtn.disabled = false;
-                forgotPasswordBtn.textContent = 'Forgot Password?';
+                forgotPasswordBtn.textContent = 'Activate Account / Reset Password';
             }
         };
     </script>
@@ -405,7 +404,7 @@
                 <button type="submit">Login</button>
             </form>
             <div class="forgot-password">
-                <button id="forgot-password-btn" onclick="handleForgotPassword()">Forgot Password?</button>
+                <button id="forgot-password-btn" onclick="handleForgotPassword()">Activate Account / Reset Password</button>
             </div>
         </div>
     </div>

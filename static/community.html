@@ -6,10 +6,11 @@
     <title>Community - Ibaadah AI</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
@@ -22,13 +23,12 @@
         };
         
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
         // Check authentication state
         onAuthStateChanged(auth, async (user) => {
-            // Only redirect if we're on the community page and user is not authenticated
             if (!user && window.location.pathname.includes('community.html')) {
                 window.location.href = '/login.html';
                 return;
@@ -43,12 +43,27 @@
 
                     if (querySnapshot.empty) {
                         // If no submission exists, sign them out and redirect
-                        await auth.signOut();
+                        await signOut(auth);
                         window.location.href = '/login.html';
+                    } else {
+                        // Update welcome message with user's name
+                        const userData = querySnapshot.docs[0].data();
+                        const welcomeText = document.querySelector('.welcome-text');
+                        welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
                     }
                 } catch (error) {
                     console.error('Error checking submission:', error);
                 }
+            }
+        });
+
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Error signing out:', error);
             }
         });
     </script>
@@ -266,16 +281,5 @@
     <footer>
         <p>Made with ❤️ for the Ummah</p>
     </footer>
-
-    <script>
-        // Handle logout
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            auth.signOut().then(() => {
-                window.location.href = '/';
-            }).catch((error) => {
-                console.error('Error signing out:', error);
-            });
-        });
-    </script>
 </body>
 </html> 
