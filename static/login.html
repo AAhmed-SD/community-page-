@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Ibaadah AI</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
     <style>
         body {
             font-family: 'IBM Plex Mono', monospace;
@@ -294,34 +315,42 @@
                 submitButton.disabled = true;
                 submitButton.textContent = 'Logging in...';
 
-                // Check if this is an admin login
-                if (email === 'hadiqaahmed8210@gmail.com' && password === 'Gemtrixibaadah') {
-                    // Store admin authentication in session storage
-                    localStorage.setItem('adminLoggedIn', 'true');
+                // Sign in with Firebase
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Check if user is admin
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                const userData = userDoc.data();
+
+                if (userData && userData.isAdmin) {
+                    // Admin login
                     window.location.href = '/admin-dashboard.html';
-                    return;
-                }
-
-                // Regular user authentication
-                const testers = JSON.parse(localStorage.getItem('testers') || '[]');
-                const user = testers.find(t => t.email === email && t.password === password);
-
-                if (user) {
-                    // Store user authentication
-                    localStorage.setItem('userLoggedIn', 'true');
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    window.location.href = '/community';
                 } else {
-                    errorMessage.textContent = 'Invalid email or password';
-                    errorMessage.style.display = 'block';
+                    // Regular user login
+                    window.location.href = '/community';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.textContent = error.message || 'Invalid email or password';
                 errorMessage.style.display = 'block';
             } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Login';
+            }
+        });
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in
+                db.collection('users').doc(user.uid).get().then((doc) => {
+                    if (doc.exists && doc.data().isAdmin) {
+                        window.location.href = '/admin-dashboard.html';
+                    } else {
+                        window.location.href = '/community';
+                    }
+                });
             }
         });
     </script>

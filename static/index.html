@@ -589,9 +589,10 @@
         }
     </script>
 
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore-compat.js"></script>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script>
         // Firebase configuration
         const firebaseConfig = {
@@ -606,58 +607,58 @@
         
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
         const db = firebase.firestore();
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            const submitButton = form.querySelector('button[type="submit"]');
+    </script>
+
+    <script>
+        // Handle form submission
+        document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Disable button and show loading state
+            const form = e.target;
+            const submitButton = form.querySelector('button[type="submit"]');
+            const errorMessage = document.getElementById('error-message');
+            
+            try {
                 submitButton.disabled = true;
-                submitButton.innerHTML = 'Submitting...';
+                submitButton.textContent = 'Submitting...';
                 
                 // Get form data
                 const formData = {
-                    name: form.elements.name.value,
-                    email: form.elements.email.value,
-                    password: form.elements.password.value,
-                    confirmPassword: form.elements.confirmPassword.value,
-                    spiritual_routines: form.elements.spiritual_routines.value,
-                    current_apps: form.elements.current_apps.value,
-                    feature: form.elements.feature.value,
-                    helpful_feature: form.querySelector('input[name="helpful_feature"]:checked')?.value || '',
-                    tester: form.querySelector('input[name="tester"]:checked')?.value || 'no',
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    name: form.name.value,
+                    email: form.email.value,
+                    spiritual_routines: form.spiritual_routines.value,
+                    current_apps: form.current_apps.value,
+                    feature: form.feature.value,
+                    feature_priority: form.feature_priority.value,
+                    status: 'pending',
+                    timestamp: new Date().toISOString()
                 };
-                
-                try {
-                    console.log("Attempting to submit to Firestore:", formData);
-                    
-                    // Submit to Firestore
-                    const docRef = await db.collection('submissions').add(formData);
-                    
-                    // Track form submission with analytics
-                    if (typeof window.va !== 'undefined') {
-                        window.va('event', {
-                            name: 'form_submit',
-                            data: { form: 'waitlist' }
-                        });
-                    }
-                    
-                    console.log("Document successfully written with ID:", docRef.id);
-                    
-                    // Redirect to thank you page with email parameter
-                    window.location.href = `/thank-you?email=${encodeURIComponent(formData.email)}`;
-                } catch (error) {
-                    console.error('Error submitting form:', error);
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'Submit';
-                    alert('There was an error submitting your form. Please try again: ' + error.message);
-                }
-            });
+
+                // Create user account with Firebase Auth
+                const userCredential = await auth.createUserWithEmailAndPassword(
+                    form.email.value,
+                    form.password.value
+                );
+
+                // Store additional user data in Firestore
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    ...formData,
+                    isAdmin: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Redirect to thank you page
+                window.location.href = '/thank-you.html';
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Join Waitlist';
+            }
         });
     </script>
 

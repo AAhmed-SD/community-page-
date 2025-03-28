@@ -310,10 +310,131 @@
         </div>
     </div>
 
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script>
-        // Check if admin is logged in
-        if (!localStorage.getItem('adminLoggedIn')) {
-            window.location.href = '/login.html';
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
+    <script>
+        // Check if user is admin
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            if (!userDoc.exists || !userDoc.data().isAdmin) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Show dashboard and load data
+            document.getElementById('login-container').style.display = 'none';
+            document.getElementById('dashboard-container').style.display = 'block';
+            loadEntries();
+        });
+
+        // Load entries from Firestore
+        async function loadEntries() {
+            const entriesTable = document.getElementById('entries-table');
+            const loadingElement = document.getElementById('loading');
+            const emptyMessage = document.getElementById('empty-message');
+            const totalEntries = document.getElementById('total-entries');
+            const testerCount = document.getElementById('tester-count');
+            const todayCount = document.getElementById('today-count');
+
+            try {
+                loadingElement.style.display = 'block';
+                emptyMessage.style.display = 'none';
+
+                // Get all users
+                const usersSnapshot = await db.collection('users').get();
+                const users = usersSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                // Update statistics
+                totalEntries.textContent = users.length;
+                testerCount.textContent = users.filter(user => user.status === 'approved').length;
+                todayCount.textContent = users.filter(user => {
+                    const today = new Date().toISOString().split('T')[0];
+                    return user.timestamp && user.timestamp.startsWith(today);
+                }).length;
+
+                // Update table
+                if (users.length === 0) {
+                    loadingElement.style.display = 'none';
+                    emptyMessage.style.display = 'block';
+                    return;
+                }
+
+                entriesTable.innerHTML = users.map(user => `
+                    <tr>
+                        <td>${escapeHtml(user.name)}</td>
+                        <td>${escapeHtml(user.email)}</td>
+                        <td>${escapeHtml(user.spiritual_routines)}</td>
+                        <td>${escapeHtml(user.current_apps)}</td>
+                        <td>${escapeHtml(user.feature)}</td>
+                        <td>${escapeHtml(user.feature_priority)}</td>
+                        <td>
+                            <span class="status-badge ${user.status}">${user.status}</span>
+                        </td>
+                        <td>
+                            <button onclick="updateStatus('${user.id}', 'approved')" class="action-btn approve">Approve</button>
+                            <button onclick="updateStatus('${user.id}', 'rejected')" class="action-btn reject">Reject</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                loadingElement.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading entries:', error);
+                loadingElement.style.display = 'none';
+                emptyMessage.textContent = 'Error loading data. Please try again.';
+                emptyMessage.style.display = 'block';
+            }
+        }
+
+        // Update user status
+        async function updateStatus(userId, status) {
+            try {
+                await db.collection('users').doc(userId).update({
+                    status: status,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                loadEntries(); // Reload the table
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Error updating status. Please try again.');
+            }
+        }
+
+        // Logout functionality
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = '/login.html';
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
         }
 
         const themeToggle = document.getElementById('themeToggle');
@@ -341,61 +462,6 @@
                 localStorage.setItem('theme', newTheme);
             });
         });
-
-        // Logout functionality
-        function logout() {
-            localStorage.removeItem('adminLoggedIn');
-            window.location.href = '/login.html';
-        }
-
-        // Function to update tester status
-        function updateTesterStatus(email, status) {
-            let testers = JSON.parse(localStorage.getItem('testers') || '[]');
-            const testerIndex = testers.findIndex(t => t.email === email);
-            
-            if (testerIndex !== -1) {
-                testers[testerIndex].status = status;
-                localStorage.setItem('testers', JSON.stringify(testers));
-                updateDashboard();
-            }
-        }
-
-        // Function to update dashboard
-        function updateDashboard() {
-            const testers = JSON.parse(localStorage.getItem('testers') || '[]');
-            const tableBody = document.getElementById('tester-table-body');
-            
-            // Update stats
-            document.getElementById('total-applications').textContent = testers.length;
-            document.getElementById('pending-applications').textContent = testers.filter(t => t.status === 'pending').length;
-            document.getElementById('approved-testers').textContent = testers.filter(t => t.status === 'approved').length;
-
-            // Clear existing rows
-            tableBody.innerHTML = '';
-
-            // Add tester rows
-            testers.forEach(tester => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${tester.name}</td>
-                    <td>${tester.email}</td>
-                    <td>${tester.spiritual_routines}</td>
-                    <td>${tester.current_apps || 'N/A'}</td>
-                    <td>${tester.feature}</td>
-                    <td><span class="status-badge status-${tester.status}">${tester.status}</span></td>
-                    <td class="action-buttons">
-                        ${tester.status === 'pending' ? `
-                            <button class="btn btn-approve" onclick="updateTesterStatus('${tester.email}', 'approved')">Approve</button>
-                            <button class="btn btn-reject" onclick="updateTesterStatus('${tester.email}', 'rejected')">Reject</button>
-                        ` : ''}
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Initial dashboard update
-        updateDashboard();
 
         // Show the body after theme is applied
         document.body.style.visibility = 'visible';
