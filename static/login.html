@@ -294,28 +294,32 @@
                 submitButton.disabled = true;
                 submitButton.textContent = 'Logging in...';
 
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password })
-                });
+                // Check if this is an admin login
+                if (email === 'hadiqaahmed8210@gmail.com' && password === 'Gemtrixibaadah') {
+                    // Store admin authentication in session storage
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    window.location.href = '/admin-dashboard.html';
+                    return;
+                }
 
-                const data = await response.json();
+                // Regular user authentication
+                const testers = JSON.parse(localStorage.getItem('testers') || '[]');
+                const user = testers.find(t => t.email === email && t.password === password);
 
-                if (response.ok) {
+                if (user) {
+                    // Store user authentication
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('currentUser', JSON.stringify(user));
                     window.location.href = '/community';
                 } else {
-                    errorMessage.textContent = data.message || 'Invalid email or password';
+                    errorMessage.textContent = 'Invalid email or password';
                     errorMessage.style.display = 'block';
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Login';
                 }
             } catch (error) {
                 console.error('Error:', error);
                 errorMessage.textContent = 'An error occurred. Please try again.';
                 errorMessage.style.display = 'block';
+            } finally {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Login';
             }

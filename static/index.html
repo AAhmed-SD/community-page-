@@ -464,7 +464,7 @@
             <section id="form">
                 <svg viewBox="0 0 64 64"><path d="M12 16 h40 v32 h-40 z M12 24 h40" stroke-width="4" fill="none"/></svg>
                 <h2>Join Our Community</h2>
-                <p>Want to shape the future of spiritually aligned productivity? Drop your details below and be among the first to test features and contribute ideas that matter to you.</p>
+                <p>Would you like to be able to test features and shape the future of spiritually aligned productivity? Apply below to join our community of testers.</p>
                 <form id="waitlist-form">
                     <div class="form-group">
                         <input type="text" name="name" placeholder="Your Name" required />
@@ -703,5 +703,34 @@
         Made with ❤️ for the Ummah
       </div>
         </footer>
+
+    <script>
+        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: this.name.value,
+                email: this.email.value,
+                spiritual_routines: this.spiritual_routines.value,
+                current_apps: this.current_apps.value,
+                feature: this.feature.value,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            // Get existing testers or initialize empty array
+            let testers = JSON.parse(localStorage.getItem('testers') || '[]');
+            
+            // Add new tester
+            testers.push(formData);
+            
+            // Save back to localStorage
+            localStorage.setItem('testers', JSON.stringify(testers));
+
+            // Redirect to thank you page
+            window.location.href = '/thank-you.html';
+        });
+    </script>
 </body>
 </html> 
