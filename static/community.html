@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ibaadah AI - Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -23,15 +27,56 @@
             </nav>
         </header>
 
-        <main class="community-container">
-            <div class="welcome-box">
+        <main class="login-container">
+            <div class="login-box community-box">
                 <h2>Welcome to the Community</h2>
-                <p class="welcome-message">You're now part of the Ibaadah AI community.</p>
-                <div class="community-features">
-                    <div class="feature-card">
-                        <h3>Coming Soon</h3>
-                        <p>We're working on exciting community features. Stay tuned!</p>
+                <div class="benefits-box">
+                    <h3>Your Beta Access Benefits</h3>
+                    <ul>
+                        <li>🌟 Early Access to New Features</li>
+                        <li>💡 Direct Feedback Channel</li>
+                        <li>🤝 Connect with Other Testers</li>
+                        <li>📱 Shape the Future of Ibaadah AI</li>
+                    </ul>
+                    <p class="important-note">We're actively developing new features. Your feedback will help us create the best possible experience, in sha Allah.</p>
+                </div>
+
+                <div class="feature-updates">
+                    <h3>Coming Soon</h3>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-comments"></i>
+                            <h4>Community Discussions</h4>
+                            <p>Share ideas and connect with other community members</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h4>App Testing</h4>
+                            <p>Be the first to try new app features</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h4>Feature Voting</h4>
+                            <p>Help us prioritize new developments</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-users"></i>
+                            <h4>Group Sessions</h4>
+                            <p>Join community feedback sessions</p>
+                        </div>
                     </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://instagram.com/ibaadah.ai" target="_blank" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@ibaadah.ai" target="_blank" class="social-link">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://x.com/ibaadahai" target="_blank" class="social-link">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
                 </div>
             </div>
         </main>
@@ -46,14 +91,14 @@
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 // If not logged in, redirect to login page
-                window.location.href = '/login';
+                window.location.href = 'login.html';
             }
         });
 
         // Handle logout
         document.getElementById('logoutBtn').addEventListener('click', () => {
             auth.signOut().then(() => {
-                window.location.href = '/login';
+                window.location.href = 'login.html';
             }).catch((error) => {
                 console.error('Error signing out:', error);
             });
