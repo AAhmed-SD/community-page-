@@ -6,10 +6,11 @@
     <title>Login - Ibaadah AI</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
         // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
@@ -22,9 +23,117 @@
         };
         
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, async (user) => {
+            console.log('Auth state changed:', user ? 'User logged in' : 'No user');
+            if (user) {
+                try {
+                    // Check user data in Firestore
+                    console.log('Checking user data for:', user.uid);
+                    const userDocRef = doc(db, 'users', user.uid);
+                    const userDoc = await getDoc(userDocRef);
+                    
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        console.log('User data:', userData);
+                        if (userData.isAdmin) {
+                            window.location.href = '/admin.html';
+                        } else {
+                            window.location.href = '/community.html';
+                        }
+                    } else {
+                        console.log('User document does not exist');
+                        // If user document doesn't exist, create it
+                        await setDoc(userDocRef, {
+                            email: user.email,
+                            isAdmin: false,
+                            createdAt: serverTimestamp()
+                        });
+                        window.location.href = '/community.html';
+                    }
+                } catch (error) {
+                    console.error('Error checking user data:', error);
+                }
+            }
+        });
+
+        // Handle login form submission
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            const submitButton = e.target.querySelector('button[type="submit"]');
+
+            try {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Logging in...';
+                errorMessage.style.display = 'none';
+
+                console.log('Attempting login for:', email);
+                // Sign in with Firebase
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                console.log('Login successful for:', user.uid);
+
+                // Check if user exists in Firestore
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDoc = await getDoc(userDocRef);
+                
+                if (!userDoc.exists()) {
+                    console.log('Creating new user document');
+                    // If user document doesn't exist, create it
+                    await setDoc(userDocRef, {
+                        email: user.email,
+                        isAdmin: false,
+                        createdAt: serverTimestamp()
+                    });
+                    window.location.href = '/community.html';
+                } else {
+                    const userData = userDoc.data();
+                    console.log('User data:', userData);
+                    if (userData.isAdmin) {
+                        window.location.href = '/admin.html';
+                    } else {
+                        window.location.href = '/community.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                let errorMsg = 'An error occurred. Please try again.';
+                
+                // Handle specific Firebase Auth errors
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMsg = 'No account found with this email. Please register first.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMsg = 'Incorrect password. Please try again.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMsg = 'Invalid email address.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMsg = 'Too many failed attempts. Please try again later.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMsg = 'Network error. Please check your connection.';
+                        break;
+                    default:
+                        errorMsg = error.message;
+                }
+                
+                errorMessage.textContent = errorMsg;
+                errorMessage.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Login';
+            }
+        });
     </script>
     <style>
         :root {
@@ -255,90 +364,5 @@
             </form>
         </div>
     </div>
-
-    <script>
-        // Check if user is already logged in
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                try {
-                    // Check user data in Firestore
-                    const userDoc = await db.collection('users').doc(user.uid).get();
-                    
-                    if (userDoc.exists) {
-                        const userData = userDoc.data();
-                        if (userData.isAdmin) {
-                            window.location.href = '/admin.html';
-                        } else {
-                            window.location.href = '/community.html';
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error checking user data:', error);
-                }
-            }
-        });
-
-        // Handle login form submission
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
-            const submitButton = e.target.querySelector('button[type="submit"]');
-
-            try {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Logging in...';
-                errorMessage.style.display = 'none';
-
-                // Sign in with Firebase
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Check if user exists in Firestore
-                const userDoc = await db.collection('users').doc(user.uid).get();
-                
-                if (!userDoc.exists) {
-                    throw new Error('User data not found. Please register first.');
-                }
-
-                const userData = userDoc.data();
-
-                // Check if user is admin
-                if (userData.isAdmin) {
-                    window.location.href = '/admin.html';
-                } else {
-                    window.location.href = '/community.html';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                let errorMsg = 'An error occurred. Please try again.';
-                
-                // Handle specific Firebase Auth errors
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMsg = 'No account found with this email. Please register first.';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMsg = 'Incorrect password. Please try again.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMsg = 'Invalid email address.';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMsg = 'Too many failed attempts. Please try again later.';
-                        break;
-                    default:
-                        errorMsg = error.message;
-                }
-                
-                errorMessage.textContent = errorMsg;
-                errorMessage.style.display = 'block';
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Login';
-            }
-        });
-    </script>
 </body>
 </html> 
