@@ -16,8 +16,26 @@
             "dest": "/static/$1"
         },
         {
+            "src": "/admin",
+            "dest": "/static/admin.html"
+        },
+        {
+            "src": "/login",
+            "dest": "/static/login.html"
+        },
+        {
+            "src": "/community",
+            "dest": "/static/community.html"
+        },
+        {
             "src": "/(.*)",
             "dest": "app.py"
         }
-    ]
+    ],
+    "git": {
+        "deploymentEnabled": {
+            "main": true,
+            "feature/community": true
+        }
+    }
 } 

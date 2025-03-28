@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibaadah AI - Community</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="index.html">Ibaadah AI</a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <button id="logoutBtn" class="nav-button">Logout</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="community-container">
+            <div class="welcome-box">
+                <h2>Welcome to the Community</h2>
+                <p class="welcome-message">You're now part of the Ibaadah AI community.</p>
+                <div class="community-features">
+                    <div class="feature-card">
+                        <h3>Coming Soon</h3>
+                        <p>We're working on exciting community features. Stay tuned!</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                // If not logged in, redirect to login page
+                window.location.href = '/login';
+            }
+        });
+
+        // Handle logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = '/login';
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
+        });
+    </script>
+</body>
+</html> 

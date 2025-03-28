@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibaadah AI - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="index.html">Ibaadah AI</a>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="login-container">
+            <div class="login-box">
+                <h2>Community Login</h2>
+                <p class="login-message">Access is exclusive to registered members.</p>
+                <div id="error-message" class="error-message" style="display: none;"></div>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                    <div class="auth-links">
+                        <a href="/forgot-password" class="forgot-password-link">Forgot Password?</a>
+                        <p class="register-text">Not registered? Fill out our <a href="index.html#register">interest form</a> first.</p>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Firebase from firebase-config.js
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            try {
+                // First check if the email exists in form submissions
+                const submissionsRef = db.collection('form_submissions');
+                const snapshot = await submissionsRef.where('email', '==', email).get();
+
+                if (snapshot.empty) {
+                    errorMessage.textContent = 'Please fill out the interest form first to gain access.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+
+                // If email exists in submissions, try to login
+                await auth.signInWithEmailAndPassword(email, password);
+                window.location.href = 'community.html'; // Redirect to community page after login
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

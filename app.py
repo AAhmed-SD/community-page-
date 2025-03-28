@@ -52,6 +52,14 @@ def admin():
 def admin_login():
     return send_from_directory('static/admin', 'login.html')
 
+@app.route('/login')
+def login_page():
+    return send_from_directory('static', 'login.html')
+
+@app.route('/community')
+def community_page():
+    return send_from_directory('static', 'community.html')
+
 @app.route('/submit', methods=['POST'])
 def submit():
     # Handle form submission

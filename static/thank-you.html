@@ -9,6 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
 </head>
 <body>
     <div class="container">
@@ -21,21 +25,93 @@
         <main>
             <div class="thank-you-message">
                 <p>Your interest in Ibaadah has been registered. We'll keep you updated on our progress and notify you when the app is ready for testing.</p>
-                <p>In the meantime, you can follow us on social media to stay connected:</p>
+                
+                <div class="setup-account-section">
+                    <h2>Set Up Your Community Account</h2>
+                    <p>Create your password to access the Ibaadah community:</p>
+                    
+                    <form id="setupForm" class="setup-form">
+                        <div class="form-group">
+                            <label for="password">Choose a Password</label>
+                            <input type="password" id="password" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" id="confirmPassword" required minlength="6">
+                        </div>
+                        <div id="error-message" class="error-message" style="display: none;"></div>
+                        <button type="submit" class="submit-btn">Create Account</button>
+                    </form>
+                </div>
+
+                <p class="social-text">In the meantime, you can follow us on social media to stay connected:</p>
             </div>
         </main>
 
         <footer>
             <div class="social-links">
-                <a href="https://instagram.com/ukht.h.aa" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-instagram"></i>
+                <a href="https://github.com/UnknownUkhtdev" target="_blank" class="social-link">
+                    <i class="fab fa-github"></i>
                 </a>
-                <a href="https://tiktok.com/@ukht.h.a.a" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-tiktok"></i>
+                <a href="https://linkedin.com/in/hadiqa-ibrahim" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://twitter.com/UnknownUkhtdev" target="_blank" class="social-link">
+                    <i class="fab fa-x-twitter"></i>
                 </a>
             </div>
             <p>Let's grow together.</p>
         </footer>
     </div>
+
+    <script>
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Get email from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+
+        document.getElementById('setupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            if (!email) {
+                errorMessage.textContent = 'Email not found. Please try registering again.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            try {
+                // Create user account
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Update user profile in Firestore
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    email: email,
+                    createdAt: new Date(),
+                    isWaitlistMember: true
+                });
+
+                // Redirect to community page
+                window.location.href = '/community';
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html> 

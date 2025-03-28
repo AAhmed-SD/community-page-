@@ -345,8 +345,8 @@
                     
                     <div class="form-group-radio">
                         <label>Which of these would be most helpful to you?</label>
-                        <div class="radio-options">
-                            <label class="radio-label">
+                    <div class="radio-options">
+                        <label class="radio-label">
                                 <input type="radio" name="helpful_feature" value="scheduling" required />
                                 A) Personalized scheduling
                             </label>
@@ -357,30 +357,30 @@
                             <label class="radio-label">
                                 <input type="radio" name="helpful_feature" value="accountability" />
                                 C) Accountability & motivation
-                            </label>
-                            <label class="radio-label">
+                        </label>
+                        <label class="radio-label">
                                 <input type="radio" name="helpful_feature" value="all" />
                                 D) All of the above
-                            </label>
-                        </div>
+                        </label>
                     </div>
-                    
+                </div>
+
                     <div class="form-group-checkbox">
                         <label>Would you be willing to test early features and give feedback?</label>
                         <div class="checkbox-options">
                             <label class="checkbox-label">
                                 <input type="radio" name="tester" value="yes" required />
-                                Yes
-                            </label>
+                            Yes
+                        </label>
                             <label class="checkbox-label">
                                 <input type="radio" name="tester" value="no" />
-                                No
-                            </label>
-                        </div>
+                            No
+                        </label>
                     </div>
-                    
+                </div>
+
                     <button type="submit">Register Interest</button>
-                </form>
+            </form>
             </section>
         </div>
     </div>
@@ -499,13 +499,8 @@
                     
                     console.log("Document successfully written with ID:", docRef.id);
                     
-                    // Show success message
-                    form.innerHTML = `
-                        <div style="text-align: center; padding: 2rem;">
-                            <h3 style="margin-bottom: 1rem;">Thank you for your interest!</h3>
-                            <p>We've received your submission and will keep you updated.</p>
-                        </div>
-                    `;
+                    // Redirect to thank you page with email parameter
+                    window.location.href = `/thank-you?email=${encodeURIComponent(formData.email)}`;
                 } catch (error) {
                     console.error('Error submitting form:', error);
                     submitButton.disabled = false;
@@ -535,7 +530,7 @@
 
     <!-- Footer with social links -->
     <footer class="footer">
-      <div class="social-links">
+            <div class="social-links">
         <a href="https://www.instagram.com/ukht.h.aa" target="_blank" class="social-link">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="social-icon">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -552,11 +547,11 @@
             <rect x="10" y="15" width="0.2" height="0.2" />
           </svg>
           <span>ukht.dev</span>
-        </a>
-      </div>
+                </a>
+            </div>
       <div class="footer-text">
         Made with ❤️ for the Ummah
       </div>
-    </footer>
+        </footer>
 </body>
-</html>
+</html> 
