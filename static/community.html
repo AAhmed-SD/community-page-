@@ -49,11 +49,18 @@
                         // Update welcome message with user's name
                         const userData = querySnapshot.docs[0].data();
                         const welcomeText = document.querySelector('.welcome-text');
+                        welcomeText.style.display = 'block';
                         welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
+                        
+                        // Update logo link to community page when logged in
+                        document.getElementById('logo-link').href = '/community.html';
                     }
                 } catch (error) {
                     console.error('Error checking submission:', error);
                 }
+            } else {
+                // Update logo link to home page when not logged in
+                document.getElementById('logo-link').href = '/';
             }
         });
 
@@ -77,6 +84,8 @@
             --border: rgba(255, 255, 255, 0.1);
             --card-bg: rgba(255, 255, 255, 0.05);
             --shadow: rgba(0, 0, 0, 0.2);
+            --gradient-start: #6A48D7;
+            --gradient-end: #9B6DFF;
         }
         
         * {
@@ -94,20 +103,33 @@
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 20px 20px;
             min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .logo {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
-            background-color: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(155, 109, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            pointer-events: auto;
+            animation: float 3s ease-in-out infinite;
         }
 
         .logo a {
@@ -122,16 +144,34 @@
 
         .nav-links {
             display: flex;
+            align-items: center;
             gap: 1rem;
+            height: 40px;
+            background: rgba(155, 109, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            pointer-events: auto;
         }
 
         .nav-links a, .nav-links button {
-            padding: 0.5rem 1rem;
-            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
-            color: white;
+            padding: 0.5rem 1.5rem;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
             text-decoration: none;
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            color: white;
             border-radius: 6px;
             transition: all 0.3s ease;
+            line-height: 40px;
+            box-sizing: border-box;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: float 3s ease-in-out infinite;
             border: none;
             font-family: inherit;
             font-size: 1rem;
@@ -139,8 +179,20 @@
         }
 
         .nav-links a:hover, .nav-links button:hover {
-            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
-            box-shadow: 0 0 10px rgba(155, 109, 255, 0.5);
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            transform: translateY(-5px);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         .container {
@@ -153,16 +205,16 @@
             background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 8px 32px var(--shadow);
             border: 1px solid rgba(255, 109, 255, 0.1);
             backdrop-filter: blur(10px);
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         h1 {
             font-size: 2rem;
             margin-bottom: 1rem;
-            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-image: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
@@ -172,40 +224,122 @@
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gradient-start);
+            font-weight: 500;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
+            background: rgba(155, 109, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(155, 109, 255, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(155, 109, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
         .feature-card h3 {
-            font-size: 1.2rem;
+            color: var(--gradient-start);
             margin-bottom: 1rem;
-            color: #9B6DFF;
+            font-size: 1.5rem;
         }
 
         .feature-card p {
-            opacity: 0.8;
-            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 1rem;
         }
 
-        .coming-soon {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            background: rgba(155, 109, 255, 0.2);
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-left: 0.5rem;
+        .light-mode {
+            --bg-color: #ffffff;
+            --grid-color: #e0e0e0;
+            --text-color: #000;
+            --border: rgba(0, 0, 0, 0.1);
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --gradient-start: #4A90E2;
+            --gradient-end: #74B9FF;
+        }
+
+        .light-mode .welcome-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,255,0.7));
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            box-shadow: 0 4px 20px rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .welcome-text {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .light-mode .feature-card {
+            background: rgba(74, 144, 226, 0.05);
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .feature-card:hover {
+            background: rgba(74, 144, 226, 0.1);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .feature-card p {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .light-mode .welcome-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(240,240,255,0.3));
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .welcome-text {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .light-mode .subtitle {
+            color: var(--gradient-start);
+        }
+
+        .light-mode .nav-links a, 
+        .light-mode .nav-links button {
+            background: linear-gradient(135deg, #4A90E2, #74B9FF);
+        }
+
+        .light-mode .nav-links a:hover, 
+        .light-mode .nav-links button:hover {
+            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
+        }
+
+        .light-mode .theme-toggle {
+            background: linear-gradient(135deg, #4A90E2, #74B9FF);
+        }
+
+        .light-mode .theme-toggle:hover {
+            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
         }
 
         footer {
@@ -213,6 +347,51 @@
             padding: 2rem;
             margin-top: 4rem;
             border-top: 1px solid var(--border);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 1rem;
+            border-radius: 8px;
+            background: rgba(155, 109, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            background: rgba(155, 109, 255, 0.2);
+        }
+
+        .social-icon {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .light-mode .social-link {
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .social-link:hover {
+            background: rgba(74, 144, 226, 0.2);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
         }
 
         @media (max-width: 768px) {
@@ -235,51 +414,160 @@
             h1 {
                 font-size: 1.5rem;
             }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                font-size: 2rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-link {
+                padding: 0 0.75rem;
+                min-width: 35px;
+                height: 35px;
+            }
+
+            .social-icon {
+                font-size: 0.9rem;
+            }
+        }
+
+        .theme-toggle {
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:hover {
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
     <nav>
         <div class="logo">
-            <a href="/">Ibaadah AI</a>
+            <a href="/" id="logo-link">Ibaadah AI</a>
         </div>
         <div class="nav-links">
             <a href="/">Home</a>
+            <button id="theme-toggle" class="theme-toggle">
+                <span class="theme-icon">🌙</span>
+            </button>
             <button id="logout-btn">Logout</button>
         </div>
     </nav>
 
     <div class="container">
         <div class="welcome-card">
-            <h1>Welcome to the Community</h1>
-            <p class="welcome-text">
-                Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. 
+            <h1>Welcome to the Ibaadah Community</h1>
+            <p class="welcome-text" style="display: none;">
+                Welcome! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. 
                 As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.
             </p>
+            <p class="subtitle">Your Journey Begins Here</p>
         </div>
 
         <div class="features-grid">
             <div class="feature-card">
-                <h3>Prayer Tracking <span class="coming-soon">Coming Soon</span></h3>
-                <p>Track your daily prayers, receive reminders, and maintain your spiritual consistency with our intelligent prayer tracking system.</p>
+                <div class="feature-icon">📊</div>
+                <h3>Weekly Development Updates</h3>
+                <p>Stay informed about the latest features, improvements, and upcoming releases of Ibaadah AI.</p>
             </div>
+
             <div class="feature-card">
-                <h3>Dhikr Journal <span class="coming-soon">Coming Soon</span></h3>
-                <p>Record and track your daily dhikr, set personal goals, and watch your spiritual progress grow over time.</p>
+                <div class="feature-icon">💡</div>
+                <h3>Direct Input into Feature Development</h3>
+                <p>Shape the future of Ibaadah AI by providing direct feedback and suggestions for new features.</p>
             </div>
+
             <div class="feature-card">
-                <h3>Community Support <span class="coming-soon">Coming Soon</span></h3>
-                <p>Connect with other believers, share your journey, and motivate each other in maintaining regular spiritual practices.</p>
+                <div class="feature-icon">🎯</div>
+                <h3>Priority Support</h3>
+                <p>Get dedicated support and assistance with any questions or issues you may have.</p>
             </div>
+
             <div class="feature-card">
-                <h3>AI-Powered Insights <span class="coming-soon">Coming Soon</span></h3>
-                <p>Receive personalized insights and recommendations to help you maintain and improve your spiritual routines.</p>
+                <div class="feature-icon">📚</div>
+                <h3>Exclusive Islamic Content</h3>
+                <p>Access special Islamic content, resources, and guidance curated for the community.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Community Discussions</h3>
+                <p>Engage with other members in meaningful discussions about Islamic practices and technology.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Priority Consideration</h3>
+                <p>Your feature requests and suggestions will be given priority consideration in our development roadmap.</p>
             </div>
         </div>
     </div>
 
     <footer>
+        <div class="social-links">
+            <a href="https://twitter.com/UnknownUkhtdev" target="_blank" class="social-link">
+                <span class="social-icon">𝕏</span>
+            </a>
+            <a href="https://tiktok.com/@ukht.dev" target="_blank" class="social-link">
+                <span class="social-icon">TikTok</span>
+            </a>
+            <a href="https://instagram.com/ukht.h.aa" target="_blank" class="social-link">
+                <span class="social-icon">IG</span>
+            </a>
+        </div>
         <p>Made with ❤️ for the Ummah</p>
     </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeIcon.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLightMode = document.body.classList.contains('light-mode');
+            themeIcon.textContent = isLightMode ? '☀️' : '🌙';
+            localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+        });
+    </script>
 </body>
 </html> 

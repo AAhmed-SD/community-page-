@@ -627,102 +627,11 @@
     </script>
 
     <!-- Add Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
-        import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
-            authDomain: "ibaadahvercelapp.firebaseapp.com",
-            projectId: "ibaadahvercelapp",
-            storageBucket: "ibaadahvercelapp.firebasestorage.app",
-            messagingSenderId: "695618210097",
-            appId: "1:695618210097:web:a94717ed95d604cacdc810",
-            measurementId: "G-R0BCQDK76H"
-        };
-        
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Check authentication state
-        onAuthStateChanged(auth, async (user) => {
-            // Only check if we're on the main page
-            if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-                if (user) {
-                    try {
-                        // Check if user exists in submissions
-                        const submissionsRef = collection(db, 'submissions');
-                        const q = query(submissionsRef, where('email', '==', user.email));
-                        const querySnapshot = await getDocs(q);
-
-                        if (!querySnapshot.empty) {
-                            // User is authenticated and has submitted form - send to community
-                            window.location.href = '/community.html';
-                        }
-                    } catch (error) {
-                        console.error('Error checking submission:', error);
-                    }
-                }
-            }
-        });
-
-        // Handle form submission
-        document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitButton = e.target.querySelector('button[type="submit"]');
-            const successMessage = document.getElementById('success-message');
-            const errorMessage = document.getElementById('error-message');
-
-            try {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Submitting...';
-                errorMessage.style.display = 'none';
-
-                const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    spiritual_routines: document.getElementById('spiritual_routines').value,
-                    current_apps: document.getElementById('current_apps').value || 'None',
-                    feature: document.getElementById('feature').value,
-                    helpful_feature: document.getElementById('helpful_feature').value,
-                    tester: document.getElementById('tester').checked ? 'yes' : 'no',
-                    timestamp: new Date()
-                };
-
-                // Check if email already exists
-                const submissionsRef = collection(db, 'submissions');
-                const q = query(submissionsRef, where('email', '==', formData.email));
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    // Email exists - redirect to login
-                    window.location.href = '/login.html';
-                    return;
-                }
-
-                // Add new submission
-                await addDoc(submissionsRef, formData);
-
-                // Show success message and redirect immediately
-                successMessage.style.display = 'block';
-                successMessage.textContent = 'Thank you for your submission! Setting up your account...';
-                
-                // Redirect immediately without delay
-                window.location.href = '/login.html';
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.textContent = 'An error occurred. Please try again.';
-                errorMessage.style.display = 'block';
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Join Community';
-            }
-        });
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
 
     <script>
         // Book opening animation logic
