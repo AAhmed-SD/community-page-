@@ -139,7 +139,7 @@
                 successMessage.style.display = 'none';
             } finally {
                 forgotPasswordBtn.disabled = false;
-                forgotPasswordBtn.textContent = 'Activate Account / Reset Password';
+                forgotPasswordBtn.textContent = 'Activate Account / Set Password';
             }
         };
     </script>
@@ -377,6 +377,12 @@
                 padding: 0.6rem;
             }
         }
+
+        .info-text {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -404,7 +410,8 @@
                 <button type="submit">Login</button>
             </form>
             <div class="forgot-password">
-                <button id="forgot-password-btn" onclick="handleForgotPassword()">Activate Account / Reset Password</button>
+                <p class="info-text">First time here? Click below to activate your account:</p>
+                <button id="forgot-password-btn" onclick="handleForgotPassword()">Activate Account / Set Password</button>
             </div>
         </div>
     </div>
