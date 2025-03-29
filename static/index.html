@@ -96,7 +96,7 @@
         }
         .toggle-theme {
             position: static;
-            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background: rgba(106, 72, 215, 0.8);
             border: none;
             color: white;
             padding: 0.5rem;
@@ -109,14 +109,13 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            border: 1px solid rgba(155, 109, 255, 0.2);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .toggle-theme:hover {
-            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            background: rgba(106, 72, 215, 0.9);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .toggle-theme[data-theme="dark"]::after {
@@ -330,17 +329,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
+            padding: 1.5rem 2rem;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(155, 109, 255, 0.1);
-            transition: all 0.3s ease;
+            pointer-events: none;
         }
 
         .light-mode nav {
@@ -355,12 +350,13 @@
             border-radius: 8px;
             transition: all 0.3s ease;
             background: rgba(155, 109, 255, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            pointer-events: auto;
         }
 
         .logo:hover {
-            background: rgba(155, 109, 255, 0.2);
+            background: rgba(155, 109, 255, 0.15);
             transform: translateY(-1px);
         }
 
@@ -386,10 +382,11 @@
             gap: 1rem;
             height: 40px;
             background: rgba(155, 109, 255, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 0.5rem 1rem;
             border-radius: 8px;
+            pointer-events: auto;
         }
 
         .login-link {
@@ -400,17 +397,18 @@
             justify-content: center;
             font-weight: bold;
             text-decoration: none;
-            background-image: linear-gradient(to bottom, #6A48D7, #9B6DFF);
+            background: rgba(106, 72, 215, 0.8);
             color: white;
             border-radius: 6px;
             transition: all 0.3s ease;
             line-height: 40px;
             box-sizing: border-box;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .login-link:hover {
-            background-image: linear-gradient(to bottom, #9B6DFF, #BBB0FF);
-            box-shadow: 0 0 10px rgba(155, 109, 255, 0.3);
+            background: rgba(106, 72, 215, 0.9);
             transform: translateY(-1px);
         }
 
@@ -420,7 +418,7 @@
 
         @media (max-width: 768px) {
             nav {
-                padding: 0.75rem 1rem;
+                padding: 1rem;
             }
 
             .nav-links {
