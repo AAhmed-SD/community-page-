@@ -1,4 +1,4 @@
-# Ibaadah - Spiritual Habit Building App
+# Ibaadah AI - Community page -> Ibaadah Habit Building App
 
 A modern, scrapbook-style landing page for a spiritual habit-building application designed for Muslims to grow in their Ibaadah.
 
