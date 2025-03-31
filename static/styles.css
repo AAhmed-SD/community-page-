@@ -397,3 +397,40 @@ nav {
 .login-link:hover {
     background-color: var(--primary-color-dark);
 }
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+.nav-buttons button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode styles */
+[data-theme="dark"] .nav-buttons button {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .nav-buttons button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}

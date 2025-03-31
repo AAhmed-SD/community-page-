@@ -9,6 +9,59 @@
     <script defer src="/_vercel/insights/script.js"></script>
     <!-- Vercel Speed Insights -->
     <script defer src="/_vercel/speed-insights/script.js"></script>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+        import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+            authDomain: "ibaadahvercelapp.firebaseapp.com",
+            projectId: "ibaadahvercelapp",
+            storageBucket: "ibaadahvercelapp.firebasestorage.app",
+            messagingSenderId: "695618210097",
+            appId: "1:695618210097:web:a94717ed95d604cacdc810",
+            measurementId: "G-R0BCQDK76H"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            const formSection = document.getElementById('form');
+            const welcomeSection = document.getElementById('welcome');
+            
+            if (user) {
+                try {
+                    // Check if user exists in submissions
+                    const submissionsRef = collection(db, 'submissions');
+                    const q = query(submissionsRef, where('email', '==', user.email));
+                    const querySnapshot = await getDocs(q);
+
+                    if (!querySnapshot.empty) {
+                        // User is logged in and has a submission
+                        formSection.style.display = 'none';
+                        welcomeSection.style.display = 'block';
+                        // Update welcome message with user's name
+                        const userData = querySnapshot.docs[0].data();
+                        const welcomeText = document.querySelector('.welcome-text');
+                        welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
+                    }
+                } catch (error) {
+                    console.error('Error checking submission:', error);
+                }
+            } else {
+                // User is not logged in
+                formSection.style.display = 'block';
+                welcomeSection.style.display = 'none';
+            }
+        });
+    </script>
     <style>
         body {
             font-family: 'IBM Plex Mono', monospace;
