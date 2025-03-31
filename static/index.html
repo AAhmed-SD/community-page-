@@ -51,9 +51,16 @@
                         const userData = querySnapshot.docs[0].data();
                         const welcomeText = document.querySelector('.welcome-text');
                         welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
+                    } else {
+                        // User is logged in but has no submission
+                        formSection.style.display = 'block';
+                        welcomeSection.style.display = 'none';
                     }
                 } catch (error) {
                     console.error('Error checking submission:', error);
+                    // Show form if there's an error
+                    formSection.style.display = 'block';
+                    welcomeSection.style.display = 'none';
                 }
             } else {
                 // User is not logged in
@@ -494,6 +501,36 @@
                 font-size: 1.4rem;
             }
         }
+
+        .welcome-message {
+            text-align: center;
+            padding: 2rem;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, #5F5BB0 0%, #7F7BDA 100%);
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-message h2 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .welcome-message p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .welcome-message a {
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .welcome-message a:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -683,22 +720,43 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
 
     <script>
         // Book opening animation logic
         document.addEventListener('DOMContentLoaded', function() {
             const book = document.querySelector('.book');
             
-            // Auto-open after 1 second for better UX
-            setTimeout(() => {
-                book.classList.add('open');
-            }, 1000);
-            
-            // Allow clicking to open/close
-            book.addEventListener('click', function() {
-                this.classList.toggle('open');
+            // Check authentication state
+            firebase.auth().onAuthStateChanged(async (user) => {
+                const formSection = document.getElementById('form');
+                const welcomeMessage = document.createElement('div');
+                welcomeMessage.className = 'welcome-message';
+                
+                if (user) {
+                    // Check if user exists in submissions collection
+                    const db = firebase.firestore();
+                    const submission = await db.collection('submissions').doc(user.uid).get();
+                    
+                    if (submission.exists) {
+                        // User has submitted the form
+                        formSection.style.display = 'none';
+                        welcomeMessage.innerHTML = `
+                            <h2>Welcome back, ${submission.data().name}!</h2>
+                            <p>Thank you for being part of our community. You can access your dashboard <a href="/community.html">here</a>.</p>
+                        `;
+                        formSection.parentNode.insertBefore(welcomeMessage, formSection);
+                    } else {
+                        // User is logged in but hasn't submitted the form
+                        formSection.style.display = 'block';
+                        welcomeMessage.remove();
+                    }
+                } else {
+                    // User is not logged in
+                    formSection.style.display = 'block';
+                    welcomeMessage.remove();
+                }
             });
         });
     </script>
