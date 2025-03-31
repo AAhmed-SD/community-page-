@@ -49,8 +49,14 @@
                         welcomeSection.style.display = 'block';
                         // Update welcome message with user's name
                         const userData = querySnapshot.docs[0].data();
-                        const welcomeText = document.querySelector('.welcome-text');
-                        welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
+                        const welcomeMessage = document.createElement('div');
+                        welcomeMessage.className = 'welcome-card';
+                        welcomeMessage.innerHTML = `
+                            <h1>Welcome to the Ibaadah Community</h1>
+                            <p class="welcome-text">Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.</p>
+                            <p class="subtitle">Your Journey Begins Here</p>
+                        `;
+                        formSection.parentNode.insertBefore(welcomeMessage, formSection);
                     } else {
                         // User is logged in but has no submission
                         formSection.style.display = 'block';
@@ -526,34 +532,37 @@
             }
         }
 
-        .welcome-message {
-            text-align: center;
+        .welcome-card {
+            background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
+            border-radius: 12px;
             padding: 2rem;
-            margin: 2rem 0;
-            background: linear-gradient(135deg, #5F5BB0 0%, #7F7BDA 100%);
-            border-radius: 10px;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 109, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            text-align: center;
         }
 
-        .welcome-message h2 {
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .welcome-message p {
+        .welcome-text {
             font-size: 1.1rem;
             line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .welcome-message a {
-            color: white;
-            text-decoration: underline;
-            font-weight: bold;
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gradient-start);
+            font-weight: 500;
         }
 
-        .welcome-message a:hover {
-            opacity: 0.9;
+        .light-mode .welcome-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,255,0.7));
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            box-shadow: 0 4px 20px rgba(74, 144, 226, 0.1);
+        }
+
+        .light-mode .welcome-text {
+            color: rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
