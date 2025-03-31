@@ -695,32 +695,26 @@
     </div>
 
     <script>
+        // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
         
         // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-mode');
-            themeToggle.textContent = '☀️';
-            themeToggle.setAttribute('data-theme', 'light');
-        }
-        
-        themeToggle.addEventListener('click', function() {
-            const isLightMode = document.body.classList.contains('light-mode');
-            const newTheme = isLightMode ? 'dark' : 'light';
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            document.body.classList.toggle('light-mode');
-            this.textContent = newTheme === 'light' ? '☀️' : '🌙';
-            this.setAttribute('data-theme', newTheme);
+            body.setAttribute('data-theme', newTheme);
+            themeToggle.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            
+            // Save theme preference
             localStorage.setItem('theme', newTheme);
-            
-            // Track theme change with analytics
-            if (typeof window.va !== 'undefined') {
-                window.va('event', {
-                    name: 'theme_change',
-                    data: { theme: newTheme }
-                });
-            }
         });
 
         // Intersection Observer for scroll animations
