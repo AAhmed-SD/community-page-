@@ -406,34 +406,35 @@
         .logo {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            height: 40px;
+            border-radius: 6px;
             transition: all 0.3s ease;
-            background: rgba(155, 109, 255, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             pointer-events: auto;
         }
 
         .logo:hover {
-            background: rgba(155, 109, 255, 0.15);
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
             transform: translateY(-1px);
         }
 
         .logo a {
-            font-size: 1.6rem;
+            font-size: 1.2rem;
             font-weight: bold;
             text-decoration: none;
-            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: white;
             transition: all 0.3s ease;
         }
 
-        /* Remove the logo icon styles since we're not using them anymore */
-        .logo-icon {
-            display: none;
+        .light-mode .logo {
+            background: linear-gradient(135deg, #4A90E2, #74B9FF);
+        }
+
+        .light-mode .logo:hover {
+            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
         }
 
         .nav-links {
@@ -536,7 +537,7 @@
 <body>
     <nav>
         <div class="logo">
-            <a href="/">Ibaadah AI</a>
+            <a href="#" id="logo-link">Ibaadah AI</a>
         </div>
         <div class="nav-links">
             <a href="/login.html" class="login-link">Login</a>
@@ -727,6 +728,7 @@
         // Book opening animation logic
         document.addEventListener('DOMContentLoaded', function() {
             const book = document.querySelector('.book');
+            const logoLink = document.getElementById('logo-link');
             
             // Check authentication state
             firebase.auth().onAuthStateChanged(async (user) => {
@@ -747,15 +749,21 @@
                             <p>Thank you for being part of our community. You can access your dashboard <a href="/community.html">here</a>.</p>
                         `;
                         formSection.parentNode.insertBefore(welcomeMessage, formSection);
+                        // Set logo link to community page for logged in users
+                        logoLink.href = '/community.html';
                     } else {
                         // User is logged in but hasn't submitted the form
                         formSection.style.display = 'block';
                         welcomeMessage.remove();
+                        // Set logo link to home page
+                        logoLink.href = '/';
                     }
                 } else {
                     // User is not logged in
                     formSection.style.display = 'block';
                     welcomeMessage.remove();
+                    // Set logo link to home page
+                    logoLink.href = '/';
                 }
             });
         });

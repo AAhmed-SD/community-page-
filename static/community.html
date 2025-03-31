@@ -122,24 +122,27 @@
         .logo {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            height: 40px;
+            border-radius: 6px;
             transition: all 0.3s ease;
-            background: rgba(155, 109, 255, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             pointer-events: auto;
-            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo:hover {
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            transform: translateY(-1px);
         }
 
         .logo a {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             text-decoration: none;
-            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: white;
+            transition: all 0.3s ease;
         }
 
         .nav-links {
@@ -475,14 +478,11 @@
 <body>
     <nav>
         <div class="logo">
-            <a href="/" id="logo-link">Ibaadah AI</a>
+            <a href="/community.html">Ibaadah AI</a>
         </div>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <button id="theme-toggle" class="theme-toggle">
-                <span class="theme-icon">🌙</span>
-            </button>
-            <button id="logout-btn">Logout</button>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+            <button id="themeToggle" class="toggle-theme" data-theme="light"></button>
         </div>
     </nav>
 
@@ -552,7 +552,7 @@
 
     <script>
         // Theme toggle functionality
-        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('.theme-icon');
         
         // Check for saved theme preference
