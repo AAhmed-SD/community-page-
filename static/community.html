@@ -65,7 +65,8 @@
         });
 
         // Handle logout
-        document.getElementById('logout-btn').addEventListener('click', async () => {
+        const logoutBtn = document.getElementById('logoutBtn');
+        logoutBtn.addEventListener('click', async () => {
             try {
                 await signOut(auth);
                 window.location.href = '/';
@@ -562,39 +563,5 @@
         </div>
         <p>Made with ❤️ for the Ummah</p>
     </footer>
-
-    <script>
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-mode');
-            themeToggle.textContent = '☀️';
-            themeToggle.setAttribute('data-theme', 'light');
-        }
-        
-        themeToggle.addEventListener('click', function() {
-            const isLightMode = document.body.classList.contains('light-mode');
-            const newTheme = isLightMode ? 'dark' : 'light';
-            
-            document.body.classList.toggle('light-mode');
-            this.textContent = newTheme === 'light' ? '☀️' : '🌙';
-            this.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-        });
-
-        // Logout functionality
-        const logoutBtn = document.getElementById('logoutBtn');
-        logoutBtn.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-                window.location.href = '/';
-            } catch (error) {
-                console.error('Error signing out:', error);
-            }
-        });
-    </script>
 </body>
 </html> 
