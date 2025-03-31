@@ -454,6 +454,39 @@
             pointer-events: auto;
         }
 
+        .nav-button {
+            padding: 0.5rem 1.5rem;
+            height: 40px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .light-mode .nav-button {
+            background: linear-gradient(135deg, #4A90E2, #74B9FF);
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+        }
+
+        .light-mode .nav-button:hover {
+            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        }
+
         .login-link {
             padding: 0.5rem 1.5rem;
             height: 40px;

@@ -161,44 +161,37 @@
             pointer-events: auto;
         }
 
-        .nav-links a, .nav-links button {
+        .nav-button {
             padding: 0.5rem 1.5rem;
             height: 40px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            text-decoration: none;
-            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
-            color: white;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            line-height: 40px;
-            box-sizing: border-box;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            animation: float 3s ease-in-out infinite;
-            border: none;
-            font-family: inherit;
-            font-size: 1rem;
-            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-links a:hover, .nav-links button:hover {
+        .nav-button:hover {
             background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
-            transform: translateY(-5px);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
+        .light-mode .nav-button {
+            background: linear-gradient(135deg, #4A90E2, #74B9FF);
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+        }
+
+        .light-mode .nav-button:hover {
+            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
         }
 
         .container {
