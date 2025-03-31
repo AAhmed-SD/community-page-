@@ -537,11 +537,14 @@
 <body>
     <nav>
         <div class="logo">
-            <a href="#" id="logo-link">Ibaadah AI</a>
+            <a href="/" id="logoLink">Ibaadah</a>
         </div>
         <div class="nav-links">
-            <a href="/login.html" class="login-link">Login</a>
-            <button id="themeToggle" class="toggle-theme" data-theme="light"></button>
+            <a href="/" class="nav-button">Home</a>
+            <a href="/community.html" class="nav-button">Community</a>
+            <button id="themeToggle" class="theme-toggle">
+                <span class="material-icons">dark_mode</span>
+            </button>
         </div>
     </nav>
 
@@ -728,7 +731,7 @@
         // Book opening animation logic
         document.addEventListener('DOMContentLoaded', function() {
             const book = document.querySelector('.book');
-            const logoLink = document.getElementById('logo-link');
+            const logoLink = document.getElementById('logoLink');
             
             // Check authentication state
             firebase.auth().onAuthStateChanged(async (user) => {
