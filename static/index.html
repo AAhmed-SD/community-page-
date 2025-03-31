@@ -454,7 +454,7 @@
             pointer-events: auto;
         }
 
-        .nav-button {
+        .nav-button, .theme-toggle, button[type="submit"], .login-link {
             padding: 0.5rem 1.5rem;
             height: 40px;
             border-radius: 6px;
@@ -469,45 +469,31 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            font-family: inherit;
         }
 
-        .nav-button:hover {
+        .nav-button:hover, .theme-toggle:hover, button[type="submit"]:hover, .login-link:hover {
             background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .light-mode .nav-button {
+        .light-mode .nav-button, .light-mode .theme-toggle, .light-mode button[type="submit"], .light-mode .login-link {
             background: linear-gradient(135deg, #4A90E2, #74B9FF);
             box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
         }
 
-        .light-mode .nav-button:hover {
+        .light-mode .nav-button:hover, .light-mode .theme-toggle:hover, .light-mode button[type="submit"]:hover, .light-mode .login-link:hover {
             background: linear-gradient(135deg, #74B9FF, #BBB0FF);
             box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
         }
 
-        .login-link {
-            padding: 0.5rem 1.5rem;
+        .theme-toggle {
+            width: 40px;
             height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            text-decoration: none;
-            background: rgba(106, 72, 215, 0.8);
-            color: white;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            line-height: 40px;
-            box-sizing: border-box;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-
-        .login-link:hover {
-            background: rgba(106, 72, 215, 0.9);
-            transform: translateY(-1px);
+            padding: 0;
+            font-size: 1.2rem;
         }
 
         .scene {
