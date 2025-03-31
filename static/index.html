@@ -414,11 +414,13 @@
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             pointer-events: auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .logo:hover {
             background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
             transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .logo a {
@@ -431,10 +433,12 @@
 
         .light-mode .logo {
             background: linear-gradient(135deg, #4A90E2, #74B9FF);
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
         }
 
         .light-mode .logo:hover {
             background: linear-gradient(135deg, #74B9FF, #BBB0FF);
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
         }
 
         .nav-links {
@@ -541,10 +545,7 @@
         </div>
         <div class="nav-links">
             <a href="/" class="nav-button">Home</a>
-            <a href="/community.html" class="nav-button">Community</a>
-            <button id="themeToggle" class="theme-toggle">
-                <span class="material-icons">dark_mode</span>
-            </button>
+            <button id="themeToggle" class="theme-toggle" data-theme="dark">🌙</button>
         </div>
     </nav>
 
@@ -662,27 +663,30 @@
     <script>
         const themeToggle = document.getElementById('themeToggle');
         
-        // Set initial theme state
-        themeToggle.setAttribute('data-theme', document.body.classList.contains('light-mode') ? 'dark' : 'light');
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+            themeToggle.textContent = '☀️';
+            themeToggle.setAttribute('data-theme', 'light');
+        }
         
-        ['click', 'touchend'].forEach(eventType => {
-            themeToggle.addEventListener(eventType, function(e) {
-                if (eventType === 'touchend') {
-                    e.preventDefault();
-                }
-                const isLightMode = document.body.classList.contains('light-mode');
-                const newTheme = isLightMode ? 'dark' : 'light';
-                document.body.classList.toggle('light-mode');
-                themeToggle.setAttribute('data-theme', newTheme);
-                
-                // Track theme change with analytics
-                if (typeof window.va !== 'undefined') {
-                    window.va('event', {
-                        name: 'theme_change',
-                        data: { theme: newTheme }
-                    });
-                }
-            });
+        themeToggle.addEventListener('click', function() {
+            const isLightMode = document.body.classList.contains('light-mode');
+            const newTheme = isLightMode ? 'dark' : 'light';
+            
+            document.body.classList.toggle('light-mode');
+            this.textContent = newTheme === 'light' ? '☀️' : '🌙';
+            this.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Track theme change with analytics
+            if (typeof window.va !== 'undefined') {
+                window.va('event', {
+                    name: 'theme_change',
+                    data: { theme: newTheme }
+                });
+            }
         });
 
         // Intersection Observer for scroll animations
