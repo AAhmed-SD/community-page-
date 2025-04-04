@@ -49,14 +49,8 @@
                         welcomeSection.style.display = 'block';
                         // Update welcome message with user's name
                         const userData = querySnapshot.docs[0].data();
-                        const welcomeMessage = document.createElement('div');
-                        welcomeMessage.className = 'welcome-card';
-                        welcomeMessage.innerHTML = `
-                            <h1>Welcome to the Ibaadah Community</h1>
-                            <p class="welcome-text">Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.</p>
-                            <p class="subtitle">Your Journey Begins Here</p>
-                        `;
-                        formSection.parentNode.insertBefore(welcomeMessage, formSection);
+                        const welcomeText = document.querySelector('.welcome-text');
+                        welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
                     } else {
                         // User is logged in but has no submission
                         formSection.style.display = 'block';
@@ -412,39 +406,34 @@
         .logo {
             display: flex;
             align-items: center;
-            padding: 0.5rem 1.5rem;
-            height: 40px;
-            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            background: rgba(155, 109, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             pointer-events: auto;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .logo:hover {
-            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+            background: rgba(155, 109, 255, 0.15);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .logo a {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             font-weight: bold;
             text-decoration: none;
-            color: white;
+            background-image: linear-gradient(135deg, #6A48D7, #9B6DFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             transition: all 0.3s ease;
         }
 
-        .light-mode .logo {
-            background: linear-gradient(135deg, #4A90E2, #74B9FF);
-            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
-        }
-
-        .light-mode .logo:hover {
-            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
-            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+        /* Remove the logo icon styles since we're not using them anymore */
+        .logo-icon {
+            display: none;
         }
 
         .nav-links {
@@ -460,46 +449,27 @@
             pointer-events: auto;
         }
 
-        .nav-button, .theme-toggle, button[type="submit"], .login-link {
+        .login-link {
             padding: 0.5rem 1.5rem;
             height: 40px;
-            border-radius: 6px;
-            background: linear-gradient(135deg, #6A48D7, #9B6DFF);
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            font-size: 1rem;
-            font-family: inherit;
+            font-weight: bold;
+            text-decoration: none;
+            background: rgba(106, 72, 215, 0.8);
+            color: white;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            line-height: 40px;
+            box-sizing: border-box;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
-        .nav-button:hover, .theme-toggle:hover, button[type="submit"]:hover, .login-link:hover {
-            background: linear-gradient(135deg, #9B6DFF, #BBB0FF);
+        .login-link:hover {
+            background: rgba(106, 72, 215, 0.9);
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .light-mode .nav-button, .light-mode .theme-toggle, .light-mode button[type="submit"], .light-mode .login-link {
-            background: linear-gradient(135deg, #4A90E2, #74B9FF);
-            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
-        }
-
-        .light-mode .nav-button:hover, .light-mode .theme-toggle:hover, .light-mode button[type="submit"]:hover, .light-mode .login-link:hover {
-            background: linear-gradient(135deg, #74B9FF, #BBB0FF);
-            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
-        }
-
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            font-size: 1.2rem;
         }
 
         .scene {
@@ -532,36 +502,70 @@
             }
         }
 
-        .welcome-card {
-            background: linear-gradient(135deg, rgba(25,25,35,0.7), rgba(60,60,80,0.3));
-            border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 109, 255, 0.1);
-            backdrop-filter: blur(10px);
-            margin-bottom: 2rem;
+        .welcome-message {
             text-align: center;
+            padding: 2rem;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, #5F5BB0 0%, #7F7BDA 100%);
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .welcome-text {
+        .welcome-message h2 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .welcome-message p {
             font-size: 1.1rem;
             line-height: 1.6;
-            margin-bottom: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--gradient-start);
-            font-weight: 500;
+        .welcome-message a {
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
         }
 
-        .light-mode .welcome-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,255,0.7));
+        .welcome-message a:hover {
+            opacity: 0.9;
+        }
+
+        /* Add new styles for emotional appeal section */
+        .emotional-appeal {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(155, 109, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(155, 109, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .appeal-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .light-mode .emotional-appeal {
+            background: rgba(74, 144, 226, 0.1);
             border: 1px solid rgba(74, 144, 226, 0.2);
-            box-shadow: 0 4px 20px rgba(74, 144, 226, 0.1);
         }
 
-        .light-mode .welcome-text {
+        .light-mode .appeal-text {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .light-mode .tagline {
             color: rgba(0, 0, 0, 0.8);
         }
     </style>
@@ -569,12 +573,11 @@
 <body>
     <nav>
         <div class="logo">
-            <a href="/" id="logoLink">Ibaadah</a>
+            <a href="/">Ibaadah AI</a>
         </div>
         <div class="nav-links">
-            <a href="/" class="nav-button">Home</a>
-            <a href="/login.html" class="nav-button">Login</a>
-            <button id="themeToggle" class="theme-toggle" data-theme="dark">🌙</button>
+            <a href="/login.html" class="login-link">Login</a>
+            <button id="themeToggle" class="toggle-theme" data-theme="light"></button>
         </div>
     </nav>
 
@@ -593,8 +596,19 @@
             <section id="hero">
                 <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" stroke-width="4" fill="none" /></svg>
                 <h1>Ibaadah AI</h1>
-                <p>A <span class="highlight">second brain</span> for Muslims to grow in Deen and Dunya — your spiritual, personal, and productive life intelligently aligned through one app. Track, plan, and reconnect through a deeply personalized experience.</p>
+                <p class="tagline">Your personal companion for a meaningful spiritual journey</p>
+                <div class="emotional-appeal">
+                    <p class="appeal-text">You keep trying to 'get back on track,' but life keeps derailing you.</p>
+                    <p class="appeal-text">That guilt builds, and suddenly even opening the Qur'an feels heavy.</p>
+                    <p class="appeal-text">This space gives you structure, support, and soft guidance—so you return, even on hard days.</p>
+                </div>
                 <div class="scroll-cue">↓ Scroll to explore ↓</div>
+            </section>
+
+            <section id="second-brain">
+                <svg viewBox="0 0 64 64"><path d="M16 32c0-8.8 7.2-16 16-16s16 7.2 16 16-7.2 16-16 16" stroke-width="4" fill="none"/></svg>
+                <h2>Your Second Brain</h2>
+                <p>A second brain for Muslims to grow in Deen and Dunya — your spiritual, personal, and productive life intelligently aligned through one app. Track, plan, and reconnect through a deeply personalized experience.</p>
             </section>
 
             <section id="automation">
@@ -694,11 +708,10 @@
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
         
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        // Set light mode as default
+        const savedTheme = localStorage.getItem('theme') || 'light';
         body.classList.toggle('light-mode', savedTheme === 'light');
         themeToggle.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
 
         themeToggle.addEventListener('click', () => {
             const isLightMode = body.classList.contains('light-mode');
@@ -706,7 +719,6 @@
             
             body.classList.toggle('light-mode');
             themeToggle.setAttribute('data-theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
             
             // Save theme preference
             localStorage.setItem('theme', newTheme);
@@ -751,14 +763,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
 
     <script>
         // Book opening animation logic
         document.addEventListener('DOMContentLoaded', function() {
             const book = document.querySelector('.book');
-            const logoLink = document.getElementById('logoLink');
             
             // Check authentication state
             firebase.auth().onAuthStateChanged(async (user) => {
@@ -779,21 +790,15 @@
                             <p>Thank you for being part of our community. You can access your dashboard <a href="/community.html">here</a>.</p>
                         `;
                         formSection.parentNode.insertBefore(welcomeMessage, formSection);
-                        // Set logo link to community page for logged in users
-                        logoLink.href = '/community.html';
                     } else {
                         // User is logged in but hasn't submitted the form
                         formSection.style.display = 'block';
                         welcomeMessage.remove();
-                        // Set logo link to home page
-                        logoLink.href = '/';
                     }
                 } else {
                     // User is not logged in
                     formSection.style.display = 'block';
                     welcomeMessage.remove();
-                    // Set logo link to home page
-                    logoLink.href = '/';
                 }
             });
         });
