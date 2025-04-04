@@ -79,11 +79,10 @@
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
         
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        // Set light mode as default
+        const savedTheme = localStorage.getItem('theme') || 'light';
         body.classList.toggle('light-mode', savedTheme === 'light');
         themeToggle.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
 
         themeToggle.addEventListener('click', () => {
             const isLightMode = body.classList.contains('light-mode');
@@ -91,7 +90,6 @@
             
             body.classList.toggle('light-mode');
             themeToggle.setAttribute('data-theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
             
             // Save theme preference
             localStorage.setItem('theme', newTheme);

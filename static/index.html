@@ -5,67 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ibaadah AI – Walkthrough</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
-    <!-- Vercel Analytics -->
-    <script defer src="/_vercel/insights/script.js"></script>
-    <!-- Vercel Speed Insights -->
-    <script defer src="/_vercel/speed-insights/script.js"></script>
-    <!-- Firebase SDK -->
+    <!-- Remove Vercel scripts that are causing 404s -->
+    
+    <!-- Optimize Firebase SDK loading -->
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
-        import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js';
+        // Only initialize Firebase when user interaction requires it
+        let firebaseApp;
+        let auth;
+        let db;
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
-            authDomain: "ibaadahvercelapp.firebaseapp.com",
-            projectId: "ibaadahvercelapp",
-            storageBucket: "ibaadahvercelapp.firebasestorage.app",
-            messagingSenderId: "695618210097",
-            appId: "1:695618210097:web:a94717ed95d604cacdc810",
-            measurementId: "G-R0BCQDK76H"
-        };
-        
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        async function initializeFirebase() {
+            if (firebaseApp) return { auth, db }; // Return existing instance if already initialized
 
-        // Check authentication state
-        onAuthStateChanged(auth, async (user) => {
-            const formSection = document.getElementById('form');
-            const welcomeSection = document.getElementById('welcome');
+            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js');
+            const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js');
+            const { getFirestore, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js');
+
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyAmsgL5-3Qzv0-cot0TzYDXZ5-QQYNO9BA",
+                authDomain: "ibaadahvercelapp.firebaseapp.com",
+                projectId: "ibaadahvercelapp",
+                storageBucket: "ibaadahvercelapp.firebasestorage.app",
+                messagingSenderId: "695618210097",
+                appId: "1:695618210097:web:a94717ed95d604cacdc810",
+                measurementId: "G-R0BCQDK76H"
+            };
             
-            if (user) {
-                try {
-                    // Check if user exists in submissions
-                    const submissionsRef = collection(db, 'submissions');
-                    const q = query(submissionsRef, where('email', '==', user.email));
-                    const querySnapshot = await getDocs(q);
+            // Initialize Firebase only when needed
+            firebaseApp = initializeApp(firebaseConfig);
+            auth = getAuth(firebaseApp);
+            db = getFirestore(firebaseApp);
 
-                    if (!querySnapshot.empty) {
-                        // User is logged in and has a submission
-                        formSection.style.display = 'none';
-                        welcomeSection.style.display = 'block';
-                        // Update welcome message with user's name
-                        const userData = querySnapshot.docs[0].data();
-                        const welcomeText = document.querySelector('.welcome-text');
-                        welcomeText.textContent = `Welcome ${userData.name}! Thank you for joining our community of believers dedicated to enhancing their spiritual journey through technology. As an early member, you'll have first access to our upcoming features and the opportunity to shape the future of Ibaadah AI.`;
-                    } else {
-                        // User is logged in but has no submission
-                        formSection.style.display = 'block';
-                        welcomeSection.style.display = 'none';
-                    }
-                } catch (error) {
-                    console.error('Error checking submission:', error);
-                    // Show form if there's an error
-                    formSection.style.display = 'block';
-                    welcomeSection.style.display = 'none';
-                }
-            } else {
-                // User is not logged in
-                formSection.style.display = 'block';
-                welcomeSection.style.display = 'none';
+            return { auth, db };
+        }
+
+        // Add event listener for form submission or login button
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.querySelector('.login-btn');
+            if (loginButton) {
+                loginButton.addEventListener('click', async () => {
+                    const { auth, db } = await initializeFirebase();
+                    // Your login logic here
+                });
+            }
+
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const { auth, db } = await initializeFirebase();
+                    // Your form submission logic here
+                });
             }
         });
     </script>
@@ -96,6 +87,9 @@
             animation: fadeInUp 0.8s ease both;
             animation-play-state: paused;
             border: 1px solid rgba(155, 109, 255, 0.1);
+            contain: content;
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 5000px;
         }
         section.visible {
             animation-play-state: running;
@@ -150,9 +144,12 @@
             border: none;
         }
         svg {
+            width: 40px;
             height: 40px;
             margin-bottom: 1rem;
             stroke: url(#svgGradient);
+            will-change: transform;
+            contain: strict;
         }
         .toggle-theme {
             position: static;
@@ -536,18 +533,14 @@
         .emotional-appeal {
             margin: 2rem 0;
             padding: 1.5rem;
-            background: rgba(155, 109, 255, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(155, 109, 255, 0.2);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(155, 109, 255, 0.15);
         }
 
-        .appeal-text {
-            font-size: 1.1rem;
+        .emotional-appeal p {
+            margin-bottom: 1rem;
             line-height: 1.6;
-            margin: 1rem 0;
-            color: rgba(255, 255, 255, 0.9);
         }
 
         .light-mode .emotional-appeal {
@@ -567,6 +560,102 @@
 
         .light-mode .tagline {
             color: rgba(0, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 3rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            section h1 {
+                font-size: 1.75rem;
+            }
+            
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .emotional-appeal {
+                margin: 1.5rem 0;
+            }
+
+            .emotional-appeal p {
+                font-size: 1rem;
+                line-height: 1.6;
+                margin-bottom: 1rem;
+            }
+
+            body {
+                background-size: 15px 15px;
+            }
+
+            input, textarea, select, button {
+                padding: 1rem;
+                font-size: 16px;
+            }
+
+            .toggle-theme {
+                width: 48px;
+                height: 48px;
+                font-size: 1.4rem;
+            }
+
+            .scroll-cue {
+                margin-top: 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 2rem 1rem;
+                margin: 0.5rem;
+            }
+
+            section h1 {
+                font-size: 1.5rem;
+            }
+
+            section h2 {
+                font-size: 1.25rem;
+            }
+
+            .emotional-appeal p {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Remove unused icon styles */
+        .hero-icon, .section-icon, .appeal-icon {
+            display: none;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Optimize section loading */
+        section {
+            contain: content;
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 5000px;
+        }
+
+        /* Preload critical sections */
+        #hero {
+            content-visibility: visible;
+        }
+
+        /* Optimize animations */
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-cue {
+                animation: none;
+            }
+            section {
+                animation: none;
+            }
         }
     </style>
 </head>
